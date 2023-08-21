@@ -13,7 +13,7 @@ public class ContentSummaryRequest {
 
   public ContentSummaryRequest(final String content) {
     messages.add(new BriefingMessageRequest("system",
-        "You are a news summary expert. Summarize news in 6lines. IN Korean"));
+        "You are a news summary expert. Summarize news in 6 lines. DO NOT Over 450 Characters. IN Korean"));
     messages.add(new BriefingMessageRequest("user", content));
   }
 
