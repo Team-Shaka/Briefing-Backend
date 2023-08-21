@@ -30,6 +30,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.jsoup:jsoup:1.16.1'
 }
 
 tasks.named('test') {
