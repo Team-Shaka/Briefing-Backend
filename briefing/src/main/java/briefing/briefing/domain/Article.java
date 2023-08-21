@@ -42,4 +42,16 @@ public class Article {
   private LocalDateTime createdAt;
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  public Article(
+      final String press,
+      final String title,
+      final String url,
+      final Briefing briefing
+  ) {
+    this.press = press;
+    this.title = title;
+    this.url = url;
+    this.briefing = briefing;
+  }
 }

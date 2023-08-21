@@ -43,10 +43,24 @@ public class Briefing {
   private String content;
 
   @OneToMany(mappedBy = "briefing", cascade = CascadeType.PERSIST)
-  private List<Article> articles;
+  private List<Article> articles = new ArrayList<>();
 
   @CreatedDate
   private LocalDateTime createdAt;
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  public Briefing(
+      final BriefingType type,
+      final Integer rank,
+      final String title,
+      final String subtitle,
+      final String content
+  ) {
+    this.type = type;
+    this.rank = rank;
+    this.title = title;
+    this.subtitle = subtitle;
+    this.content = content;
+  }
 }
