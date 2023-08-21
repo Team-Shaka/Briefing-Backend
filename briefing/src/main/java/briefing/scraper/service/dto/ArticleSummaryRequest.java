@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ArticleSummaryRequest {
 
   private final String model = "gpt-4";
-  private final int temperature = 1;
+  private final double temperature = 0.75;
   private final List<BriefingMessageRequest> messages = new ArrayList<>();
 
   public ArticleSummaryRequest(final String content) {
