@@ -61,8 +61,15 @@ public class ScrapService {
     final List<String> koreaUrls = List.of(정치, 경제, 사회, 생활_문화, IT_과학);
     final List<String> globalUrls = List.of(세계, 세계, 세계, 세계);
 
-    saveBriefingsAndArticles(BriefingType.KOREA, koreaUrls);
-    saveBriefingsAndArticles(BriefingType.GLOBAL, globalUrls);
+    for (int i = 0; i < 5; i++) {
+      try {
+        saveBriefingsAndArticles(BriefingType.KOREA, koreaUrls);
+        saveBriefingsAndArticles(BriefingType.GLOBAL, globalUrls);
+        break;
+      } catch (final Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   private void saveBriefingsAndArticles(final BriefingType type, final List<String> urls) {
