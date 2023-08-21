@@ -56,7 +56,7 @@ public class ScrapService {
   @Value("${openai.url.chat}")
   private String chatUrl;
 
-  @Scheduled(cron = "0 0 5 * * *")
+  @Scheduled(cron = "0 30 4 * * *")
   public void updateBriefing() {
     final List<String> koreaUrls = List.of(정치, 경제, 사회, 생활_문화, IT_과학);
     final List<String> globalUrls = List.of(세계, 세계, 세계, 세계);
@@ -125,9 +125,7 @@ public class ScrapService {
         articleSummaryRequest, headers);
 
     final ArticleSummaryResponse body = restTemplate
-        //.exchange(chatUrl, HttpMethod.POST, requestEntity, BriefingSummaryResponse.class)
-        .exchange("https://7ab7c6c1-9228-4cb2-b19c-774d9cd8b73d.mock.pstmn.io/summary",
-            HttpMethod.POST, requestEntity, ArticleSummaryResponse.class)
+        .exchange(chatUrl, HttpMethod.POST, requestEntity, ArticleSummaryResponse.class)
         .getBody();
 
     final String content = body.choices().get(0).message().content();
