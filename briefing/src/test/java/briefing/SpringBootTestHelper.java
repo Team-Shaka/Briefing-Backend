@@ -5,7 +5,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 @SpringBootTest
-@Sql(value = "/init.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = "/schema.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class SpringBootTestHelper {
 
 }

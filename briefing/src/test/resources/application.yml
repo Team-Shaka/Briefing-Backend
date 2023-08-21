@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      mode: always
+
+
+scrap:
+  url:
+    정치: https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=100
+    경제: https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=101
+    사회: https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=102
+    생활_문화: https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=103
+    IT_과학: https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=105
+    세계: https://news.naver.com/main/main.naver?mode=LSD&mid=shm&sid1=104
+
+openai:
+  token: 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
+  url:
+    chat: https://api.openai.com/v1/chat/completions
