@@ -3,6 +3,7 @@ package briefing.briefing.service;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingRepository;
 import briefing.briefing.domain.BriefingType;
+import briefing.briefing.service.dto.BriefingDetailResponse;
 import briefing.briefing.service.dto.BriefingsResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,5 +29,12 @@ public class BriefingQueryService {
         briefingType, startDateTime, endDateTime);
 
     return BriefingsResponse.from(date, briefings);
+  }
+
+  public BriefingDetailResponse findBriefing(final Long id) {
+    final Briefing briefing = briefingRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 브리핑입니다."));
+
+    return BriefingDetailResponse.from(briefing);
   }
 }

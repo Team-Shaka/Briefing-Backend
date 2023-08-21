@@ -1,6 +1,8 @@
 package briefing.briefing.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import briefing.SpringBootTestHelper;
@@ -9,6 +11,7 @@ import briefing.briefing.domain.ArticleRepository;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingRepository;
 import briefing.briefing.domain.BriefingType;
+import briefing.briefing.service.dto.BriefingDetailResponse;
 import briefing.briefing.service.dto.BriefingsResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -124,7 +127,7 @@ class BriefingQueryServiceTest extends SpringBootTestHelper {
     }
 
     @Test
-    @DisplayName("해당 타입이 존재하지 않을 경우 빈 Exception이 발생한다.")
+    @DisplayName("해당 타입이 존재하지 않을 경우 IllegalArgumentException이 발생한다.")
     void findBriefingsWithNotExistTypeExceptionTest() {
       //given
       final String notExistType = "존재하지 않는 타입";
@@ -133,6 +136,48 @@ class BriefingQueryServiceTest extends SpringBootTestHelper {
       assertThrowsExactly(
           IllegalArgumentException.class,
           () -> briefingQueryService.findBriefings(notExistType, date)
+      );
+    }
+  }
+
+  @Nested
+  @DisplayName("상세 브리핑 테스트")
+  class FindBriefingTest {
+
+    @Test
+    @DisplayName("상세 브리핑을 반환한다.")
+    void findBriefingTest() {
+      //given
+      final int briefingIndex = 0;
+      final Briefing briefing = koreaBriefings.get(briefingIndex);
+      final BriefingDetailResponse expectBriefing = BriefingDetailResponse.from(briefing);
+      final Article expectArticle = koreaBriefingArticles.get(briefingIndex);
+
+      //when
+      final BriefingDetailResponse actual = briefingQueryService.findBriefing(briefing.getId());
+
+      //then
+      assertAll(
+          () -> assertEquals(expectBriefing.id(), actual.id()),
+          () -> assertEquals(expectBriefing.rank(), actual.rank()),
+          () -> assertEquals(expectBriefing.subtitle(), actual.subtitle()),
+          () -> assertEquals(expectBriefing.content(), actual.content()),
+          () -> assertThat(actual.articles())
+              .usingRecursiveComparison()
+              .isEqualTo(List.of(expectArticle))
+      );
+    }
+
+    @Test
+    @DisplayName("해당하는 id의 브리핑이 존재하지 않을 경우 IllegalArgumentException이 발생한다.")
+    void findBriefingWithNotExistIdTest() {
+      //given
+      final Long notExistId = 0L;
+
+      //when & then
+      assertThrowsExactly(
+          IllegalArgumentException.class,
+          () -> briefingQueryService.findBriefing(notExistId)
       );
     }
   }
