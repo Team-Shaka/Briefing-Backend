@@ -1,6 +1,6 @@
-package briefing.briefing.scraper;
+package briefing.scraper.client;
 
-import briefing.briefing.service.dto.ScrapResponse;
+import briefing.scraper.service.dto.ScrapResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class NaverNewsScraper {
+public class NaverNewsClient {
 
   public List<ScrapResponse> scrapHeadline(final String url) {
     final String newsSelector = "#main_content > div > div._persist > div.section_headline > ul > li > div.sh_text";

@@ -1,8 +1,8 @@
-package briefing.briefing.service.dto;
+package briefing.scraper.service.dto;
 
 import java.util.List;
 
-public record BriefingSummaryResponse(
+public record ArticleSummaryResponse(
     String id,
     String object,
     Long created,

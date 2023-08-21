@@ -1,8 +1,8 @@
-package briefing.briefing.service.dto;
+package briefing.scraper.service.dto;
 
 import java.util.List;
 
-public record BriefingContentResponse(
+public record ArticleSummaryContentResponse(
     List<Keyword> keywords
 ) {
 
