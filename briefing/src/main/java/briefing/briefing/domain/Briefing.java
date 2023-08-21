@@ -39,7 +39,7 @@ public class Briefing {
   private String title;
   @Column(nullable = false)
   private String subtitle;
-  @Column(nullable = false, length = 500)
+  @Column(nullable = false, length = 1024)
   private String content;
 
   @OneToMany(mappedBy = "briefing", cascade = CascadeType.PERSIST)
