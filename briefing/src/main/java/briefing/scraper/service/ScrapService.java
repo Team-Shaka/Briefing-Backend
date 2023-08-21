@@ -56,7 +56,7 @@ public class ScrapService {
   @Value("${openai.url.chat}")
   private String chatUrl;
 
-  @Scheduled(cron = "0 30 4 * * *")
+  @Scheduled(cron = "0 0 5 * * *")
   public void updateBriefing() {
     final List<String> koreaUrls = List.of(정치, 경제, 사회, 생활_문화, IT_과학);
     final List<String> globalUrls = List.of(세계, 세계, 세계, 세계);
