@@ -36,5 +36,14 @@ public class Briefing extends BaseDateTimeEntity {
   @Column(nullable = false, length = 1000)
   private String content;
   @OneToMany(mappedBy = "briefing", fetch = FetchType.LAZY)
-  private List<BriefingArticle> articles = new ArrayList<>();
+  private final List<BriefingArticle> articles = new ArrayList<>();
+
+  public Briefing(final BriefingType type, final Integer rank, final String title,
+      final String subtitle, final String content) {
+    this.type = type;
+    this.rank = rank;
+    this.title = title;
+    this.subtitle = subtitle;
+    this.content = content;
+  }
 }
