@@ -23,4 +23,10 @@ public class Article extends BaseDateTimeEntity {
   private String title;
   @Column(length = 1024)
   private String url;
+
+  public Article(final String press, final String title, final String url) {
+    this.press = press;
+    this.title = title;
+    this.url = url;
+  }
 }

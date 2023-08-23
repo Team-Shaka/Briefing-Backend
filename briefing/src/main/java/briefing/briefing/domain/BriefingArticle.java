@@ -26,4 +26,9 @@ public class BriefingArticle extends BaseDateTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(nullable = false)
   private Article article;
+
+  public BriefingArticle(final Briefing briefing, final Article article) {
+    this.briefing = briefing;
+    this.article = article;
+  }
 }

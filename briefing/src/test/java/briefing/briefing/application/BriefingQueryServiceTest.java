@@ -4,15 +4,21 @@ import static briefing.briefing.domain.BriefingType.GLOBAL;
 import static briefing.briefing.domain.BriefingType.KOREA;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import briefing.briefing.application.dto.BriefingDetailResponse;
 import briefing.briefing.application.dto.BriefingsResponse;
+import briefing.briefing.domain.Article;
 import briefing.briefing.domain.Briefing;
+import briefing.briefing.domain.BriefingArticle;
 import briefing.briefing.domain.BriefingType;
+import briefing.briefing.domain.repository.ArticleRepository;
+import briefing.briefing.domain.repository.BriefingArticleRepository;
 import briefing.briefing.domain.repository.BriefingRepository;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +34,17 @@ class BriefingQueryServiceTest {
   private BriefingQueryService briefingQueryService;
   @Autowired
   private BriefingRepository briefingRepository;
+  @Autowired
+  private ArticleRepository articleRepository;
+  @Autowired
+  private BriefingArticleRepository briefingArticleRepository;
 
   private LocalDate date;
   private List<Briefing> koreaBriefings;
   private List<Briefing> globalBriefings;
+  private List<Article> articles;
+  private List<BriefingArticle> briefingArticles;
+  private Briefing briefing;
 
   @BeforeEach
   void setUp() {
@@ -51,6 +64,17 @@ class BriefingQueryServiceTest {
         new Briefing(GLOBAL, 4, "title4", "subtitle4", "content4"),
         new Briefing(GLOBAL, 5, "title5", "subtitle5", "content5")
     ));
+
+    articles = articleRepository.saveAll(List.of(
+        new Article("언론사1", "기사1", "https://url.com"),
+        new Article("언론사2", "기사2", "https://url.com")
+    ));
+
+    briefing = koreaBriefings.get(0);
+    briefingArticles = briefingArticleRepository.saveAll(articles.stream()
+        .map(article -> new BriefingArticle(briefing, article))
+        .toList());
+    briefing.getBriefingArticles().addAll(briefingArticles);
   }
 
   @ParameterizedTest
@@ -80,6 +104,22 @@ class BriefingQueryServiceTest {
 
     //when
     final BriefingsResponse actual = briefingQueryService.findBriefings(type, notExistDate);
+
+    //then
+    assertThat(actual)
+        .usingRecursiveComparison()
+        .isEqualTo(expect);
+  }
+
+  @Test
+  @DisplayName("브리핑의 상세 정보를 반환한다.")
+  void findBriefingTest() {
+    //given
+    final Long briefingId = briefing.getId();
+    final BriefingDetailResponse expect = BriefingDetailResponse.from(briefing);
+
+    //when
+    final BriefingDetailResponse actual = briefingQueryService.findBriefing(briefingId);
 
     //then
     assertThat(actual)

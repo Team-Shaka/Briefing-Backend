@@ -14,7 +14,7 @@ public record BriefingDetailResponse(
 ) {
 
   public static BriefingDetailResponse from(final Briefing briefing) {
-    final List<ArticleResponse> articleResponses = briefing.getArticles().stream()
+    final List<ArticleResponse> articleResponses = briefing.getBriefingArticles().stream()
         .map(BriefingArticle::getArticle)
         .map(ArticleResponse::from)
         .toList();
