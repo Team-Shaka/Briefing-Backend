@@ -1,5 +1,6 @@
 package briefing.briefing.application;
 
+import briefing.briefing.application.dto.BriefingDetailResponse;
 import briefing.briefing.application.dto.BriefingsResponse;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingType;
@@ -27,5 +28,12 @@ public class BriefingQueryService {
         startDateTime, endDateTime);
 
     return BriefingsResponse.from(date, briefings);
+  }
+
+  public BriefingDetailResponse findBriefing(final Long id) {
+    final Briefing briefing = briefingRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("브리핑을 찾을 수 없습니다."));
+
+    return BriefingDetailResponse.from(briefing);
   }
 }
