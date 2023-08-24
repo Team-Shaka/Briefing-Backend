@@ -1,11 +1,12 @@
 package briefing.briefing.application.dto;
 
 import briefing.briefing.domain.Briefing;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.List;
 
 public record BriefingsResponse(
-    LocalDate createdAt,
+    @JsonProperty("created_at") LocalDate createdAt,
     List<BriefingResponse> briefings
 ) {
 
