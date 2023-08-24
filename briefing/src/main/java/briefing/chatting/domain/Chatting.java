@@ -8,13 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chatting extends BaseDateTimeEntity {
 
   @Id
@@ -23,4 +20,7 @@ public class Chatting extends BaseDateTimeEntity {
   private String title;
   @OneToMany(mappedBy = "chatting", fetch = FetchType.LAZY)
   private List<Message> messages;
+
+  public Chatting() {
+  }
 }
