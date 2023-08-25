@@ -31,9 +31,14 @@ public class ChattingCommandService {
 
     final MessageRequest questionRequest = request.getLastMessage()
         .orElseThrow(() -> new IllegalArgumentException("새로운 메시지를 찾을 수 없습니다."));
+    validateQuestionMessage(questionRequest);
 
     final Message question = new Message(chatting, questionRequest.role(),
         questionRequest.content());
+
+    if (chatting.isTitleUpdatable()) {
+      chatting.updateTitle(question.getContent());
+    }
 
     final Message message = messageRepository.save(question);
 
