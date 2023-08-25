@@ -1,9 +1,9 @@
 package briefing.chatting.api;
 
 import briefing.chatting.application.ChattingCommandService;
+import briefing.chatting.application.dto.AnswerRequest;
+import briefing.chatting.application.dto.AnswerResponse;
 import briefing.chatting.application.dto.ChattingCreateResponse;
-import briefing.chatting.application.dto.MessageResponse;
-import briefing.chatting.application.dto.QuestionMessageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +24,10 @@ public class ChattingApi {
   }
 
   @PostMapping("/{id}")
-  public MessageResponse createQuestionMessage(
+  public AnswerResponse requestAnswer(
       @PathVariable final Long id,
-      @RequestBody final QuestionMessageRequest request
+      @RequestBody final AnswerRequest request
   ) {
-    return chattingCommandService.createQuestion(id, request);
+    return chattingCommandService.requestAnswer(id, request);
   }
 }

@@ -5,15 +5,15 @@ import briefing.chatting.domain.MessageRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
-public record MessageResponse(
+public record AnswerResponse(
     Long id,
     MessageRole role,
     String content,
     @JsonProperty("created_at") LocalDateTime createdAt
 ) {
 
-  public static MessageResponse from(final Message message) {
-    return new MessageResponse(
+  public static AnswerResponse from(final Message message) {
+    return new AnswerResponse(
         message.getId(),
         message.getRole(),
         message.getContent(),

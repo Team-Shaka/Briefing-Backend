@@ -4,7 +4,7 @@ import briefing.chatting.domain.GptModel;
 import java.util.List;
 import java.util.Optional;
 
-public record QuestionMessageRequest(
+public record AnswerRequest(
     GptModel model,
     List<MessageRequest> messages
 ) {
