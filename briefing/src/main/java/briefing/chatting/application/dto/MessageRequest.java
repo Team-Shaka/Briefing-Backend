@@ -7,4 +7,7 @@ public record MessageRequest(
     String content
 ) {
 
+  public boolean isInvalidContent() {
+    return content == null || content.isBlank();
+  }
 }

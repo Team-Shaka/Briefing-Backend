@@ -20,3 +20,8 @@ logging:
       hibernate:
         SQL: debug
         type.descriptor.sql.BasicBinder: trace
+
+openai:
+  token: token
+  url:
+    chat: url

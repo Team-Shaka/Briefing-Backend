@@ -51,7 +51,7 @@ public class ChattingCommandService {
     if (questionRequest.role().isNotUser()) {
       throw new IllegalArgumentException("마지막 메시지가 사용자의 메시지가 아닙니다.");
     }
-    if (questionRequest.content().isBlank()) {
+    if (questionRequest.isInvalidContent()) {
       throw new IllegalArgumentException("메시지가 비어있습니다.");
     }
   }
