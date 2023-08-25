@@ -6,6 +6,7 @@ import static briefing.chatting.domain.MessageRole.SYSTEM;
 import static briefing.chatting.domain.MessageRole.USER;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -52,13 +53,16 @@ class ChattingCommandServiceTest {
   @Test
   void createChattingTest() {
     //given
-    final long expectId = 1L;
+    final ChattingCreateResponse expect = chattingCommandService.createChatting();
 
     //when
-    final ChattingCreateResponse actual = chattingCommandService.createChatting();
+    final ChattingCreateResponse actual = ChattingCreateResponse.from(
+        chattingRepository.findById(expect.id()).get()
+    );
 
     //then
-    assertEquals(expectId, actual.id());
+    assertNotNull(actual);
+    assertEquals(expect.id(), actual.id());
   }
 
   @Nested
