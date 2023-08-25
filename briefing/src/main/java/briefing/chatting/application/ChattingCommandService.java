@@ -8,6 +8,7 @@ import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.Message;
 import briefing.chatting.domain.repository.ChattingRepository;
 import briefing.chatting.domain.repository.MessageRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,17 +35,27 @@ public class ChattingCommandService {
         .orElseThrow(() -> new IllegalArgumentException("메시지를 찾을 수 없습니다."));
     validateLastMessage(lastMessage);
 
-    final Message question = new Message(chatting, lastMessage.role(),
-        lastMessage.content());
+    final Message question = new Message(chatting, lastMessage.role(), lastMessage.content());
     final Message answer = chatGptClient.requestAnswer(chatting, request);
 
+    if (chatting.isNotInitialized()) {
+      initChatting(request, chatting, question);
+    }
     messageRepository.save(question);
     messageRepository.save(answer);
-    if (chatting.isTitleUpdatable()) {
-      chatting.updateTitle(question.getContent());
-    }
 
     return AnswerResponse.from(answer);
+  }
+
+  private void initChatting(final AnswerRequest request, final Chatting chatting,
+      final Message question) {
+    chatting.updateTitle(question.getContent());
+
+    final List<Message> messages = request.getMessagesExcludeLast().stream()
+        .map(message -> new Message(chatting, message.role(), message.content()))
+        .toList();
+
+    messageRepository.saveAll(messages);
   }
 
   private void validateLastMessage(final MessageRequest questionRequest) {

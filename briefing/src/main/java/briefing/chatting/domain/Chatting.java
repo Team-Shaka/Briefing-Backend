@@ -26,7 +26,7 @@ public class Chatting extends BaseDateTimeEntity {
   public Chatting() {
   }
 
-  public boolean isTitleUpdatable() {
+  public boolean isNotInitialized() {
     return title == null || title.isBlank();
   }
 

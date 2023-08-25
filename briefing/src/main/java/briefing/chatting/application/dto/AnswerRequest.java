@@ -9,6 +9,10 @@ public record AnswerRequest(
     List<MessageRequest> messages
 ) {
 
+  public List<MessageRequest> getMessagesExcludeLast() {
+    return messages.subList(0, messages.size() - 1);
+  }
+
   public Optional<MessageRequest> getLastMessage() {
     if (messages.isEmpty()) {
       return Optional.empty();
