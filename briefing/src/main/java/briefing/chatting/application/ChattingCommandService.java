@@ -1,9 +1,9 @@
 package briefing.chatting.application;
 
+import briefing.chatting.application.dto.AnswerRequest;
 import briefing.chatting.application.dto.AnswerResponse;
 import briefing.chatting.application.dto.ChattingCreateResponse;
 import briefing.chatting.application.dto.MessageRequest;
-import briefing.chatting.application.dto.QuestionRequest;
 import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.Message;
 import briefing.chatting.domain.repository.ChattingRepository;
@@ -19,6 +19,7 @@ public class ChattingCommandService {
 
   private final ChattingRepository chattingRepository;
   private final MessageRepository messageRepository;
+  private final ChatGptClient chatGptClient;
 
   public ChattingCreateResponse createChatting() {
     final Chatting chatting = chattingRepository.save(new Chatting());
@@ -35,13 +36,15 @@ public class ChattingCommandService {
 
     final Message question = new Message(chatting, lastMessage.role(),
         lastMessage.content());
+    final Message answer = chatGptClient.requestAnswer(chatting, request);
 
-    final Message message = messageRepository.save(question);
+    messageRepository.save(question);
+    messageRepository.save(answer);
     if (chatting.isTitleUpdatable()) {
       chatting.updateTitle(question.getContent());
     }
 
-    return AnswerResponse.from(message);
+    return AnswerResponse.from(answer);
   }
 
   private void validateLastMessage(final MessageRequest questionRequest) {

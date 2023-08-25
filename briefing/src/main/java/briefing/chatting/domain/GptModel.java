@@ -1,6 +1,7 @@
 package briefing.chatting.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public enum GptModel {
   GPT_3_5_TURBO("gpt-3.5-turbo");
 
+  @JsonValue
   private final String value;
 
   @JsonCreator
