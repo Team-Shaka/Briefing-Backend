@@ -1,6 +1,7 @@
 package briefing.chatting.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ public enum MessageRole {
   BOT("Bot"),
   USER("User");
 
+  @JsonValue
   private final String value;
 
   @JsonCreator
