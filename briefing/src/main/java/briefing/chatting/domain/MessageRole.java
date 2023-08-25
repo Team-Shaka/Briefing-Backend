@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MessageRole {
-  SYSTEM("System"),
-  BOT("Bot"),
-  USER("User");
+  SYSTEM("system"),
+  ASSISTANT("assistant"),
+  USER("user");
 
   @JsonValue
   private final String value;
