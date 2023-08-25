@@ -5,6 +5,7 @@ import briefing.chatting.application.ChattingQueryService;
 import briefing.chatting.application.dto.AnswerRequest;
 import briefing.chatting.application.dto.AnswerResponse;
 import briefing.chatting.application.dto.ChattingCreateResponse;
+import briefing.chatting.application.dto.ChattingDetailResponse;
 import briefing.chatting.application.dto.ChattingsResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,11 @@ public class ChattingApi {
   @GetMapping
   public ChattingsResponse findChattings(@RequestParam final List<Long> ids) {
     return chattingQueryService.findChattings(ids);
+  }
+
+  @GetMapping("/{id}")
+  public ChattingDetailResponse findChatting(@PathVariable final Long id) {
+    return chattingQueryService.findChatting(id);
   }
 
   @PostMapping

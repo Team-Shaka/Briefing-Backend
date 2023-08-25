@@ -1,5 +1,6 @@
 package briefing.chatting.application;
 
+import briefing.chatting.application.dto.ChattingDetailResponse;
 import briefing.chatting.application.dto.ChattingsResponse;
 import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.repository.ChattingRepository;
@@ -19,5 +20,12 @@ public class ChattingQueryService {
     final List<Chatting> chattings = chattingRepository.findAllById(ids);
 
     return ChattingsResponse.from(chattings);
+  }
+
+  public ChattingDetailResponse findChatting(final Long id) {
+    final Chatting chatting = chattingRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("채팅을 찾을 수 없습니다."));
+
+    return ChattingDetailResponse.from(chatting);
   }
 }
