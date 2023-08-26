@@ -5,6 +5,8 @@ import briefing.briefing.application.dto.BriefingsResponse;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.repository.BriefingRepository;
+import briefing.briefing.exception.BriefingException;
+import briefing.briefing.exception.BriefingExceptionType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,7 +34,7 @@ public class BriefingQueryService {
 
   public BriefingDetailResponse findBriefing(final Long id) {
     final Briefing briefing = briefingRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("브리핑을 찾을 수 없습니다."));
+        .orElseThrow(() -> new BriefingException(BriefingExceptionType.NOT_FOUND_BRIEFING));
 
     return BriefingDetailResponse.from(briefing);
   }

@@ -8,6 +8,8 @@ import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.Message;
 import briefing.chatting.domain.repository.ChattingRepository;
 import briefing.chatting.domain.repository.MessageRepository;
+import briefing.chatting.exception.ChattingException;
+import briefing.chatting.exception.ChattingExceptionType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,10 @@ public class ChattingCommandService {
 
   public AnswerResponse requestAnswer(final Long id, final AnswerRequest request) {
     final Chatting chatting = chattingRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("채팅을 찾을 수 없습니다."));
+        .orElseThrow(() -> new ChattingException(ChattingExceptionType.NOT_FOUND_CHATTING));
 
     final MessageRequest lastMessage = request.getLastMessage()
-        .orElseThrow(() -> new IllegalArgumentException("메시지를 찾을 수 없습니다."));
+        .orElseThrow(() -> new ChattingException(ChattingExceptionType.LAST_MESSAGE_NOT_EXIST));
     validateLastMessage(lastMessage);
 
     final Message question = new Message(chatting, lastMessage.role(), lastMessage.content());
@@ -60,10 +62,10 @@ public class ChattingCommandService {
 
   private void validateLastMessage(final MessageRequest questionRequest) {
     if (questionRequest.role().isNotUser()) {
-      throw new IllegalArgumentException("마지막 메시지가 사용자의 메시지가 아닙니다.");
+      throw new ChattingException(ChattingExceptionType.BAD_LAST_MESSAGE_ROLE);
     }
     if (questionRequest.isInvalidContent()) {
-      throw new IllegalArgumentException("메시지가 비어있습니다.");
+      throw new ChattingException(ChattingExceptionType.CAN_NOT_EMPTY_CONTENT);
     }
   }
 }

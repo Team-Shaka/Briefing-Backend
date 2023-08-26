@@ -20,6 +20,8 @@ import briefing.chatting.domain.Message;
 import briefing.chatting.domain.MessageRole;
 import briefing.chatting.domain.repository.ChattingRepository;
 import briefing.chatting.domain.repository.MessageRepository;
+import briefing.chatting.exception.ChattingException;
+import briefing.chatting.exception.ChattingExceptionType;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -120,72 +122,82 @@ class ChattingCommandServiceTest {
     }
 
     @Test
-    @DisplayName("채팅이 존재하지 않을 경우 Exception이 발생한다.")
+    @DisplayName("채팅이 존재하지 않을 경우 NOT_FOUND_CHATTING 타입의 ChattingException이 발생한다.")
     void requestAnswerWithNotExistChattingTest() {
       //given
       final long notExistChattingId = 0L;
+      final ChattingExceptionType expect = ChattingExceptionType.NOT_FOUND_CHATTING;
 
-      //when & then
-      final IllegalArgumentException exception = assertThrowsExactly(
-          IllegalArgumentException.class,
+      //when
+      final ChattingException actualException = assertThrowsExactly(
+          ChattingException.class,
           () -> chattingCommandService.requestAnswer(notExistChattingId, request)
       );
 
-      assertEquals("채팅을 찾을 수 없습니다.", exception.getMessage());
+      //then
+      assertEquals(expect, actualException.exceptionType());
     }
 
     @Test
-    @DisplayName("채팅이 존재하지 않을 경우 Exception이 발생한다.")
+    @DisplayName("messages가 비어있을 경우 LAST_MESSAGE_NOT_EXIST 타입의 ChattingException이 발생한다.")
     void requestAnswerWithEmptyMessagesTest() {
       //given
       final List<MessageRequest> emptyMessages = new ArrayList<>();
       final AnswerRequest emptyMessageRequest = new AnswerRequest(GPT_3_5_TURBO, emptyMessages);
 
-      //when & then
-      final IllegalArgumentException exception = assertThrowsExactly(
-          IllegalArgumentException.class,
+      final ChattingExceptionType expect = ChattingExceptionType.LAST_MESSAGE_NOT_EXIST;
+
+      //when
+      final ChattingException actualException = assertThrowsExactly(
+          ChattingException.class,
           () -> chattingCommandService.requestAnswer(chattingId, emptyMessageRequest)
       );
 
-      assertEquals("메시지를 찾을 수 없습니다.", exception.getMessage());
+      //then
+      assertEquals(expect, actualException.exceptionType());
     }
 
     @ParameterizedTest
     @EnumSource(value = MessageRole.class, names = {"SYSTEM", "ASSISTANT"})
-    @DisplayName("마지막 메시지(질문)의 role이 user가 아닐 경우 Exception이 발생한다.")
+    @DisplayName("마지막 메시지(질문)의 role이 user가 아닐 경우 BAD_LAST_MESSAGE_ROLE 타입의 ChattingException이 발생한다.")
     void requestAnswerWithLastMessageRoleNotUserTest(final MessageRole role) {
       //given
       final List<MessageRequest> messages = new ArrayList<>(this.messages);
       messages.add(new MessageRequest(role, "잘못된 role의 질문"));
-
       final AnswerRequest wrongRequest = new AnswerRequest(GPT_3_5_TURBO, messages);
 
-      //when & then
-      final IllegalArgumentException exception = assertThrowsExactly(
-          IllegalArgumentException.class,
+      final ChattingExceptionType expect = ChattingExceptionType.BAD_LAST_MESSAGE_ROLE;
+
+      //when
+      final ChattingException actualException = assertThrowsExactly(
+          ChattingException.class,
           () -> chattingCommandService.requestAnswer(chattingId, wrongRequest)
       );
 
-      assertEquals("마지막 메시지가 사용자의 메시지가 아닙니다.", exception.getMessage());
+      //then
+      assertEquals(expect, actualException.exceptionType());
     }
 
     @ParameterizedTest
     @NullSource
     @ValueSource(strings = {" ", "\n", "\t"})
-    @DisplayName("마지막 메시지(질문)의 content가 비어있을 경우 Exception이 발생한다.")
+    @DisplayName("마지막 메시지(질문)의 content가 비어있을 경우 CAN_NOT_EMPTY_CONTENT 타입의 ChattingException이 발생한다.")
     void requestAnswerWithEmptyContentTest(final String content) {
       //given
       final List<MessageRequest> messages = new ArrayList<>(this.messages);
       messages.add(new MessageRequest(USER, content));
       final AnswerRequest emptyMessageRequest = new AnswerRequest(GPT_3_5_TURBO, messages);
 
-      //when & then
-      final IllegalArgumentException exception = assertThrowsExactly(
-          IllegalArgumentException.class,
+      final ChattingExceptionType expect = ChattingExceptionType.CAN_NOT_EMPTY_CONTENT;
+
+      //when
+      final ChattingException actualException = assertThrowsExactly(
+          ChattingException.class,
           () -> chattingCommandService.requestAnswer(chattingId, emptyMessageRequest)
       );
 
-      assertEquals("메시지가 비어있습니다.", exception.getMessage());
+      //then
+      assertEquals(expect, actualException.exceptionType());
     }
   }
 }

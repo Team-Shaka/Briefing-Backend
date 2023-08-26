@@ -4,6 +4,8 @@ import briefing.chatting.application.dto.ChattingDetailResponse;
 import briefing.chatting.application.dto.ChattingsResponse;
 import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.repository.ChattingRepository;
+import briefing.chatting.exception.ChattingException;
+import briefing.chatting.exception.ChattingExceptionType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class ChattingQueryService {
 
   public ChattingDetailResponse findChatting(final Long id) {
     final Chatting chatting = chattingRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("채팅을 찾을 수 없습니다."));
+        .orElseThrow(() -> new ChattingException(ChattingExceptionType.NOT_FOUND_CHATTING));
 
     return ChattingDetailResponse.from(chatting);
   }
