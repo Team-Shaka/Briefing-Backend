@@ -18,10 +18,11 @@ public class Article extends BaseDateTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  @Column(nullable = false)
   private String press;
   @Column(nullable = false)
   private String title;
-  @Column(length = 1024)
+  @Column(nullable = false, length = 1024)
   private String url;
 
   public Article(final String press, final String title, final String url) {

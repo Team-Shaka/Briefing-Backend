@@ -19,9 +19,9 @@ create table briefing
 create table article
 (
     id         bigserial primary key,
-    press      varchar(255),
-    title      varchar(255) not null,
-    url        varchar(1024),
+    press      varchar(255)  not null,
+    title      varchar(255)  not null,
+    url        varchar(1024) not null,
     created_at timestamp(6),
     updated_at timestamp(6)
 );
