@@ -2,6 +2,7 @@ package briefing.briefing.application.dto;
 
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingArticle;
+import java.time.LocalDate;
 import java.util.List;
 
 public record BriefingDetailResponse(
@@ -10,6 +11,7 @@ public record BriefingDetailResponse(
     String title,
     String subtitle,
     String content,
+    LocalDate date,
     List<ArticleResponse> articles
 ) {
 
@@ -25,6 +27,7 @@ public record BriefingDetailResponse(
         briefing.getTitle(),
         briefing.getSubtitle(),
         briefing.getContent(),
+        briefing.getCreatedAt().toLocalDate(),
         articleResponses
     );
   }
