@@ -1,7 +1,7 @@
 package briefing.briefing.exception;
 
-import briefing.BaseException;
-import briefing.BaseExceptionType;
+import briefing.base.BaseException;
+import briefing.base.BaseExceptionType;
 
 public class BriefingException extends BaseException {
 

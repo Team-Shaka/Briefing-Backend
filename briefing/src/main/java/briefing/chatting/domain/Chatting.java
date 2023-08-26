@@ -1,6 +1,6 @@
 package briefing.chatting.domain;
 
-import briefing.BaseDateTimeEntity;
+import briefing.base.BaseDateTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
 package briefing.briefing.exception;
 
-import briefing.BaseExceptionType;
+import briefing.base.BaseExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 

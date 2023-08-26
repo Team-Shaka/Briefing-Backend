@@ -1,4 +1,4 @@
-package briefing;
+package briefing.base;
 
 public abstract class BaseException extends RuntimeException {
 

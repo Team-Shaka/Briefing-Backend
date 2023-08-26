@@ -1,4 +1,4 @@
-package briefing;
+package briefing.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

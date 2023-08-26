@@ -1,4 +1,4 @@
-package briefing;
+package briefing.base;
 
 import org.springframework.http.HttpStatus;
 
