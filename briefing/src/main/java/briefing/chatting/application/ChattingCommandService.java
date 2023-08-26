@@ -64,8 +64,12 @@ public class ChattingCommandService {
     if (questionRequest.role().isNotUser()) {
       throw new ChattingException(ChattingExceptionType.BAD_LAST_MESSAGE_ROLE);
     }
-    if (questionRequest.isInvalidContent()) {
+    if (isInvalidContent(questionRequest)) {
       throw new ChattingException(ChattingExceptionType.CAN_NOT_EMPTY_CONTENT);
     }
+  }
+
+  private boolean isInvalidContent(final MessageRequest message) {
+    return message.content() == null || message.content().isBlank();
   }
 }
