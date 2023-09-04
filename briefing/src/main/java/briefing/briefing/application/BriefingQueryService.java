@@ -26,8 +26,8 @@ public class BriefingQueryService {
     final LocalDateTime startDateTime = date.atStartOfDay();
     final LocalDateTime endDateTime = date.atTime(LocalTime.MAX);
 
-    final List<Briefing> briefings = briefingRepository.findAllByTypeAndCreatedAtBetween(type,
-        startDateTime, endDateTime);
+    final List<Briefing> briefings = briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRank(
+        type, startDateTime, endDateTime);
 
     return BriefingsResponse.from(date, briefings);
   }

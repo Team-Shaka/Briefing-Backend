@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BriefingRepository extends JpaRepository<Briefing, Long> {
 
-  List<Briefing> findAllByTypeAndCreatedAtBetween(BriefingType type, LocalDateTime start,
+  List<Briefing> findAllByTypeAndCreatedAtBetweenOrderByRank(BriefingType type, LocalDateTime start,
       LocalDateTime end);
 }
