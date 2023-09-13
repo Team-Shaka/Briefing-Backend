@@ -13,5 +13,7 @@ public class RootApi {
     @GetMapping("/")
     public String healthCheck(){
         return "I'm healthy!";
+
+
     }
 }
