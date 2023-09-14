@@ -1,0 +1,30 @@
+spring:
+  datasource:
+#    url: jdbc:postgresql://localhost:5432/briefing
+#    username: postgres
+#    password: postgres
+    username: ${aws.db.username}
+    password: ${aws.db.password}
+    url: ${aws.db.url}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        #        show_sql: true
+        #        format_sql: true
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
+  config:
+    activate:
+      on-profile: default
+
+openai:
+  token: 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
+  url:
+    chat: https://api.openai.com/v1/chat/completions
