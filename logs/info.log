@@ -48,3 +48,25 @@ Error starting ApplicationContext. To display the condition evaluation report re
 [2023-09-14 17:10:34:25845][SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 [2023-09-14 17:10:34:25846][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-09-14 17:10:34:26085][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-09-14 17:10:37:577][background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2023-09-14 17:10:37:1240][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2023-09-14 17:10:37:1303][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 56 ms. Found 5 JPA repository interfaces.
+[2023-09-14 17:10:38:1735][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-09-14 17:10:38:1740][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-09-14 17:10:38:1742][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-09-14 17:10:38:1742][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.11]
+[2023-09-14 17:10:38:1829][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-09-14 17:10:38:1829][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1169 ms
+[2023-09-14 17:10:38:1946][main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2023-09-14 17:10:38:2005][main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.6.Final
+[2023-09-14 17:10:38:2007][main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+[2023-09-14 17:10:38:2135][main] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+[2023-09-14 17:10:38:2264][main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2023-09-14 17:10:38:2277][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-09-14 17:10:39:2643][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@311a0b3e
+[2023-09-14 17:10:39:2645][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-09-14 17:10:39:2938][main] INFO  o.h.b.i.BytecodeProviderInitiator - HHH000021: Bytecode provider name : bytebuddy
+[2023-09-14 17:10:40:3626][main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2023-09-14 17:10:40:4018][main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2023-09-14 17:10:41:4686][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-09-14 17:10:41:4704][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
