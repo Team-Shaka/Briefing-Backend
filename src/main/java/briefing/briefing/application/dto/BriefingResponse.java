@@ -4,7 +4,7 @@ import briefing.briefing.domain.Briefing;
 
 public record BriefingResponse(
     Long id,
-    Integer rank,
+    Integer ranks,
     String title,
     String subtitle
 ) {
@@ -12,7 +12,7 @@ public record BriefingResponse(
   public static BriefingResponse from(final Briefing briefing) {
     return new BriefingResponse(
         briefing.getId(),
-        briefing.getRank(),
+        briefing.getRanks(),
         briefing.getTitle(),
         briefing.getSubtitle()
     );

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record BriefingCreateRequest(
-    @JsonProperty("id") Integer rank,
+    @JsonProperty("id") Integer ranks,
     @JsonProperty("keyword") String title,
     String subtitle,
     @JsonProperty("context") String content,
@@ -16,7 +16,7 @@ public record BriefingCreateRequest(
   public Briefing toBriefing() {
     return new Briefing(
         BriefingType.KOREA,
-        rank,
+        ranks,
         title,
         subtitle,
         content
