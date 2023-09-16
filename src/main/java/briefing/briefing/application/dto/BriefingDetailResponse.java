@@ -7,7 +7,7 @@ import java.util.List;
 
 public record BriefingDetailResponse(
     Long id,
-    Integer rank,
+    Integer ranks,
     String title,
     String subtitle,
     String content,
@@ -23,7 +23,7 @@ public record BriefingDetailResponse(
 
     return new BriefingDetailResponse(
         briefing.getId(),
-        briefing.getRank(),
+        briefing.getRanks(),
         briefing.getTitle(),
         briefing.getSubtitle(),
         briefing.getContent(),
