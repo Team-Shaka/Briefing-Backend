@@ -1,13 +1,12 @@
 package briefing.member.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Getter
+@Getter @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Member {
 
     @Id
@@ -26,6 +25,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberStatus status = MemberStatus.INACTIVE;
 
+    @Enumerated(EnumType.STRING)
     private MemberRole role = MemberRole.ROLE_USER;
 
 }
