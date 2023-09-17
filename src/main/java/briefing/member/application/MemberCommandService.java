@@ -2,6 +2,7 @@ package briefing.member.application;
 
 import briefing.feign.oauth.google.client.GoogleOauth2Client;
 import briefing.feign.oauth.google.dto.GoogleUserInfo;
+import briefing.member.api.MemberConverter;
 import briefing.member.application.dto.MemberRequest;
 import briefing.member.domain.Member;
 import briefing.member.domain.MemberRole;
@@ -28,26 +29,12 @@ public class MemberCommandService {
         };
     }
 
-    private Member createMember(GoogleUserInfo googleUserInfo) {
-        Member newMember = Member.builder()
-//                .profileImgUrl(googleUserInfo.getPicture())
-//                .nickName(googleUserInfo.getName())
-                .socialId(googleUserInfo.getSub())
-                .socialType(SocialType.GOOGLE)
-                .role(MemberRole.ROLE_USER)
-                .status(MemberStatus.ACTIVE)
-                .build();
-        return memberRepository.save(newMember);
-    }
-
     private Member loginWithGoogle(MemberRequest.LoginDTO request) {
         // 구글에서 사용자 정보 조회
-        System.out.println("IDENTITY TOKEN : " + request.getIdentityToken());
         GoogleUserInfo googleUserInfo = googleOauth2Client.verifyToken(request.getIdentityToken());
-        System.out.println("GOOGLE USER INFO : " + googleUserInfo.toString());
 
         Member member = memberRepository.findBySocialIdAndSocialType(googleUserInfo.getSub(), SocialType.GOOGLE)
-                .orElseGet(() -> createMember(googleUserInfo));
+                .orElseGet(() -> MemberConverter.toMember(googleUserInfo));
 
         return memberRepository.save(member);
 
