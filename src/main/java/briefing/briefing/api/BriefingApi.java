@@ -7,6 +7,8 @@ import briefing.briefing.application.dto.BriefingDetailResponse;
 import briefing.briefing.application.dto.BriefingsResponse;
 import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "03-Briefing \uD83D\uDCF0",description = "브리핑 관련 API")
 @RestController
 @RequestMapping("/briefings")
 @RequiredArgsConstructor

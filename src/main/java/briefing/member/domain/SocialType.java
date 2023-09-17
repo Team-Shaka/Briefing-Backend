@@ -1,5 +1,6 @@
 package briefing.member.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,5 +21,9 @@ public enum SocialType {
             }
         }
         throw new IllegalArgumentException("Invalid SocialType value: " + value);
+    }
+    @JsonValue
+    String getSocialType() {
+        return this.name().toLowerCase();
     }
 }

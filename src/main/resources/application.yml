@@ -36,3 +36,11 @@ openai:
   token: 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
   url:
     chat: https://api.openai.com/v1/chat/completions
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+  cache:
+    disabled: true
+  use-fqn: true

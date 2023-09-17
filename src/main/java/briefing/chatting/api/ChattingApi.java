@@ -8,6 +8,8 @@ import briefing.chatting.application.dto.ChattingCreateResponse;
 import briefing.chatting.application.dto.ChattingDetailResponse;
 import briefing.chatting.application.dto.ChattingsResponse;
 import java.util.List;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "04-Chatting \uD83D\uDCE8",description = "채팅 관련 API")
 @RestController
 @RequestMapping("/chattings")
 @RequiredArgsConstructor
