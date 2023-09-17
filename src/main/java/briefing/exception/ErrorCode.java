@@ -35,8 +35,6 @@ public enum ErrorCode {
     APPLE_BAD_REQUEST(BAD_REQUEST, "OAUTH001", "애플 토큰이 잘못되었습니다."),
     APPLE_SERVER_ERROR(FORBIDDEN, "OAUTH002", "애플 서버와 통신에 실패 하였습니다."),
     FAIL_TO_MAKE_APPLE_PUBLIC_KEY(BAD_REQUEST, "OAUTH003", "새로운 애플 공개키 생성에 실패하였습니다."),
-
-
     // feign client 에러
     FEIGN_BAD_REQUEST(BAD_REQUEST, "FEIGN_400_1", "Feign server bad request"),
     FEIGN_UNAUTHORIZED(BAD_REQUEST, "FEIGN_400_2", "Feign server unauthorized"),
