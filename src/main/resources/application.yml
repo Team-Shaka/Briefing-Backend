@@ -23,6 +23,14 @@ spring:
   config:
     activate:
       on-profile: default
+jwt:
+  header: Authorization
+  # dev server
+  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+#  secret : ${JWT_SECRET}
+  authorities-key: authoritiesKey
+  access-token-validity-in-seconds: 1210000000 # 30 m
+  refresh-token-validity-in-seconds: 1210000000 # 14 d
 
 openai:
   token: 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
