@@ -34,7 +34,7 @@ public enum ErrorCode {
     // oauth 에러
     APPLE_BAD_REQUEST(BAD_REQUEST, "OAUTH001", "애플 토큰이 잘못되었습니다."),
     APPLE_SERVER_ERROR(FORBIDDEN, "OAUTH002", "애플 서버와 통신에 실패 하였습니다."),
-    FAIL_TO_MAKE_APPLE_PUBLIC_KEY(BAD_REQUEST, "OAUTH003", "새로운 애플 공개키 생성에 실패하였습니다.")
+    FAIL_TO_MAKE_APPLE_PUBLIC_KEY(BAD_REQUEST, "OAUTH003", "새로운 애플 공개키 생성에 실패하였습니다."),
       
         // feign client 에러
     FEIGN_BAD_REQUEST(BAD_REQUEST, "FEIGN_400_1", "Feign server bad request"),
@@ -44,8 +44,7 @@ public enum ErrorCode {
     FEIGN_NOT_FOUND(BAD_REQUEST, "FEIGN_400_5", "Feign server not found error"),
     FEIGN_INTERNAL_SERVER_ERROR(BAD_REQUEST, "FEIGN_400_6", "Feign server internal server error"),
     FEIGN_METHOD_NOT_ALLOWED(BAD_REQUEST,"FEIGN_400_7" , "Feign server method not allowed"),
-    FEIGN_SERVER_ERROR(BAD_REQUEST,"FEIGN_500" , "Feign server error"),;
-    FAIL_TO_MAKE_APPLE_PUBLIC_KEY(BAD_REQUEST, "OAUTH003", "새로운 애플 공개키 생성에 실패하였습니다.");
+    FEIGN_SERVER_ERROR(BAD_REQUEST,"FEIGN_500" , "Feign server error");
 
     private final HttpStatus httpStatus;
     private final String code;
