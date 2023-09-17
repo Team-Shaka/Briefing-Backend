@@ -1,4 +1,4 @@
-package briefing.feign.appleSocial.dto;
+package briefing.feign.oauth.apple.dto;
 
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.AppleOAuthException;

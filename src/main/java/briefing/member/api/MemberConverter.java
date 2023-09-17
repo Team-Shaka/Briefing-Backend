@@ -28,4 +28,15 @@ public class MemberConverter {
                 .status(MemberStatus.ACTIVE)
                 .build();
     }
+
+    public static Member toMember(String appleSocialId) {
+        return Member.builder()
+//                .profileImgUrl(googleUserInfo.getPicture())
+//                .nickName(googleUserInfo.getName())
+                .socialId(appleSocialId)
+                .socialType(SocialType.APPLE)
+                .role(MemberRole.ROLE_USER)
+                .status(MemberStatus.ACTIVE)
+                .build();
+    }
 }

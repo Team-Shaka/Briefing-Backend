@@ -1,7 +1,7 @@
-package briefing.feign.appleSocial.client;
+package briefing.feign.oauth.apple.client;
 
-import briefing.feign.appleSocial.config.AppleOauth2FeignConfiguration;
-import briefing.feign.appleSocial.dto.ApplePublicKeyList;
+import briefing.feign.oauth.apple.config.AppleOauth2FeignConfiguration;
+import briefing.feign.oauth.apple.dto.ApplePublicKeyList;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package briefing.feign.appleSocial.dto;
+package briefing.feign.oauth.apple.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

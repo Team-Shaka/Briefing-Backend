@@ -1,4 +1,4 @@
-package briefing.feign.appleSocial.config;
+package briefing.feign.oauth.apple.config;
 
 import briefing.feign.exception.FeignClientExceptionErrorDecoder;
 import feign.Logger;
