@@ -23,8 +23,28 @@ spring:
   config:
     activate:
       on-profile: default
+  data:
+      host: 43.201.249.220
+      port : 6379
+      password: breifing
+jwt:
+  header: Authorization
+  # dev server
+  secret: secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret
+#  secret : ${JWT_SECRET}
+  authorities-key: authoritiesKey
+  access-token-validity-in-seconds: 1210000000 # 30 m
+  refresh-token-validity-in-seconds: 1210000000 # 14 d
 
 openai:
   token: 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
   url:
     chat: https://api.openai.com/v1/chat/completions
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+  cache:
+    disabled: true
+  use-fqn: true
