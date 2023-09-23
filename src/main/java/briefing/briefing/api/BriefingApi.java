@@ -8,6 +8,7 @@ import briefing.briefing.application.dto.BriefingsResponse;
 import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
 
+import briefing.common.response.CommonResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,16 +31,16 @@ public class BriefingApi {
   private final BriefingCommandService briefingCommandService;
 
   @GetMapping
-  public BriefingsResponse findBriefings(
+  public CommonResponse<BriefingsResponse> findBriefings(
       @RequestParam("type") final BriefingType type,
       @RequestParam("date") final LocalDate date
   ) {
-    return briefingQueryService.findBriefings(type, date);
+    return CommonResponse.onSuccess(briefingQueryService.findBriefings(type, date));
   }
 
   @GetMapping("/{id}")
-  public BriefingDetailResponse findBriefing(@PathVariable final Long id) {
-    return briefingQueryService.findBriefing(id);
+  public CommonResponse<BriefingDetailResponse> findBriefing(@PathVariable final Long id) {
+    return CommonResponse.onSuccess(briefingQueryService.findBriefing(id));
   }
 
   @PostMapping
