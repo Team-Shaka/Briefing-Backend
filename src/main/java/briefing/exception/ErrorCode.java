@@ -49,7 +49,8 @@ public enum ErrorCode {
 
 
     // scrap 에러
-    SCRAP_ALREADY_EXISTS(CONFLICT, "SCRAP_001", "이미 스크랩했습니다.");
+    SCRAP_ALREADY_EXISTS(CONFLICT, "SCRAP_001", "이미 스크랩했습니다."),
+    SCRAP_NOT_FOUND(NOT_FOUND, "SCRAP_002", "존재하지 않는 스크랩입니다.");
 
 
     private final HttpStatus httpStatus;

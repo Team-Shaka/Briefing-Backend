@@ -43,4 +43,11 @@ public class ScrapCommandService {
         // Scrap 엔티티 저장 및 반환
         return scrapRepository.save(scrap);
     }
+
+    public Scrap delete(Long scrapId) {
+        Scrap scrap = scrapRepository.findById(scrapId)
+                .orElseThrow(() -> new ScrapException(ErrorCode.SCRAP_NOT_FOUND));
+        scrapRepository.delete(scrap);
+        return scrap;
+    }
 }
