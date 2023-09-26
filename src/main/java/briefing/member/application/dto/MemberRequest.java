@@ -8,4 +8,9 @@ public class MemberRequest {
     public static class LoginDTO {
         private String identityToken;
     }
+
+    @Getter
+    public static class ReissueDTO{
+        private String refreshToken;
+    }
 }

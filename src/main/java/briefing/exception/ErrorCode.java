@@ -44,8 +44,12 @@ public enum ErrorCode {
     FEIGN_METHOD_NOT_ALLOWED(BAD_REQUEST,"FEIGN_400_7" , "Feign server method not allowed"),
     FEIGN_SERVER_ERROR(BAD_REQUEST,"FEIGN_500" , "Feign server error"),
 
+
+    // member 관련 에러
+
+    MEMBER_NOT_FOUND(BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다"),
+
     // member 에러
-    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER_001", "존재하지 않는 사용자입니다."),
 
 
     // scrap 에러

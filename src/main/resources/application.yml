@@ -23,6 +23,10 @@ spring:
   config:
     activate:
       on-profile: default
+  data:
+      host: 43.201.249.220
+      port : 6379
+      password: breifing
 jwt:
   header: Authorization
   # dev server
