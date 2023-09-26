@@ -34,7 +34,7 @@ public class MemberApi {
     @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 #FRAME", description = "구글, 애플 소셜로그인 API입니다.")
     @PostMapping("/auth/{socialType}")
     public CommonResponse<MemberResponse.LoginDTO> login(
-        @Parameter(description = "소셜로그인 종류", example = "google") @PathVariable final SocialType socialType,
+        @Parameter(description = "소셜로그인 종류", example = "google")  @PathVariable final SocialType socialType,
         @RequestBody final MemberRequest.LoginDTO request
     ) {
         Member member = memberCommandService.login(socialType, request);
