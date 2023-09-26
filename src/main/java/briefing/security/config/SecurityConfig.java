@@ -54,7 +54,8 @@ public class SecurityConfig {
                 "/swagger-ui/index.html",
                 "/swagger-ui/**",
                 "/docs/**",
-                "/members/auth/**");
+                "/members/auth/**",
+                "/scraps/**"); // NOTE - 토큰 발급 MERGE 전 테스트를 위해 허용
     }
 
     @Bean

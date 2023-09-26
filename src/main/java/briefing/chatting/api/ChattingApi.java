@@ -9,6 +9,7 @@ import briefing.chatting.application.dto.ChattingDetailResponse;
 import briefing.chatting.application.dto.ChattingsResponse;
 import java.util.List;
 
+import briefing.common.response.CommonResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,25 +30,25 @@ public class ChattingApi {
   private final ChattingCommandService chattingCommandService;
 
   @GetMapping
-  public ChattingsResponse findChattings(@RequestParam final List<Long> ids) {
-    return chattingQueryService.findChattings(ids);
+  public CommonResponse<ChattingsResponse> findChattings(@RequestParam final List<Long> ids) {
+    return CommonResponse.onSuccess(chattingQueryService.findChattings(ids));
   }
 
   @GetMapping("/{id}")
-  public ChattingDetailResponse findChatting(@PathVariable final Long id) {
-    return chattingQueryService.findChatting(id);
+  public CommonResponse<ChattingDetailResponse> findChatting(@PathVariable final Long id) {
+    return CommonResponse.onSuccess(chattingQueryService.findChatting(id));
   }
 
   @PostMapping
-  public ChattingCreateResponse createChatting() {
-    return chattingCommandService.createChatting();
+  public CommonResponse<ChattingCreateResponse> createChatting() {
+    return CommonResponse.onSuccess(chattingCommandService.createChatting());
   }
 
   @PostMapping("/{id}")
-  public AnswerResponse requestAnswer(
+  public CommonResponse<AnswerResponse> requestAnswer(
       @PathVariable final Long id,
       @RequestBody final AnswerRequest request
   ) {
-    return chattingCommandService.requestAnswer(id, request);
+    return CommonResponse.onSuccess(chattingCommandService.requestAnswer(id, request));
   }
 }
