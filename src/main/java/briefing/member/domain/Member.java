@@ -1,5 +1,6 @@
 package briefing.member.domain;
 
+import briefing.base.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +8,7 @@ import lombok.*;
 @Getter @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseDateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -29,14 +29,12 @@ public enum ErrorCode {
     HIJACK_JWT_TOKEN_EXCEPTION(UNAUTHORIZED,"AUTH007","탈취된(로그아웃 된) 토큰입니다 다시 로그인 해주세요."),
     INVALID_REFRESH_TOKEN(BAD_REQUEST,"AUTH009","리프레쉬 토큰이 유효하지 않습니다. 다시 로그인 해주세요"),
 
-
-
     // oauth 에러
     APPLE_BAD_REQUEST(BAD_REQUEST, "OAUTH001", "애플 토큰이 잘못되었습니다."),
     APPLE_SERVER_ERROR(FORBIDDEN, "OAUTH002", "애플 서버와 통신에 실패 하였습니다."),
     FAIL_TO_MAKE_APPLE_PUBLIC_KEY(BAD_REQUEST, "OAUTH003", "새로운 애플 공개키 생성에 실패하였습니다."),
-      
-        // feign client 에러
+
+    // feign client 에러
     FEIGN_BAD_REQUEST(BAD_REQUEST, "FEIGN_400_1", "Feign server bad request"),
     FEIGN_UNAUTHORIZED(BAD_REQUEST, "FEIGN_400_2", "Feign server unauthorized"),
     FEIGN_FORBIDDEN(BAD_REQUEST, "FEIGN_400_3", "Feign server forbidden"),
@@ -44,7 +42,16 @@ public enum ErrorCode {
     FEIGN_NOT_FOUND(BAD_REQUEST, "FEIGN_400_5", "Feign server not found error"),
     FEIGN_INTERNAL_SERVER_ERROR(BAD_REQUEST, "FEIGN_400_6", "Feign server internal server error"),
     FEIGN_METHOD_NOT_ALLOWED(BAD_REQUEST,"FEIGN_400_7" , "Feign server method not allowed"),
-    FEIGN_SERVER_ERROR(BAD_REQUEST,"FEIGN_500" , "Feign server error");
+    FEIGN_SERVER_ERROR(BAD_REQUEST,"FEIGN_500" , "Feign server error"),
+
+    // member 에러
+    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER_001", "존재하지 않는 사용자입니다."),
+
+
+    // scrap 에러
+    SCRAP_ALREADY_EXISTS(CONFLICT, "SCRAP_001", "이미 스크랩했습니다."),
+    SCRAP_NOT_FOUND(NOT_FOUND, "SCRAP_002", "존재하지 않는 스크랩입니다.");
+
 
     private final HttpStatus httpStatus;
     private final String code;
