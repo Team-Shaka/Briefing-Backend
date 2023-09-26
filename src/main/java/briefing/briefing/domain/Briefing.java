@@ -12,13 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Entity
-@Getter
+@Getter @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Briefing extends BaseDateTimeEntity {
 
   @Id
@@ -38,12 +38,12 @@ public class Briefing extends BaseDateTimeEntity {
   @OneToMany(mappedBy = "briefing", fetch = FetchType.LAZY)
   private List<BriefingArticle> briefingArticles = new ArrayList<>();
 
-  public Briefing(final BriefingType type, final Integer ranks, final String title,
-      final String subtitle, final String content) {
-    this.type = type;
-    this.ranks = ranks;
-    this.title = title;
-    this.subtitle = subtitle;
-    this.content = content;
-  }
+//  public Briefing(final BriefingType type, final Integer ranks, final String title,
+//      final String subtitle, final String content) {
+//    this.type = type;
+//    this.ranks = ranks;
+//    this.title = title;
+//    this.subtitle = subtitle;
+//    this.content = content;
+//  }
 }

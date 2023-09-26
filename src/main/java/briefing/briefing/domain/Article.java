@@ -6,13 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Getter
+@Getter @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Article extends BaseDateTimeEntity {
 
   @Id
@@ -25,9 +24,9 @@ public class Article extends BaseDateTimeEntity {
   @Column(nullable = false, length = 1024)
   private String url;
 
-  public Article(final String press, final String title, final String url) {
-    this.press = press;
-    this.title = title;
-    this.url = url;
-  }
+//  public Article(final String press, final String title, final String url) {
+//    this.press = press;
+//    this.title = title;
+//    this.url = url;
+//  }
 }

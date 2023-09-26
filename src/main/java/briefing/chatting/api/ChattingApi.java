@@ -2,11 +2,8 @@ package briefing.chatting.api;
 
 import briefing.chatting.application.ChattingCommandService;
 import briefing.chatting.application.ChattingQueryService;
-import briefing.chatting.application.dto.AnswerRequest;
-import briefing.chatting.application.dto.AnswerResponse;
-import briefing.chatting.application.dto.ChattingCreateResponse;
-import briefing.chatting.application.dto.ChattingDetailResponse;
-import briefing.chatting.application.dto.ChattingsResponse;
+import briefing.chatting.application.dto.*;
+
 import java.util.List;
 
 import briefing.common.response.CommonResponse;
@@ -30,25 +27,25 @@ public class ChattingApi {
   private final ChattingCommandService chattingCommandService;
 
   @GetMapping
-  public CommonResponse<ChattingsResponse> findChattings(@RequestParam final List<Long> ids) {
-    return CommonResponse.onSuccess(chattingQueryService.findChattings(ids));
+  public CommonResponse<ChattingResponse.ChattingListResponseDTO> findChattings(@RequestParam final List<Long> ids) {
+    return CommonResponse.onSuccess(ChattingConverter.toChattingListResponseDTO(chattingQueryService.findChattings(ids)));
   }
 
   @GetMapping("/{id}")
-  public CommonResponse<ChattingDetailResponse> findChatting(@PathVariable final Long id) {
-    return CommonResponse.onSuccess(chattingQueryService.findChatting(id));
+  public CommonResponse<ChattingResponse.ChattingDetailResponseDTO> findChatting(@PathVariable final Long id) {
+    return CommonResponse.onSuccess(ChattingConverter.toChattingDetailResponseDTO(chattingQueryService.findChatting(id)));
   }
 
   @PostMapping
-  public CommonResponse<ChattingCreateResponse> createChatting() {
-    return CommonResponse.onSuccess(chattingCommandService.createChatting());
+  public CommonResponse<ChattingResponse.ChattingCreateResponseDTO> createChatting() {
+    return CommonResponse.onSuccess(ChattingConverter.toChattingCreateResponseDTO(chattingCommandService.createChatting()));
   }
 
   @PostMapping("/{id}")
-  public CommonResponse<AnswerResponse> requestAnswer(
+  public CommonResponse<ChattingResponse.AnswerResponseDTO> requestAnswer(
       @PathVariable final Long id,
-      @RequestBody final AnswerRequest request
+      @RequestBody final ChattingRequest.AnswerRequestDTO request
   ) {
-    return CommonResponse.onSuccess(chattingCommandService.requestAnswer(id, request));
+    return CommonResponse.onSuccess(ChattingConverter.toAnswerResponseDTO(chattingCommandService.requestAnswer(id, request)));
   }
 }

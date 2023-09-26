@@ -1,7 +1,7 @@
 package briefing.briefing.application;
 
-import briefing.briefing.application.dto.ArticleCreateRequest;
-import briefing.briefing.application.dto.BriefingCreateRequest;
+import briefing.briefing.api.BriefingConverter;
+import briefing.briefing.application.dto.BriefingRequestDTO;
 import briefing.briefing.domain.Article;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingArticle;
@@ -22,10 +22,10 @@ public class BriefingCommandService {
   private final ArticleRepository articleRepository;
   private final BriefingArticleRepository briefingArticleRepository;
 
-  public void createBriefing(final BriefingCreateRequest request) {
-    final Briefing briefing = request.toBriefing();
-    final List<Article> articles = request.articles().stream()
-        .map(ArticleCreateRequest::toArticle)
+  public void createBriefing(final BriefingRequestDTO.BriefingCreate request) {
+    final Briefing briefing = BriefingConverter.toBriefing(request);
+    final List<Article> articles = request.getArticles().stream()
+        .map(BriefingConverter::toArticle)
         .toList();
 
     briefingRepository.save(briefing);

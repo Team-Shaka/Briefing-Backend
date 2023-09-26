@@ -4,8 +4,6 @@ import static briefing.briefing.domain.BriefingType.GLOBAL;
 import static briefing.briefing.domain.BriefingType.KOREA;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import briefing.briefing.application.dto.BriefingDetailResponse;
-import briefing.briefing.application.dto.BriefingsResponse;
 import briefing.briefing.domain.Article;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingArticle;

@@ -2,9 +2,7 @@ package briefing.briefing.api;
 
 import briefing.briefing.application.BriefingCommandService;
 import briefing.briefing.application.BriefingQueryService;
-import briefing.briefing.application.dto.BriefingCreateRequest;
-import briefing.briefing.application.dto.BriefingDetailResponse;
-import briefing.briefing.application.dto.BriefingsResponse;
+import briefing.briefing.application.dto.*;
 import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
 
@@ -31,21 +29,21 @@ public class BriefingApi {
   private final BriefingCommandService briefingCommandService;
 
   @GetMapping
-  public CommonResponse<BriefingsResponse> findBriefings(
+  public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
       @RequestParam("type") final BriefingType type,
       @RequestParam("date") final LocalDate date
   ) {
-    return CommonResponse.onSuccess(briefingQueryService.findBriefings(type, date));
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(date, briefingQueryService.findBriefings(type, date)));
   }
 
   @GetMapping("/{id}")
-  public CommonResponse<BriefingDetailResponse> findBriefing(@PathVariable final Long id) {
-    return CommonResponse.onSuccess(briefingQueryService.findBriefing(id));
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id) {
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id)));
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public void createBriefing(@RequestBody final BriefingCreateRequest request) {
+  public void createBriefing(@RequestBody final BriefingRequestDTO.BriefingCreate request) {
     briefingCommandService.createBriefing(request);
   }
 }
