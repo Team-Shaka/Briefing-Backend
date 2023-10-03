@@ -1,8 +1,9 @@
 package briefing.briefing.domain;
 
-import briefing.briefing.exception.BriefingException;
-import briefing.briefing.exception.BriefingExceptionType;
 import java.util.Arrays;
+
+import briefing.exception.ErrorCode;
+import briefing.exception.handler.BriefingException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,6 @@ public enum BriefingType {
     return Arrays.stream(values())
         .filter(value -> value.getValue().equals(type))
         .findAny()
-        .orElseThrow(() -> new BriefingException(BriefingExceptionType.NOT_FOUND_TYPE));
+        .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_TYPE));
   }
 }

@@ -11,10 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import briefing.chatting.application.dto.AnswerRequest;
-import briefing.chatting.application.dto.AnswerResponse;
-import briefing.chatting.application.dto.ChattingCreateResponse;
-import briefing.chatting.application.dto.MessageRequest;
 import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.Message;
 import briefing.chatting.domain.MessageRole;

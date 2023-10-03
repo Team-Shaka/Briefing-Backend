@@ -1,8 +1,7 @@
 package briefing.chatting.application;
 
 import briefing.chatting.application.ChatGptClient.GptAnswerResponse.Choice.ChoiceMessage;
-import briefing.chatting.application.dto.AnswerRequest;
-import briefing.chatting.application.dto.MessageRequest;
+import briefing.chatting.application.dto.ChattingRequest;
 import briefing.chatting.domain.Chatting;
 import briefing.chatting.domain.GptModel;
 import briefing.chatting.domain.Message;
@@ -30,7 +29,7 @@ public class ChatGptClient {
   @Value("${openai.token}")
   private String token;
 
-  public Message requestAnswer(final Chatting chatting, final AnswerRequest request) {
+  public Message requestAnswer(final Chatting chatting, final ChattingRequest.AnswerRequestDTO request) {
     final HttpEntity<GptAnswerRequest> requestEntity = generateRequestEntity(request);
 
     final GptAnswerResponse response = restTemplate.exchange(chatUrl, HttpMethod.POST,
@@ -40,7 +39,7 @@ public class ChatGptClient {
     return new Message(chatting, response.getRole(), response.getContent());
   }
 
-  private HttpEntity<GptAnswerRequest> generateRequestEntity(final AnswerRequest request) {
+  private HttpEntity<GptAnswerRequest> generateRequestEntity(final ChattingRequest.AnswerRequestDTO request) {
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     headers.setBearerAuth(token);
@@ -50,13 +49,13 @@ public class ChatGptClient {
     return new HttpEntity<>(requestBody, headers);
   }
 
-  record GptAnswerRequest(GptModel model, float temperature, List<MessageRequest> messages) {
+  record GptAnswerRequest(GptModel model, float temperature, List<ChattingRequest.MessageRequestDTO> messages) {
 
-    public static GptAnswerRequest from(final AnswerRequest request, final float temperature) {
+    public static GptAnswerRequest from(final ChattingRequest.AnswerRequestDTO request, final float temperature) {
       return new GptAnswerRequest(
-          request.model(),
+          request.getModel(),
           temperature,
-          request.messages()
+          request.getMessages()
       );
     }
   }

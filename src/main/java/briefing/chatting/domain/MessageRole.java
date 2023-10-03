@@ -1,7 +1,7 @@
 package briefing.chatting.domain;
 
-import briefing.chatting.exception.ChattingException;
-import briefing.chatting.exception.ChattingExceptionType;
+import briefing.exception.ErrorCode;
+import briefing.exception.handler.ChattingException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public enum MessageRole {
     return Arrays.stream(values())
         .filter(value -> value.getValue().equals(role))
         .findAny()
-        .orElseThrow(() -> new ChattingException(ChattingExceptionType.NOT_FOUND_ROLE));
+        .orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_ROLE));
   }
 
   public boolean isNotUser() {

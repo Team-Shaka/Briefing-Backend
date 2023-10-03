@@ -2,9 +2,8 @@ package briefing.scrap.application;
 
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.repository.BriefingRepository;
-import briefing.briefing.exception.BriefingException;
-import briefing.briefing.exception.BriefingExceptionType;
 import briefing.exception.ErrorCode;
+import briefing.exception.handler.BriefingException;
 import briefing.member.domain.Member;
 import briefing.member.domain.repository.MemberRepository;
 import briefing.member.exception.MemberException;
@@ -36,7 +35,7 @@ public class ScrapCommandService {
                 .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
 
         Briefing briefing = briefingRepository.findById(request.getBriefingId())
-                .orElseThrow(() -> new BriefingException(BriefingExceptionType.NOT_FOUND_BRIEFING));
+                .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
 
         Scrap scrap = ScrapConverter.toScrap(member, briefing);
 

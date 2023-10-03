@@ -44,13 +44,30 @@ public enum ErrorCode {
     FEIGN_METHOD_NOT_ALLOWED(BAD_REQUEST,"FEIGN_400_7" , "Feign server method not allowed"),
     FEIGN_SERVER_ERROR(BAD_REQUEST,"FEIGN_500" , "Feign server error"),
 
+
+    // member 관련 에러
+
+    MEMBER_NOT_FOUND(BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다"),
+
     // member 에러
-    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER_001", "존재하지 않는 사용자입니다."),
 
 
     // scrap 에러
     SCRAP_ALREADY_EXISTS(CONFLICT, "SCRAP_001", "이미 스크랩했습니다."),
-    SCRAP_NOT_FOUND(NOT_FOUND, "SCRAP_002", "존재하지 않는 스크랩입니다.");
+    SCRAP_NOT_FOUND(NOT_FOUND, "SCRAP_002", "존재하지 않는 스크랩입니다."),
+
+    // briefing 에러
+    NOT_FOUND_BRIEFING(NOT_FOUND,"BRIEFING_001", "브리핑이 존재하지 않습니다."),
+    NOT_FOUND_TYPE(BAD_REQUEST,"BRIEFING_002", "해당하는 type을 찾을 수 없습니다."),
+
+    // chatting 에러
+
+    NOT_FOUND_CHATTING(NOT_FOUND, "CHATTING_001","해당하는 채팅을 찾을 수 없습니다."),
+    LAST_MESSAGE_NOT_EXIST(BAD_REQUEST,"CHATTING_002", "마지막 메시지를 찾을 수 없습니다."),
+    BAD_LAST_MESSAGE_ROLE(BAD_REQUEST, "CHATTING_003","마지막 메시지의 역할이 user가 아닙니다."),
+    CAN_NOT_EMPTY_CONTENT(BAD_REQUEST,"CHATTING_004" ,"content가 비어있습니다."),
+    NOT_FOUND_ROLE(BAD_REQUEST, "CHATTING_005","해당하는 role을 찾을 수 없습니다."),
+    NOT_FOUND_MODEL(BAD_REQUEST, "CHATTING_006","해당하는 mode을 찾을 수 없습니다.");
 
 
     private final HttpStatus httpStatus;
