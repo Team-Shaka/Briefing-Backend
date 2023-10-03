@@ -2,6 +2,7 @@ package briefing.member.application;
 
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.AppleOAuthException;
+import briefing.exception.handler.MemberException;
 import briefing.feign.oauth.apple.client.AppleOauth2Client;
 import briefing.feign.oauth.apple.dto.ApplePublicKey;
 import briefing.feign.oauth.apple.dto.ApplePublicKeyList;
@@ -14,6 +15,7 @@ import briefing.member.domain.MemberRole;
 import briefing.member.domain.MemberStatus;
 import briefing.member.domain.SocialType;
 import briefing.member.domain.repository.MemberRepository;
+import briefing.redis.domain.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -126,5 +128,9 @@ public class MemberCommandService {
         } catch (Exception exception) {
             throw new AppleOAuthException(ErrorCode.FAIL_TO_MAKE_APPLE_PUBLIC_KEY);
         }
+    }
+
+    public Member parseRefreshToken(RefreshToken refreshToken){
+        return memberRepository.findById(refreshToken.getMemberId()).orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 }

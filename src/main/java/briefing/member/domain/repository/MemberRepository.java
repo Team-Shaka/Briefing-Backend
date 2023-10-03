@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findBySocialIdAndSocialType(String socialId, SocialType socialType);
+
+    Optional<Member> findFirstByOrderByCreatedAt();
 }

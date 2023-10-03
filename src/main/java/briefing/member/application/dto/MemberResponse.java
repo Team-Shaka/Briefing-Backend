@@ -15,4 +15,12 @@ public class MemberResponse {
         private String accessToken;
         private String refreshToken;
     }
+
+    @Builder @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReIssueTokenDTO{
+        private String accessToken;
+        private String refreshToken;
+    }
 }

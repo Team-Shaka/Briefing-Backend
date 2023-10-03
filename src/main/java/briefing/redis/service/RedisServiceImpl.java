@@ -33,7 +33,7 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     @Transactional
-    public String generateRefreshToken(String socialId, SocialType socialType) {
+    public RefreshToken generateRefreshToken(String socialId, SocialType socialType) {
         Member member = memberRepository.findBySocialIdAndSocialType(socialId, socialType).orElseThrow(() -> new RefreshTokenException(ErrorCode.MEMBER_NOT_FOUND));
 
         // 이 부분 괜찮은지 리뷰
@@ -50,11 +50,11 @@ public class RedisServiceImpl implements RedisService{
                     .memberId(memberId)
                     .token(token)
                     .expireTime(expireTime).build()
-        ).getToken();
+        );
     }
 
     @Override
-    public String reGenerateRefreshToken(MemberRequest.ReissueDTO request) {
+    public RefreshToken reGenerateRefreshToken(MemberRequest.ReissueDTO request) {
         if(request.getRefreshToken() == null)
             throw new MemberException(ErrorCode.INVALID_TOKEN_EXCEPTION);
         RefreshToken findRefreshToken = refreshTokenRepository.findByToken(request.getRefreshToken()).orElseThrow(() -> new RefreshTokenException(ErrorCode.INVALID_TOKEN_EXCEPTION));
@@ -73,7 +73,7 @@ public class RedisServiceImpl implements RedisService{
         // 새로 발급할 accessToken보다 refreshToken이 먼저 만료 될 경우인가?
         if(expireTime.isAfter(expireDeadLine)) {
             logger.info("기존 리프레시 토큰 발급");
-            return findRefreshToken.getToken();
+            return findRefreshToken;
         }
         else {
             logger.info("accessToken보다 먼저 만료될 예정인 리프레시 토큰 발견");
