@@ -1,5 +1,6 @@
 package briefing.member.application.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 public class MemberRequest {
@@ -11,6 +12,7 @@ public class MemberRequest {
 
     @Getter
     public static class ReissueDTO{
+        @NotBlank
         private String refreshToken;
     }
 }

@@ -39,4 +39,11 @@ public class MemberConverter {
                 .status(MemberStatus.ACTIVE)
                 .build();
     }
+
+    public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(String accessToken, String refreshToken){
+        return MemberResponse.ReIssueTokenDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }
