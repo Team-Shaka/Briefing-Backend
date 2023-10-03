@@ -27,7 +27,8 @@ spring:
       on-profile: default
   data:
     redis:
-      host: briefing-redis-ro.0ot2cs.ng.0001.apn2.cache.amazonaws.com
+      host: briefing-redis-cluster-ro.0ot2cs.ng.0001.apn2.cache.amazonaws.com
+      port: 6379
 jwt:
   header: Authorization
   # dev server
