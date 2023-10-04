@@ -20,8 +20,8 @@ public class MemberConverter {
 
     public static Member toMember(GoogleUserInfo googleUserInfo) {
         return Member.builder()
-//                .profileImgUrl(googleUserInfo.getPicture())
-//                .nickName(googleUserInfo.getName())
+                .profileImgUrl(googleUserInfo.getPicture())
+                .nickName(googleUserInfo.getName())
                 .socialId(googleUserInfo.getSub())
                 .socialType(SocialType.GOOGLE)
                 .role(MemberRole.ROLE_USER)
