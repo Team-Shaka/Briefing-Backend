@@ -10,8 +10,6 @@ spring:
   sql:
     init:
       mode: never
-  redis:
-    briefing-redis-ro.0ot2cs.ng.0001.apn2.cache.amazonaws.com
   jpa:
     properties:
       hibernate:
