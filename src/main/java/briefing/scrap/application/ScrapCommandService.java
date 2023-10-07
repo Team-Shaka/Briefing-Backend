@@ -43,8 +43,8 @@ public class ScrapCommandService {
         return scrapRepository.save(scrap);
     }
 
-    public Scrap delete(Long scrapId) {
-        Scrap scrap = scrapRepository.findById(scrapId)
+    public Scrap delete(Long briefingId, Long memberId) {
+        Scrap scrap = scrapRepository.findByBriefing_IdAndMember_Id(briefingId, memberId)
                 .orElseThrow(() -> new ScrapException(ErrorCode.SCRAP_NOT_FOUND));
         scrapRepository.delete(scrap);
         return scrap;

@@ -29,9 +29,9 @@ public class ScrapApi {
     }
 
     @Operation(summary = "05-02 Scrap📁 스크랩 취소 #FRAME", description = "스크랩을 취소하는 API입니다.")
-    @DeleteMapping("/{scrapId}")
-    public CommonResponse<ScrapResponse.DeleteDTO> delete(@PathVariable Long scrapId) {
-        Scrap deletedScrap = scrapCommandService.delete(scrapId);
+    @DeleteMapping("/briefings/{briefingId}/members/{memberId}")
+    public CommonResponse<ScrapResponse.DeleteDTO> delete(@PathVariable Long briefingId, @PathVariable Long memberId) {
+        Scrap deletedScrap = scrapCommandService.delete(briefingId, memberId);
         return CommonResponse.onSuccess(ScrapConverter.toDeleteDTO(deletedScrap));
     }
 
