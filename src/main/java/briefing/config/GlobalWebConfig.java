@@ -4,14 +4,25 @@ import briefing.converter.BriefingTypeRequestConverter;
 import briefing.converter.GptModelRequestConverter;
 import briefing.converter.MessageRoleRequestConverter;
 import briefing.converter.SocialTypeRequestConverter;
+import briefing.security.handler.annotation.AuthUserArgumentResolver;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
 @Configuration
+@RequiredArgsConstructor
 public class GlobalWebConfig implements WebMvcConfigurer {
 
+  private final AuthUserArgumentResolver authUserArgumentResolver;
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
+    resolverList.add(authUserArgumentResolver);
+  }
   @Override
   public void addFormatters(final FormatterRegistry registry) {
     registry.addConverter(new BriefingTypeRequestConverter());

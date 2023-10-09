@@ -9,9 +9,11 @@ import briefing.member.domain.Member;
 import briefing.member.domain.SocialType;
 import briefing.redis.domain.RefreshToken;
 import briefing.redis.service.RedisService;
+import briefing.security.handler.annotation.AuthMember;
 import briefing.security.provider.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -65,5 +67,15 @@ public class MemberApi {
         Member parsedMember = memberCommandService.parseRefreshToken(refreshToken);
         String accessToken = tokenProvider.createAccessToken(parsedMember.getId(),parsedMember.getSocialType().toString(), parsedMember.getSocialId(), List.of(new SimpleGrantedAuthority(parsedMember.getRole().toString())));
         return CommonResponse.onSuccess(MemberConverter.toReIssueTokenDTO(accessToken,refreshToken.getToken()));
+    }
+
+
+    @DeleteMapping("/")
+    @Parameters({
+            @Parameter(name = "member", hidden = true)
+    })
+    public CommonResponse<MemberResponse.QuitDTO> quitMember(@AuthMember Member member){
+        memberCommandService.deleteMember(member);
+        return CommonResponse.onSuccess(MemberConverter.toQuitDTO());
     }
 }

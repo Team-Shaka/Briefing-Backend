@@ -22,7 +22,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public OpenAPI fithubAPI() {
+    public OpenAPI breifingAPI() {
         Info info = new Info()
                 .title("Breifing API")
                 .description("Breifing API 명세서")
@@ -42,7 +42,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .addServersItem(new Server().url("/"))
                 .info(info)
-                //].addSecurityItem(securityRequirement)
+                .addSecurityItem(securityRequirement)
                 .components(components);
     }
 }

@@ -1,14 +1,31 @@
 package briefing.member.api;
 
+import briefing.exception.ErrorCode;
+import briefing.exception.handler.MemberException;
 import briefing.feign.oauth.google.dto.GoogleUserInfo;
 import briefing.member.application.dto.MemberResponse;
 import briefing.member.domain.Member;
 import briefing.member.domain.MemberRole;
 import briefing.member.domain.MemberStatus;
 import briefing.member.domain.SocialType;
+import briefing.member.domain.repository.MemberRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 
+@RequiredArgsConstructor
+@Component
 public class MemberConverter {
+
+    private final MemberRepository memberRepository;
+
+    private static MemberRepository staticMemberRepository;
+    @PostConstruct
+    public void init() {
+        this.staticMemberRepository = this.memberRepository;
+    }
 
     public static MemberResponse.LoginDTO toLoginDTO(Member member, String accessToken, String refreshToken) {
         return MemberResponse.LoginDTO.builder()
@@ -40,10 +57,20 @@ public class MemberConverter {
                 .build();
     }
 
+    public static Member toMember(Long memberId){
+        return staticMemberRepository.findById(memberId).orElseThrow(()->new MemberException(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
     public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(String accessToken, String refreshToken){
         return MemberResponse.ReIssueTokenDTO.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .build();
+    }
+
+    public static MemberResponse.QuitDTO toQuitDTO(){
+        return MemberResponse.QuitDTO.builder()
+                .quitAt(LocalDateTime.now())
                 .build();
     }
 }
