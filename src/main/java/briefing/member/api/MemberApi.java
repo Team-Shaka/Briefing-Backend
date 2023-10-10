@@ -11,6 +11,7 @@ import briefing.redis.domain.RefreshToken;
 import briefing.redis.service.RedisService;
 import briefing.security.handler.annotation.AuthMember;
 import briefing.security.provider.TokenProvider;
+import briefing.validation.annotation.CheckSameMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -70,12 +71,13 @@ public class MemberApi {
     }
 
 
-    @DeleteMapping("/")
+    @DeleteMapping("/{memberId}")
     @Parameters({
-            @Parameter(name = "member", hidden = true)
+            @Parameter(name = "member", hidden = true),
+            @Parameter(name = "memberId", description = "삭제 대상 멤버아이디")
     })
-    public CommonResponse<MemberResponse.QuitDTO> quitMember(@AuthMember Member member){
-        memberCommandService.deleteMember(member);
+    public CommonResponse<MemberResponse.QuitDTO> quitMember(@AuthMember Member member, @CheckSameMember @PathVariable Long memberId){
+        memberCommandService.deleteMember(memberId);
         return CommonResponse.onSuccess(MemberConverter.toQuitDTO());
     }
 }

@@ -3,6 +3,7 @@ package briefing.security.handler.annotation;
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.MemberException;
 import briefing.member.api.MemberConverter;
+import briefing.member.application.MemberQueryService;
 import briefing.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -19,6 +20,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
+
+    private final MemberQueryService memberQueryService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -43,7 +46,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-        Member member = MemberConverter.toMember(Long.valueOf(authenticationToken.getName()));
+        Member member = memberQueryService.findMember(Long.valueOf(authenticationToken.getName()));
         return member;
     }
 }

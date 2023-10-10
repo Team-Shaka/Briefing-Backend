@@ -26,7 +26,7 @@ public class Scrap extends BaseDateTimeEntity {
 
     public void setMember(Member member){
         if (this.member != null)
-            member.getScrapList().remove(this);
+            this.member.getScrapList().remove(this);
         this.member = member;
         member.getScrapList().add(this);
     }

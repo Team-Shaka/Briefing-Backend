@@ -134,7 +134,7 @@ public class MemberCommandService {
         return memberRepository.findById(refreshToken.getMemberId()).orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
-    public void deleteMember(Member member){
-        memberRepository.delete(member);
+    public void deleteMember(Long memberId){
+        memberRepository.delete(memberRepository.findById(memberId).get());
     }
 }

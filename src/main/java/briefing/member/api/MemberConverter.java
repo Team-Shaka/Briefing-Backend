@@ -19,14 +19,6 @@ import java.time.LocalDateTime;
 @Component
 public class MemberConverter {
 
-    private final MemberRepository memberRepository;
-
-    private static MemberRepository staticMemberRepository;
-    @PostConstruct
-    public void init() {
-        this.staticMemberRepository = this.memberRepository;
-    }
-
     public static MemberResponse.LoginDTO toLoginDTO(Member member, String accessToken, String refreshToken) {
         return MemberResponse.LoginDTO.builder()
                 .memberId(member.getId())
@@ -55,10 +47,6 @@ public class MemberConverter {
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .build();
-    }
-
-    public static Member toMember(Long memberId){
-        return staticMemberRepository.findById(memberId).orElseThrow(()->new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
     public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(String accessToken, String refreshToken){
