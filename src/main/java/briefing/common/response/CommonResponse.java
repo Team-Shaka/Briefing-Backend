@@ -15,7 +15,6 @@ public class CommonResponse<T> {
     private final Boolean isSuccess;
     private final String code;
     private final String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
 
@@ -30,7 +29,7 @@ public class CommonResponse<T> {
     }
 
     public static <T> CommonResponse<T> onFailure(String code, String message, T data) {
-        return new CommonResponse<>(false, message, code, data);
+        return new CommonResponse<>(false, code, message, data);
     }
 
 }
