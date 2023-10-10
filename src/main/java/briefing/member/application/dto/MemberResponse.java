@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.connection.lettuce.observability.LettuceObservationContext;
+
+import java.time.LocalDateTime;
 
 public class MemberResponse {
 
@@ -22,5 +25,12 @@ public class MemberResponse {
     public static class ReIssueTokenDTO{
         private String accessToken;
         private String refreshToken;
+    }
+
+    @Builder @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class QuitDTO{
+        private LocalDateTime quitAt;
     }
 }

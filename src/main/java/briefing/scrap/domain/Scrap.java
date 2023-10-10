@@ -23,4 +23,11 @@ public class Scrap extends BaseDateTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Briefing briefing;
+
+    public void setMember(Member member){
+        if (this.member != null)
+            this.member.getScrapList().remove(this);
+        this.member = member;
+        member.getScrapList().add(this);
+    }
 }

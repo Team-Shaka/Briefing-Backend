@@ -1,5 +1,7 @@
 package briefing.member.application;
 
+import briefing.exception.ErrorCode;
+import briefing.exception.handler.MemberException;
 import briefing.member.domain.Member;
 import briefing.member.domain.MemberRole;
 import briefing.member.domain.SocialType;
@@ -8,14 +10,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberQueryService {
     private final MemberRepository memberRepository;
 
-    public Member findMember(Long memberId){
-        return memberRepository.findById(memberId).get();
+    public Member findById(Long memberId){
+        return memberRepository.findById(memberId).orElseThrow(()->new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
     @Transactional

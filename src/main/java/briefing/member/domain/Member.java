@@ -1,8 +1,12 @@
 package briefing.member.domain;
 
 import briefing.base.BaseDateTimeEntity;
+import briefing.scrap.domain.Scrap;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Builder
@@ -29,4 +33,7 @@ public class Member extends BaseDateTimeEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole role = MemberRole.ROLE_USER;
 
+    // cascade 설정
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Scrap> scrapList = new ArrayList<>();
 }

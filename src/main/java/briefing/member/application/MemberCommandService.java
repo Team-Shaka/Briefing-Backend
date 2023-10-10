@@ -133,4 +133,8 @@ public class MemberCommandService {
     public Member parseRefreshToken(RefreshToken refreshToken){
         return memberRepository.findById(refreshToken.getMemberId()).orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
+
+    public void deleteMember(Long memberId){
+        memberRepository.deleteById(memberId);
+    }
 }
