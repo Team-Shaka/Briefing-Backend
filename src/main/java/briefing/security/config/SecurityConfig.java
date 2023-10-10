@@ -3,6 +3,7 @@ package briefing.security.config;
 import briefing.security.filter.JwtRequestFilter;
 import briefing.security.handler.JwtAccessDeniedHandler;
 import briefing.security.handler.JwtAuthenticationEntryPoint;
+import briefing.security.handler.JwtAuthenticationExceptionHandler;
 import briefing.security.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Slf4j
 @EnableWebSecurity
-@Configuration
 @RequiredArgsConstructor
+@Configuration
 public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -32,6 +33,8 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     private final TokenProvider tokenProvider;
+
+    JwtAuthenticationExceptionHandler jwtAuthenticationExceptionHandler = new JwtAuthenticationExceptionHandler();
 
     private static final String[] WHITE_LIST = {
 
@@ -70,11 +73,12 @@ public class SecurityConfig {
 //                        //.requestMatchers(WHITE_LIST).permitAll()
 //                        .anyRequest().authenticated()
 //                )
-                .exceptionHandling(authenticationManager -> authenticationManager
+                .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler)
                 )
-                .addFilterBefore(new JwtRequestFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtRequestFilter(tokenProvider),  UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationExceptionHandler,JwtRequestFilter.class)
                 .build();
     }
 }
