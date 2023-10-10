@@ -135,6 +135,6 @@ public class MemberCommandService {
     }
 
     public void deleteMember(Long memberId){
-        memberRepository.delete(memberRepository.findById(memberId).get());
+        memberRepository.deleteById(memberId);
     }
 }

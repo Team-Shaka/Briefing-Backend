@@ -46,7 +46,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-        Member member = memberQueryService.findMember(Long.valueOf(authenticationToken.getName()));
+        Member member = memberQueryService.findById(Long.valueOf(authenticationToken.getName()));
         return member;
     }
 }

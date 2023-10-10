@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MemberQueryService {
     private final MemberRepository memberRepository;
 
-    public Member findMember(Long memberId){
+    public Member findById(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(()->new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 

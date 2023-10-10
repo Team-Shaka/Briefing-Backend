@@ -2,6 +2,7 @@ package briefing.validation.validator;
 
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.MemberException;
+import briefing.member.application.MemberQueryService;
 import briefing.member.domain.Member;
 import briefing.validation.annotation.CheckSameMember;
 import jakarta.validation.ConstraintValidator;
@@ -39,7 +40,6 @@ public class CheckSameMemberValidator implements ConstraintValidator<CheckSameMe
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
-
         // 로그인 한 사용자가 어드민인지 나중에 추가
         if(!value.equals(Long.valueOf(authenticationToken.getName()))){
             context.disableDefaultConstraintViolation();
