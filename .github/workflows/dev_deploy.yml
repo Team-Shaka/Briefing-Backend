@@ -53,10 +53,10 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACTION_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_ACTION_SECRET_ACCESS_KEY }}
-          application_name: breifing-dev
-          environment_name: Breifing-dev-env
+          application_name: briefing-dev
+          environment_name: Briefing-dev-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
-          region: ap-northeast-2
+          region: ap-northeast-1
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 60
 
