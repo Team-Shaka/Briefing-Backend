@@ -1,0 +1,62 @@
+name: Breifing Release CI/CD
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch: # (2).수동 실행도 가능하도록
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # (3).OS환경
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2 # (4).코드 check out
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17 # (5).자바 설치
+          distribution: 'adopt'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash # (6).권한 부여
+
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+        shell: bash # (7).build 시작
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00" # (8).build 시점의 시간확보
+
+      - name: Show Current Time
+        run: echo "CurrentTime=$"
+        shell: bash # (9).확보한 시간 보여주기
+
+      - name: Generate deployment package
+        run: |
+          mkdir -p deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cp -r .platform deploy/.platform
+          cd deploy && zip -r deploy.zip .
+
+      - name: Beanstalk Deploy
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACTION_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_ACTION_SECRET_ACCESS_KEY }}
+          application_name: briefing-service
+          environment_name: Briefing-service-env
+          version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
+          region: ap-northeast-1
+          deployment_package: deploy/deploy.zip
+          wait_for_environment_recovery: 60
+
