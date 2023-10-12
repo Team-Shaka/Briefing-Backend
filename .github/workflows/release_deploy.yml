@@ -57,7 +57,7 @@ jobs:
           application_name: briefing-service
           environment_name: Briefing-service-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
-          region: ap-northeast-1
+          region: ap-northeast-2
           deployment_package: deploy/deploy.zip
           wait_for_environment_recovery: 60
 
