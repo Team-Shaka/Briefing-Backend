@@ -53,8 +53,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACTION_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_ACTION_SECRET_ACCESS_KEY }}
-          application_name: briefing-dev
-          environment_name: Briefing-dev-env
+          application_name: briefing-prod
+          environment_name: Briefing-prod-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-1
           deployment_package: deploy/deploy.zip
