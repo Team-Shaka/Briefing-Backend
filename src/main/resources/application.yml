@@ -36,14 +36,12 @@ spring:
 
   data:
     redis:
-#      host: briefing-dev-redis.bjyb5r.ng.0001.apne1.cache.amazonaws.com
-      host : localhost
+      host: localhost
       port: 6379
 jwt:
   header: Authorization
   # dev server
   secret: ${JWT_SECRET}
-  #  secret : ${JWT_SECRET}
   authorities-key: authoritiesKey
   access-token-validity-in-seconds: 1210000000 # 30 m
   refresh-token-validity-in-seconds: 1210000000 # 14 d
@@ -76,7 +74,6 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
-
   data:
     redis:
       host: briefing-dev-redis.bjyb5r.ng.0001.apne1.cache.amazonaws.com
