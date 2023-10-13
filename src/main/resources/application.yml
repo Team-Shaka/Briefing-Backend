@@ -91,3 +91,44 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
+
+---
+spring:
+  config:
+    activate:
+      on-profile: release
+  datasource:
+    username: ${aws.db.username}
+    password: ${aws.db.password}
+    url: ${aws.db.url}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        #        show_sql: true
+        #        format_sql: true
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
+  data:
+    redis:
+      host: briefing-redis-cluster.0ot2cs.ng.0001.apn2.cache.amazonaws.com
+      port: 6379
+jwt:
+  header: Authorization
+  # dev server
+  secret: ${JWT_SECRET}
+  #  secret : ${JWT_SECRET}
+  authorities-key: authoritiesKey
+  access-token-validity-in-seconds: 1210000000 # 30 m
+  refresh-token-validity-in-seconds: 1210000000 # 14 d
+
+openai:
+  token: ${OPEN_API_TOKEN}
+  url:
+    chat: https://api.openai.com/v1/chat/completions
