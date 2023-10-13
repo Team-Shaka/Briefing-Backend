@@ -1,46 +1,7 @@
 # default profile
 spring:
-  datasource:
-    #    url: jdbc:postgresql://localhost:5432/briefing
-    #    username: postgres
-    #    password: postgres
-    username: ${aws.db.username}
-    password: ${aws.db.password}
-    url: ${aws.db.url}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  sql:
-    init:
-      mode: never
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        #        show_sql: true
-        #        format_sql: true
-        use_sql_comments: true
-        hbm2ddl:
-          auto: update
-        default_batch_fetch_size: 1000
-  config:
-    activate:
-      on-profile: default
-  data:
-    redis:
-      host: localhost
-      port: 6379
-jwt:
-  header: Authorization
-  # dev server
-  secret : ${JWT_SECRET}
-  authorities-key: authoritiesKey
-  access-token-validity-in-seconds: 1210000000 # 30 m
-  refresh-token-validity-in-seconds: 1210000000 # 14 d
-
-openai:
-  token: ${OEPN_API_TOKEN}
-  url:
-    chat: https://api.openai.com/v1/chat/completions
-
+  profiles:
+    active: local
 springdoc:
   swagger-ui:
     tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
@@ -51,8 +12,9 @@ springdoc:
 
 ---
 spring:
-  profiles:
-    active: dev
+  config:
+    activate:
+      on-profile: local
   datasource:
     username: ${aws.db.username}
     password: ${aws.db.password}
@@ -71,9 +33,47 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+jwt:
+  header: Authorization
+  # dev server
+  secret: ${JWT_SECRET}
+  authorities-key: authoritiesKey
+  access-token-validity-in-seconds: 1210000000 # 30 m
+  refresh-token-validity-in-seconds: 1210000000 # 14 d
+
+openai:
+  token: ${OPEN_API_TOKEN}
+  url:
+    chat: https://api.openai.com/v1/chat/completions
+
+---
+spring:
   config:
     activate:
-      on-profile: default
+      on-profile: dev
+  datasource:
+    username: ${aws.db.username}
+    password: ${aws.db.password}
+    url: ${aws.db.url}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        #        show_sql: true
+        #        format_sql: true
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
   data:
     redis:
       host: briefing-dev-redis.bjyb5r.ng.0001.apne1.cache.amazonaws.com
@@ -91,11 +91,3 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
-
-springdoc:
-  swagger-ui:
-    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
-    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
-  cache:
-    disabled: true
-  use-fqn: true
