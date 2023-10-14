@@ -47,7 +47,7 @@ public enum ErrorCode {
 
     // member 관련 에러
 
-    MEMBER_NOT_FOUND(BAD_REQUEST, "MEMBER_400_1", "사용자가 없습니다"),
+    MEMBER_NOT_FOUND(BAD_REQUEST, "MEMBER_001", "사용자가 없습니다"),
     MEMBER_NOT_SAME(BAD_REQUEST, "MEMBER_002", "로그인 된 사용자와 대상 사용자가 일치하지 않습니다."),
 
     // member 에러

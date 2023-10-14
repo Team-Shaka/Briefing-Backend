@@ -57,7 +57,7 @@ public class RedisServiceImpl implements RedisService{
     public RefreshToken reGenerateRefreshToken(MemberRequest.ReissueDTO request) {
         if(request.getRefreshToken() == null)
             throw new MemberException(ErrorCode.INVALID_TOKEN_EXCEPTION);
-        RefreshToken findRefreshToken = refreshTokenRepository.findById(request.getRefreshToken()).orElseThrow(() -> new RefreshTokenException(ErrorCode.INVALID_TOKEN_EXCEPTION));
+        RefreshToken findRefreshToken = refreshTokenRepository.findById(request.getRefreshToken()).orElseThrow(() -> new RefreshTokenException(ErrorCode.INVALID_REFRESH_TOKEN));
         LocalDateTime expireTime = findRefreshToken.getExpireTime();
         LocalDateTime current = LocalDateTime.now();
         // 테스트용, 실제로는 현재 시간 + accessToken 만료 시간
