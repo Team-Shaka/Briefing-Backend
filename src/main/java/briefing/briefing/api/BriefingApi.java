@@ -7,6 +7,10 @@ import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
 
 import briefing.common.response.CommonResponse;
+import briefing.member.domain.Member;
+import briefing.security.handler.annotation.AuthMember;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +41,9 @@ public class BriefingApi {
   }
 
   @GetMapping("/{id}")
-  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id) {
+  @Parameter(name = "member", hidden = true)
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id, @AuthMember Member member) {
+    System.out.println("Briefing Detail Member" + member);
     return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id)));
   }
 

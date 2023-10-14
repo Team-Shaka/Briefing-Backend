@@ -69,10 +69,9 @@ public class SecurityConfig {
                 .sessionManagement(manage -> manage.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session 사용 안함
                 .formLogin(AbstractHttpConfigurer::disable)     // form login 사용 안함
                 .httpBasic(AbstractHttpConfigurer::disable)     // http basic 방식 사용 안함
-//                .authorizeHttpRequests(authorize -> authorize   // lambda 방식
-//                        //.requestMatchers(WHITE_LIST).permitAll()
-//                        .anyRequest().authenticated()
-//                )
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/briefings/**").permitAll()  // 모두 접근 가능합니다.
+                )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler)
