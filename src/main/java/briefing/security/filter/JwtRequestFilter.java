@@ -27,8 +27,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         HttpServletRequest httpServletRequest = request;
         String jwt = tokenProvider.resolveToken(httpServletRequest);
 
-        System.out.println("ACCESS TOKEN : " + jwt);
-
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt, TokenProvider.TokenType.ACCESS)){
 
             Authentication authentication = tokenProvider.getAuthentication(jwt);

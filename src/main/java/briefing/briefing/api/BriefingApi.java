@@ -43,7 +43,6 @@ public class BriefingApi {
   @GetMapping("/{id}")
   @Parameter(name = "member", hidden = true)
   public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id, @AuthMember Member member) {
-    System.out.println("Briefing Detail Member" + member);
     return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id)));
   }
 
