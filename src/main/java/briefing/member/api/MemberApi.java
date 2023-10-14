@@ -67,7 +67,7 @@ public class MemberApi {
         RefreshToken refreshToken = redisService.reGenerateRefreshToken(request);
         Member parsedMember = memberCommandService.parseRefreshToken(refreshToken);
         String accessToken = tokenProvider.createAccessToken(parsedMember.getId(),parsedMember.getSocialType().toString(), parsedMember.getSocialId(), List.of(new SimpleGrantedAuthority(parsedMember.getRole().toString())));
-        return CommonResponse.onSuccess(MemberConverter.toReIssueTokenDTO(accessToken,refreshToken.getToken()));
+        return CommonResponse.onSuccess(MemberConverter.toReIssueTokenDTO(parsedMember.getId(), accessToken,refreshToken.getToken()));
     }
 
 
