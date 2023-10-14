@@ -22,10 +22,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Ref;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Tag(name = "02-Member \uD83D\uDC64",description = "사용자 관련 API")
 @RestController

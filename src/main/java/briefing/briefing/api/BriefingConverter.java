@@ -41,7 +41,7 @@ public class BriefingConverter {
                 .build();
     }
 
-    public static BriefingResponseDTO.BriefingDetailDTO toBriefingDetailDTO(Briefing briefing){
+    public static BriefingResponseDTO.BriefingDetailDTO toBriefingDetailDTO(Briefing briefing, Boolean isScrap){
 
         List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList = briefing.getBriefingArticles().stream()
                 .map(article -> toArticleResponseDTO(article.getArticle())).toList();
@@ -54,6 +54,7 @@ public class BriefingConverter {
                 .content(briefing.getContent())
                 .date(briefing.getCreatedAt().toLocalDate())
                 .articles(articleResponseDTOList)
+                .isScrap(isScrap)
                 .build();
     }
 
