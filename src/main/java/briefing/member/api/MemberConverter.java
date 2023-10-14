@@ -49,8 +49,9 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(String accessToken, String refreshToken){
+    public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(Long memberId,String accessToken, String refreshToken){
         return MemberResponse.ReIssueTokenDTO.builder()
+                .memberId(memberId)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

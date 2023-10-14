@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 public class RefreshToken {
 
     @Id
-    private Long memberId;
-
     private String token;
+
+    private Long memberId;
 
     private LocalDateTime expireTime;
 }

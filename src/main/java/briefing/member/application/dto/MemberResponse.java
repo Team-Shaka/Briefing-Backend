@@ -23,6 +23,7 @@ public class MemberResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReIssueTokenDTO{
+        private Long memberId;
         private String accessToken;
         private String refreshToken;
     }
