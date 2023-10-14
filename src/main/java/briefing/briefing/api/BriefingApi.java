@@ -5,8 +5,14 @@ import briefing.briefing.application.BriefingQueryService;
 import briefing.briefing.application.dto.*;
 import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import briefing.common.response.CommonResponse;
+import briefing.member.domain.Member;
+import briefing.scrap.application.ScrapQueryService;
+import briefing.security.handler.annotation.AuthMember;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +33,7 @@ public class BriefingApi {
 
   private final BriefingQueryService briefingQueryService;
   private final BriefingCommandService briefingCommandService;
+  private final ScrapQueryService scrapQueryService;
 
   @GetMapping
   public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
@@ -37,8 +44,14 @@ public class BriefingApi {
   }
 
   @GetMapping("/{id}")
-  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id) {
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id)));
+  @Parameter(name = "member", hidden = true)
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id, @AuthMember Member member) {
+
+    Boolean isScrap = Optional.ofNullable(member)
+            .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
+            .orElseGet(() -> Boolean.FALSE);
+
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id), isScrap));
   }
 
   @PostMapping

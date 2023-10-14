@@ -18,4 +18,9 @@ public class ScrapQueryService {
     public List<Scrap> getScrapsByMemberId(Long memberId) {
         return scrapRepository.findByMember_Id(memberId);
     }
+
+
+    public Boolean existsByMemberIdAndBriefingId(Long memberId, Long briefingId) {
+        return scrapRepository.existsByMember_IdAndBriefing_Id(memberId, briefingId);
+    }
 }

@@ -45,6 +45,7 @@ public class BriefingResponseDTO {
         String content;
         LocalDate date;
         List<ArticleResponseDTO> articles;
+        Boolean isScrap;
     }
 
     @Builder
