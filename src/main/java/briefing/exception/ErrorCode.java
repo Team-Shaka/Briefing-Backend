@@ -16,7 +16,7 @@ public enum ErrorCode {
 
     _INTERNAL_SERVER_ERROR(INTERNAL_SERVER_ERROR, "COMMON000", "서버 에러, 관리자에게 문의 바랍니다."),
     _BAD_REQUEST(BAD_REQUEST,"COMMON001","잘못된 요청입니다."),
-    _UNAUTHORIZED(UNAUTHORIZED,"COMMON002","권한이 잘못되었습니다"),
+    _UNAUTHORIZED(UNAUTHORIZED,"COMMON002","로그인이 필요합니다."),
     _METHOD_NOT_ALLOWED(METHOD_NOT_ALLOWED, "COMMON003", "지원하지 않는 Http Method 입니다."),
     _FORBIDDEN(FORBIDDEN, "COMMON004", "금지된 요청입니다."),
 

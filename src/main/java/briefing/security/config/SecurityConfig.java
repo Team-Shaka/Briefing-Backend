@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.access.hierarchicalroles.NullRoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,7 +24,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
 @EnableWebSecurity
@@ -28,13 +37,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfig {
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint = new JwtAuthenticationEntryPoint();
 
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler = new JwtAccessDeniedHandler();
 
     private final TokenProvider tokenProvider;
 
-    JwtAuthenticationExceptionHandler jwtAuthenticationExceptionHandler = new JwtAuthenticationExceptionHandler();
+    private final JwtAuthenticationExceptionHandler jwtAuthenticationExceptionHandler = new JwtAuthenticationExceptionHandler();
 
     private static final String[] WHITE_LIST = {
 
@@ -43,6 +52,11 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        return new NullRoleHierarchy();
     }
 
     @Bean
@@ -58,20 +72,24 @@ public class SecurityConfig {
                 "/swagger-ui/**",
                 "/docs/**",
                 "/members/auth/**",
-                "/scraps/**","/briefings/**","/chattings/**"); // NOTE - 토큰 발급 MERGE 전 테스트를 위해 허용
+                "/briefings/**",
+                "/chattings/**");
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.httpBasic(HttpBasicConfigurer::disable)
+        return http
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
+                .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable) // 비활성화
-                .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(manage -> manage.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session 사용 안함
                 .formLogin(AbstractHttpConfigurer::disable)     // form login 사용 안함
-                .httpBasic(AbstractHttpConfigurer::disable)     // http basic 방식 사용 안함
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/briefings/**").permitAll()  // 모두 접근 가능합니다.
-                )
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/briefings/**").permitAll();  // 모두 접근 가능합니다.
+                    authorize.requestMatchers(HttpMethod.DELETE, "/members/{memberId}").authenticated();
+                    authorize.requestMatchers("/scraps/**").authenticated();
+                    authorize.anyRequest().authenticated();
+                })
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -79,5 +97,18 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtRequestFilter(tokenProvider),  UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationExceptionHandler,JwtRequestFilter.class)
                 .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfiguration() {
+        return request -> {
+            org.springframework.web.cors.CorsConfiguration config =
+                    new org.springframework.web.cors.CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(Collections.singletonList("*"));
+            config.setAllowCredentials(true);
+            return config;
+        };
     }
 }

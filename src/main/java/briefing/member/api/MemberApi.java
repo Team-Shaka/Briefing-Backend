@@ -6,6 +6,7 @@ import briefing.member.application.MemberQueryService;
 import briefing.member.application.dto.MemberRequest;
 import briefing.member.application.dto.MemberResponse;
 import briefing.member.domain.Member;
+import briefing.member.domain.MemberRole;
 import briefing.member.domain.SocialType;
 import briefing.redis.domain.RefreshToken;
 import briefing.redis.service.RedisService;
@@ -62,7 +63,7 @@ public class MemberApi {
     ) {
         Member member = memberCommandService.login(socialType, request);
         // TODO - TokenProvider에서 발급해주도록 변경
-        String accessToken = tokenProvider.createAccessToken(member.getId(),member.getSocialType().toString() ,member.getSocialId(), Arrays.asList(new SimpleGrantedAuthority("USER")));
+        String accessToken = tokenProvider.createAccessToken(member.getId(),member.getSocialType().toString() ,member.getSocialId(), List.of(new SimpleGrantedAuthority(MemberRole.ROLE_USER.name())));
         String refreshToken = redisService.generateRefreshToken(member.getSocialId(),member.getSocialType()).getToken();
         return CommonResponse.onSuccess(MemberConverter.toLoginDTO(member, accessToken, refreshToken));
     }
