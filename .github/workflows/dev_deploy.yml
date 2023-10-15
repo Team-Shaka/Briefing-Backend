@@ -1,6 +1,9 @@
 name: Breifing Dev CI/CD
 
 on:
+  push:
+    branches:
+      - develop
   pull_request:
     types: [closed]
   workflow_dispatch: # (2).수동 실행도 가능하도록
