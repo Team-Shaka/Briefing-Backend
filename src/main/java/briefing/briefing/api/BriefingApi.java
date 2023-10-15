@@ -51,7 +51,14 @@ public class BriefingApi {
             .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
             .orElseGet(() -> Boolean.FALSE);
 
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id), isScrap));
+    /*
+      TODO
+      업데이트가 확정되면 로직을 거쳐 isBriefingOpen과 isWarning을 세팅해주어야합니다.
+     */
+    Boolean isBriefingOpen = false;
+    Boolean isWarning = false;
+
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id), isScrap, isBriefingOpen, isWarning));
   }
 
   @PostMapping

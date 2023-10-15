@@ -46,6 +46,8 @@ public class BriefingResponseDTO {
         LocalDate date;
         List<ArticleResponseDTO> articles;
         Boolean isScrap;
+        Boolean isBriefingOpen;
+        Boolean isWarning;
     }
 
     @Builder
