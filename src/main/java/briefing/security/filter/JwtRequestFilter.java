@@ -32,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }else{
-            throw new JwtAuthenticationException(ErrorCode.UNAUTHORIZED_EXCEPTION);
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
         filterChain.doFilter(httpServletRequest, response);
     }

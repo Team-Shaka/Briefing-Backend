@@ -70,10 +70,7 @@ public class SecurityConfig {
                 "/v3/api-docs/**",
                 "/swagger-ui/index.html",
                 "/swagger-ui/**",
-                "/docs/**",
-                "/members/auth/**",
-                "/briefings/**",
-                "/chattings/**");
+                "/docs/**");
     }
 
     @Bean
@@ -86,6 +83,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)     // form login 사용 안함
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/briefings/**").permitAll();  // 모두 접근 가능합니다.
+                    authorize.requestMatchers("/members/auth/**").permitAll();
+                    authorize.requestMatchers("/chattings/**").permitAll();
                     authorize.requestMatchers(HttpMethod.DELETE, "/members/{memberId}").authenticated();
                     authorize.requestMatchers("/scraps/**").authenticated();
                     authorize.anyRequest().authenticated();
@@ -99,7 +98,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
     public CorsConfigurationSource corsConfiguration() {
         return request -> {
             org.springframework.web.cors.CorsConfiguration config =
