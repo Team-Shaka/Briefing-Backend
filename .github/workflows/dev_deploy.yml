@@ -1,14 +1,19 @@
 name: Breifing Dev CI/CD
 
 on:
+  push:
+    branches:
+      - develop
   pull_request:
+    branches:
+      - develop
     types: [closed]
   workflow_dispatch: # (2).수동 실행도 가능하도록
 
 jobs:
   build:
     runs-on: ubuntu-latest # (3).OS환경
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/develop') || (github.event.pull_request && github.event.pull_request.merged == true)
 
     steps:
       - name: Checkout
@@ -53,10 +58,10 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACTION_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_ACTION_SECRET_ACCESS_KEY }}
-          application_name: briefing-dev
-          environment_name: Briefing-dev-env
+          application_name: breifing-dev
+          environment_name: Breifing-dev-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-1
           deployment_package: deploy/deploy.zip
-          wait_for_environment_recovery: 60
+          wait_for_deployment: false
 

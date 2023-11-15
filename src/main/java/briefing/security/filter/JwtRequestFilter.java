@@ -26,12 +26,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = request;
         String jwt = tokenProvider.resolveToken(httpServletRequest);
+
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt, TokenProvider.TokenType.ACCESS)){
 
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }else{
-            throw new JwtAuthenticationException(ErrorCode.UNAUTHORIZED_EXCEPTION);
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
         filterChain.doFilter(httpServletRequest, response);
     }
