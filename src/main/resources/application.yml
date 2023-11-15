@@ -1,7 +1,7 @@
 # default profile
 spring:
   profiles:
-    active: local
+    active: dev
 springdoc:
   swagger-ui:
     tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬

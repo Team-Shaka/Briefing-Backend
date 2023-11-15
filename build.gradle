@@ -33,11 +33,13 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'mysql:mysql-connector-java' // 추가 작성
+
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
 //    runtimeOnly 'org.postgresql:postgresql'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+//    runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     annotationProcessor 'org.projectlombok:lombok'
