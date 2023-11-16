@@ -117,7 +117,7 @@ spring:
         default_batch_fetch_size: 1000
   data:
     redis:
-      host: briefing-redis-cluster.0ot2cs.ng.0001.apn2.cache.amazonaws.com
+      host: briefing-release-redis.0ot2cs.ng.0001.apn2.cache.amazonaws.com
       port: 6379
 jwt:
   header: Authorization
