@@ -58,4 +58,26 @@ public class BriefingResponseDTO {
         LocalDateTime createdAt;
         List<BriefingPreviewDTO> briefings;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingV2PreviewListDTO{
+        LocalDateTime createdAt;
+        String type;
+        List<BriefingPreviewV2TempDTO> briefings;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingPreviewV2TempDTO{
+        Long id;
+        Integer ranks;
+        String title;
+        String subtitle;
+        Integer scrapCount;
+    }
 }
