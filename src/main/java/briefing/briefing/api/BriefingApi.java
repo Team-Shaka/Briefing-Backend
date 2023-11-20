@@ -5,14 +5,18 @@ import briefing.briefing.application.BriefingQueryService;
 import briefing.briefing.application.dto.*;
 import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
 import briefing.scrap.application.ScrapQueryService;
 import briefing.security.handler.annotation.AuthMember;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +45,17 @@ public class BriefingApi {
       @RequestParam("date") final LocalDate date
   ) {
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(date, briefingQueryService.findBriefings(type, date)));
+  }
+
+  @Operation(summary = "키워드 전달 V2 임시 API", description = "키워드 전달 V2 임시 API 입니다. 응답은 무조건 동일합니다. type만 주신걸 담아서 드립니다.")
+  @ApiResponse(responseCode = "1000", description = "OK, 성공")
+  @GetMapping("/temp")
+  public CommonResponse<BriefingResponseDTO.BriefingV2PreviewListDTO> findBriefingsV2Temp(
+          @RequestParam("type") final BriefingType type,
+          @RequestParam("date") final LocalDate date
+  ){
+    List<Long> idList = Arrays.asList(346L, 347L, 348L, 349L, 350L);
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewV2TempListDTO(date,idList,type));
   }
 
   @GetMapping("/{id}")
