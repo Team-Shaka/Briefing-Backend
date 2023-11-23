@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import briefing.briefing.domain.TimeOfDay;
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
 import briefing.scrap.application.ScrapQueryService;
 import briefing.security.handler.annotation.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,8 @@ public class BriefingApi {
   @GetMapping
   public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
       @RequestParam("type") final BriefingType type,
-      @RequestParam("date") final LocalDate date
+      @RequestParam("date") final LocalDate date,
+      @RequestParam(value = "timeOfDay", required = false, defaultValue = "Morning") final TimeOfDay timeOfDay
   ) {
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(date, briefingQueryService.findBriefings(type, date)));
   }
