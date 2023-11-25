@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BriefingRequestParam {
 
     @Getter @Setter
@@ -19,9 +20,7 @@ public class BriefingRequestParam {
         private BriefingType type;
         @NotNull
         private LocalDate date;
-        @Nullable
         private TimeOfDay timeOfDay = TimeOfDay.MORNING;
-        @Nullable
         private APIVersion version = APIVersion.V1_1_0;
     }
 }

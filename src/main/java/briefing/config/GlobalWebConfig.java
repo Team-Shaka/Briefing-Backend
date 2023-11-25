@@ -27,6 +27,7 @@ public class GlobalWebConfig implements WebMvcConfigurer {
     registry.addConverter(new MessageRoleRequestConverter());
     registry.addConverter(new SocialTypeRequestConverter());
     registry.addConverter(new TimeOfDayConverter());
+    registry.addConverter(new APIVersionRequestConverter());
   }
 
   @Override

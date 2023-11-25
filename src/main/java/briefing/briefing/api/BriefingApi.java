@@ -3,6 +3,7 @@ package briefing.briefing.api;
 import briefing.briefing.application.BriefingCommandService;
 import briefing.briefing.application.BriefingQueryService;
 import briefing.briefing.application.dto.*;
+import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingType;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -38,9 +39,12 @@ public class BriefingApi {
 
   @GetMapping
   public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
-      @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam param
+      @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
   ) {
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(param.getDate(), briefingQueryService.findBriefings(param.getType(), param.getDate())));
+
+    List<Briefing> briefingList = briefingQueryService.findBriefings(params);
+
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
   }
 
   @Deprecated

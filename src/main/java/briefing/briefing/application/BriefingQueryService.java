@@ -1,9 +1,11 @@
 package briefing.briefing.application;
 
+import briefing.briefing.application.context.BriefingQueryContext;
+import briefing.briefing.application.context.BriefingQueryContextFactory;
+import briefing.briefing.application.dto.BriefingRequestParam;
+import briefing.briefing.application.strategy.BriefingV1QueryStrategy;
 import briefing.briefing.domain.Briefing;
-import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.repository.BriefingRepository;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,12 +23,9 @@ public class BriefingQueryService {
 
   private final BriefingRepository briefingRepository;
 
-  public List<Briefing> findBriefings(final BriefingType type, final LocalDate date) {
-    final LocalDateTime startDateTime = date.atStartOfDay();
-    final LocalDateTime endDateTime = date.atTime(LocalTime.MAX);
-
-    return briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
-        type, startDateTime, endDateTime);
+  public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
+    BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(params.getVersion());
+    return briefingQueryContext.findBriefings(params);
   }
 
   public Briefing findBriefing(final Long id) {
