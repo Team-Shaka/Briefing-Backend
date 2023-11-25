@@ -25,16 +25,12 @@ public class BriefingQueryService {
     final LocalDateTime startDateTime = date.atStartOfDay();
     final LocalDateTime endDateTime = date.atTime(LocalTime.MAX);
 
-    final List<Briefing> briefings = briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
+    return briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
         type, startDateTime, endDateTime);
-
-    return briefings;
   }
 
   public Briefing findBriefing(final Long id) {
-    final Briefing briefing = briefingRepository.findById(id)
+    return briefingRepository.findById(id)
         .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
-
-    return briefing;
   }
 }
