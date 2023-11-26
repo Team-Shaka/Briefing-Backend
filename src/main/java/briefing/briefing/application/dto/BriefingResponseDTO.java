@@ -50,6 +50,8 @@ public class BriefingResponseDTO {
         Boolean isScrap;
         Boolean isBriefingOpen;
         Boolean isWarning;
+        @Builder.Default
+        Integer scrapCount = 0;
     }
 
     @Builder

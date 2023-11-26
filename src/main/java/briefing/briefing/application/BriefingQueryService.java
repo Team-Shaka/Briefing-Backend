@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import briefing.common.enums.APIVersion;
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.BriefingException;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,9 @@ public class BriefingQueryService {
     return briefingQueryContext.findBriefings(params);
   }
 
-  public Briefing findBriefing(final Long id) {
-    return briefingRepository.findById(id)
+  public Briefing findBriefing(final Long id, final APIVersion version) {
+    BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(version);
+    return briefingQueryContext.findById(id)
         .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
   }
 }

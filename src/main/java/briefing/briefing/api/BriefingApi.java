@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import briefing.briefing.domain.TimeOfDay;
+import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
 import briefing.scrap.application.ScrapQueryService;
@@ -60,20 +61,20 @@ public class BriefingApi {
 
   @GetMapping("/{id}")
   @Parameter(name = "member", hidden = true)
-  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(@PathVariable final Long id, @AuthMember Member member) {
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
+          @PathVariable final Long id,
+          @RequestParam(value = "version", required = false, defaultValue = "1.1.0") final APIVersion version,
+          @AuthMember Member member
+  ) {
 
     Boolean isScrap = Optional.ofNullable(member)
             .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
             .orElseGet(() -> Boolean.FALSE);
 
-    /*
-      TODO
-      업데이트가 확정되면 로직을 거쳐 isBriefingOpen과 isWarning을 세팅해주어야합니다.
-     */
     Boolean isBriefingOpen = false;
     Boolean isWarning = false;
 
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id), isScrap, isBriefingOpen, isWarning));
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id, version), isScrap, isBriefingOpen, isWarning));
   }
 
   @PostMapping

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
@@ -21,5 +22,10 @@ public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
 
         return briefingRepository.findBriefingsWithScrapCount(
                 params.getType(), startDateTime, endDateTime, params.getTimeOfDay());
+    }
+
+    @Override
+    public Optional<Briefing> findById(Long id) {
+        return briefingRepository.findByIdWithScrapCount(id);
     }
 }

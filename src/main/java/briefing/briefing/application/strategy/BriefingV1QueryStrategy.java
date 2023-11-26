@@ -8,9 +8,10 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
-public class BriefingV1QueryStrategy implements BriefingQueryStrategy{
+public class BriefingV1QueryStrategy implements BriefingQueryStrategy {
 
     private final BriefingRepository briefingRepository;
 
@@ -21,5 +22,10 @@ public class BriefingV1QueryStrategy implements BriefingQueryStrategy{
 
         return briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
                 params.getType(), startDateTime, endDateTime);
+    }
+
+    @Override
+    public Optional<Briefing> findById(Long id) {
+        return briefingRepository.findById(id);
     }
 }

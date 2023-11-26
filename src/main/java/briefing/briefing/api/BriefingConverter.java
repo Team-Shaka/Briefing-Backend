@@ -119,6 +119,7 @@ public class BriefingConverter {
                 .isScrap(isScrap)
                 .isBriefingOpen(isBriefingOpen)
                 .isWarning(isWarning)
+                .scrapCount(briefing.getScrapCount())
                 .build();
     }
 

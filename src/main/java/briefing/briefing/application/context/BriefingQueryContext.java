@@ -6,6 +6,7 @@ import briefing.briefing.domain.Briefing;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class BriefingQueryContext {
@@ -15,4 +16,7 @@ public class BriefingQueryContext {
         return this.briefingQueryStrategy.findBriefings(params);
     }
 
+    public Optional<Briefing> findById(Long id) {
+        return this.briefingQueryStrategy.findById(id);
+    }
 }
