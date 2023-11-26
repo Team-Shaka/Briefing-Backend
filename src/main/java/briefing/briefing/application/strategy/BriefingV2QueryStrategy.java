@@ -14,13 +14,12 @@ public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
 
     private final BriefingRepository briefingRepository;
 
-    // TODO - V2에 맞게 쿼리 변경하기
     @Override
     public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
         final LocalDateTime startDateTime = params.getDate().atStartOfDay();
         final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
 
         return briefingRepository.findBriefingsWithScrapCount(
-                params.getType(), startDateTime, endDateTime);
+                params.getType(), startDateTime, endDateTime, params.getTimeOfDay());
     }
 }

@@ -35,6 +35,8 @@ public class QBriefing extends EntityPathBase<Briefing> {
 
     public final StringPath subtitle = createString("subtitle");
 
+    public final EnumPath<TimeOfDay> timeOfDay = createEnum("timeOfDay", TimeOfDay.class);
+
     public final StringPath title = createString("title");
 
     public final EnumPath<BriefingType> type = createEnum("type", BriefingType.class);

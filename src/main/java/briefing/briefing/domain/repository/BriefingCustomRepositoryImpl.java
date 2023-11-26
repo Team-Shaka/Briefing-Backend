@@ -3,6 +3,7 @@ package briefing.briefing.domain.repository;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.QBriefing;
+import briefing.briefing.domain.TimeOfDay;
 import briefing.scrap.domain.QScrap;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -18,7 +19,7 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Briefing> findBriefingsWithScrapCount(BriefingType type, LocalDateTime start, LocalDateTime end) {
+    public List<Briefing> findBriefingsWithScrapCount(BriefingType type, LocalDateTime start, LocalDateTime end, TimeOfDay timeOfDay) {
         QBriefing briefing = QBriefing.briefing;
         QScrap scrap = QScrap.scrap;
 
@@ -27,7 +28,9 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                 .from(briefing)
                 .leftJoin(scrap).on(scrap.briefing.eq(briefing))
                 .where(briefing.type.eq(type)
-                        .and(briefing.createdAt.between(start, end)))
+                        .and(briefing.createdAt.between(start, end))
+                        .and(briefing.timeOfDay.eq(timeOfDay))
+                )
                 .groupBy(briefing)
                 .orderBy(briefing.ranks.asc())
                 .fetch();

@@ -42,6 +42,10 @@ public class Briefing extends BaseDateTimeEntity {
   @Transient
   private Integer scrapCount = 0;
 
+  @Builder.Default
+  @Enumerated(EnumType.STRING)
+  private TimeOfDay timeOfDay = TimeOfDay.MORNING;
+
   public void setScrapCount(Integer scrapCount) {
     this.scrapCount = scrapCount;
   }
