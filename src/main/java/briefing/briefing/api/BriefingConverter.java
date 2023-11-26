@@ -70,7 +70,7 @@ public class BriefingConverter {
 
     public static Briefing toBriefing(BriefingRequestDTO.BriefingCreate request){
         return Briefing.builder()
-                .type(BriefingType.KOREA)
+                .type(request.getBriefingType())
                 .ranks(request.getRanks())
                 .title(request.getTitle())
                 .subtitle(request.getSubtitle())

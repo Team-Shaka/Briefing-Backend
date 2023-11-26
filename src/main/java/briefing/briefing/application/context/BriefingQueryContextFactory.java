@@ -29,8 +29,8 @@ public class BriefingQueryContextFactory {
 
     public static BriefingQueryContext getContextByVersion(APIVersion version) {
         return switch (version) {
-            case V1_0_0, V1_1_0 -> staticBriefingQueryContextV1;
-            case V2_0_0 -> staticBriefingQueryContextV2;
+            case V1 -> staticBriefingQueryContextV1;
+            case V2 -> staticBriefingQueryContextV2;
         };
     }
 }

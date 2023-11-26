@@ -2,8 +2,6 @@ package briefing.briefing.application.dto;
 
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.TimeOfDay;
-import briefing.common.enums.APIVersion;
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -21,6 +19,5 @@ public class BriefingRequestParam {
         @NotNull
         private LocalDate date;
         private TimeOfDay timeOfDay = TimeOfDay.MORNING;
-        private APIVersion version = APIVersion.V1_1_0;
     }
 }

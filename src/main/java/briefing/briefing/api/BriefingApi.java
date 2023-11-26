@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "03-Briefing \uD83D\uDCF0",description = "브리핑 관련 API")
 @RestController
-@RequestMapping("/briefings")
 @RequiredArgsConstructor
 public class BriefingApi {
 
@@ -38,19 +37,29 @@ public class BriefingApi {
   private final BriefingCommandService briefingCommandService;
   private final ScrapQueryService scrapQueryService;
 
-  @GetMapping
-  public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
-      @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
+  @GetMapping("/v2/briefings")
+  public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefingsV2(
+          @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
   ) {
 
-    List<Briefing> briefingList = briefingQueryService.findBriefings(params);
+    List<Briefing> briefingList = briefingQueryService.findBriefings(params, APIVersion.V2);
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
+  }
+
+  @Parameter(name = "timeOfDay", hidden = true)
+  @GetMapping("/briefings")
+  public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
+          @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
+  ) {
+
+    List<Briefing> briefingList = briefingQueryService.findBriefings(params, APIVersion.V1);
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
   }
 
   @Deprecated
   @Operation(summary = "키워드 전달 V2 임시 API", description = "키워드 전달 V2 임시 API 입니다. 응답은 무조건 동일합니다. type만 주신걸 담아서 드립니다.")
   @ApiResponse(responseCode = "1000", description = "OK, 성공")
-  @GetMapping("/temp")
+  @GetMapping("/briefings/temp")
   public CommonResponse<BriefingResponseDTO.BriefingV2PreviewListDTO> findBriefingsV2Temp(
           @RequestParam("type") final BriefingType type,
           @RequestParam("date") final LocalDate date
@@ -59,12 +68,10 @@ public class BriefingApi {
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewV2TempListDTO(date,idList,type));
   }
 
-
-  @GetMapping("/{id}")
+  @GetMapping("/v2/briefings/{id}")
   @Parameter(name = "member", hidden = true)
-  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefingV2(
           @PathVariable final Long id,
-          @RequestParam(value = "version", required = false, defaultValue = "1.1.0") final APIVersion version,
           @AuthMember Member member
   ) {
 
@@ -75,10 +82,27 @@ public class BriefingApi {
     Boolean isBriefingOpen = false;
     Boolean isWarning = false;
 
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id, version), isScrap, isBriefingOpen, isWarning));
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id, APIVersion.V2), isScrap, isBriefingOpen, isWarning));
   }
 
-  @PostMapping
+  @GetMapping("/briefings/{id}")
+  @Parameter(name = "member", hidden = true)
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
+          @PathVariable final Long id,
+          @AuthMember Member member
+  ) {
+
+    Boolean isScrap = Optional.ofNullable(member)
+            .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
+            .orElseGet(() -> Boolean.FALSE);
+
+    Boolean isBriefingOpen = false;
+    Boolean isWarning = false;
+
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id, APIVersion.V1), isScrap, isBriefingOpen, isWarning));
+  }
+
+  @PostMapping("/briefings")
   @ResponseStatus(HttpStatus.CREATED)
   public void createBriefing(@RequestBody final BriefingRequestDTO.BriefingCreate request) {
     briefingCommandService.createBriefing(request);

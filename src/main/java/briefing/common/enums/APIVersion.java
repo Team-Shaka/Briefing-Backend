@@ -11,9 +11,8 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum APIVersion {
-    V1_0_0("1.0.0"),
-    V1_1_0("1.1.0"),
-    V2_0_0("2.0.0");
+    V1("v1"),
+    V2("v2");
 
     private final String version;
 

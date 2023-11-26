@@ -24,8 +24,8 @@ public class BriefingQueryService {
 
   private final BriefingRepository briefingRepository;
 
-  public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
-    BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(params.getVersion());
+  public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params, APIVersion version) {
+    BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(version);
     return briefingQueryContext.findBriefings(params);
   }
 
