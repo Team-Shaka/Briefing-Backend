@@ -47,18 +47,6 @@ public class BriefingApi {
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
   }
 
-  @Deprecated
-  @Operation(summary = "키워드 전달 V2 임시 API", description = "키워드 전달 V2 임시 API 입니다. 응답은 무조건 동일합니다. type만 주신걸 담아서 드립니다.")
-  @ApiResponse(responseCode = "1000", description = "OK, 성공")
-  @GetMapping("/temp")
-  public CommonResponse<BriefingResponseDTO.BriefingV2PreviewListDTO> findBriefingsV2Temp(
-          @RequestParam("type") final BriefingType type,
-          @RequestParam("date") final LocalDate date
-  ){
-    List<Long> idList = Arrays.asList(346L, 347L, 348L, 349L, 350L);
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewV2TempListDTO(date,idList,type));
-  }
-
   @GetMapping("/{id}")
   @Parameter(name = "member", hidden = true)
   public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
