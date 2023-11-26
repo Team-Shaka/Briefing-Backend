@@ -20,7 +20,7 @@ public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
         final LocalDateTime startDateTime = params.getDate().atStartOfDay();
         final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
 
-        return briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
+        return briefingRepository.findBriefingsWithScrapCount(
                 params.getType(), startDateTime, endDateTime);
     }
 }

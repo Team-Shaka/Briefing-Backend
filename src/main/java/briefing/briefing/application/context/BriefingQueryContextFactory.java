@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 public class BriefingQueryContextFactory {
 
     private final BriefingRepository briefingRepository;
-
     private static BriefingQueryContext staticBriefingQueryContextV1;
     private static BriefingQueryContext staticBriefingQueryContextV2;
 

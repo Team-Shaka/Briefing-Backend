@@ -43,7 +43,6 @@ public class BriefingApi {
   ) {
 
     List<Briefing> briefingList = briefingQueryService.findBriefings(params);
-
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
   }
 

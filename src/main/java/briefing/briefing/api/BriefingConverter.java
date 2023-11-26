@@ -19,6 +19,7 @@ public class BriefingConverter {
                 .ranks(briefing.getRanks())
                 .title(briefing.getTitle())
                 .subtitle(briefing.getSubtitle())
+                .scrapCount(briefing.getScrapCount())
                 .build();
     }
 

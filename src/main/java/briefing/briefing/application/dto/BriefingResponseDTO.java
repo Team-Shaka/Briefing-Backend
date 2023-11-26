@@ -31,6 +31,8 @@ public class BriefingResponseDTO {
         Integer ranks;
         String title;
         String subtitle;
+        @Builder.Default
+        Integer scrapCount = 0;
     }
 
     @Builder
