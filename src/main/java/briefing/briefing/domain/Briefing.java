@@ -1,6 +1,7 @@
 package briefing.briefing.domain;
 
 import briefing.base.BaseDateTimeEntity;
+import briefing.chatting.domain.GptModel;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -45,6 +46,10 @@ public class Briefing extends BaseDateTimeEntity {
   @Builder.Default
   @Enumerated(EnumType.STRING)
   private TimeOfDay timeOfDay = TimeOfDay.MORNING;
+
+  @Builder.Default
+  @Enumerated(EnumType.STRING)
+  private GptModel gptModel = GptModel.GPT_3_5_TURBO;
 
   public void setScrapCount(Integer scrapCount) {
     this.scrapCount = scrapCount;

@@ -64,6 +64,7 @@ public class BriefingConverter {
                 .isBriefingOpen(isBriefingOpen)
                 .isWarning(isWarning)
                 .scrapCount(briefing.getScrapCount())
+                .gptModel(briefing.getGptModel())
                 .build();
     }
 
@@ -74,6 +75,8 @@ public class BriefingConverter {
                 .title(request.getTitle())
                 .subtitle(request.getSubtitle())
                 .content(request.getContent())
+                .gptModel(request.getGptModel())
+                .timeOfDay(request.getTimeOfDay())
                 .build();
     }
 
