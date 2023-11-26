@@ -38,6 +38,7 @@ public class BriefingApi {
   private final ScrapQueryService scrapQueryService;
 
   @GetMapping("/v2/briefings")
+  @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V2", description = "")
   public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefingsV2(
           @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
   ) {
@@ -46,8 +47,9 @@ public class BriefingApi {
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
   }
 
-  @Parameter(name = "timeOfDay", hidden = true)
   @GetMapping("/briefings")
+  @Parameter(name = "timeOfDay", hidden = true)
+  @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V1", description = "")
   public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
           @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
   ) {
@@ -69,6 +71,7 @@ public class BriefingApi {
   }
 
   @GetMapping("/v2/briefings/{id}")
+  @Operation(summary = "03-02Briefing \uD83D\uDCF0  브리핑 단건 조회 V2", description = "")
   @Parameter(name = "member", hidden = true)
   public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefingV2(
           @PathVariable final Long id,
@@ -87,6 +90,7 @@ public class BriefingApi {
 
   @GetMapping("/briefings/{id}")
   @Parameter(name = "member", hidden = true)
+  @Operation(summary = "03-02Briefing \uD83D\uDCF0  브리핑 단건 조회 V1", description = "")
   public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
           @PathVariable final Long id,
           @AuthMember Member member
@@ -104,6 +108,7 @@ public class BriefingApi {
 
   @PostMapping("/briefings")
   @ResponseStatus(HttpStatus.CREATED)
+  @Operation(summary = "03-03Briefing \uD83D\uDCF0  브리핑 등록", description = "")
   public void createBriefing(@RequestBody final BriefingRequestDTO.BriefingCreate request) {
     briefingCommandService.createBriefing(request);
   }
