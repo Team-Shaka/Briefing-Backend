@@ -1,5 +1,8 @@
 package briefing.briefing.application.dto;
 
+import briefing.briefing.domain.BriefingType;
+import briefing.briefing.domain.TimeOfDay;
+import briefing.chatting.domain.GptModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
@@ -21,5 +24,8 @@ public class BriefingRequestDTO {
         String subtitle;
         @JsonProperty("context") String content;
         List<ArticleCreateDTO> articles;
+        GptModel gptModel = GptModel.GPT_4;
+        TimeOfDay timeOfDay = TimeOfDay.MORNING;
+        BriefingType briefingType = BriefingType.KOREA;
     }
 }

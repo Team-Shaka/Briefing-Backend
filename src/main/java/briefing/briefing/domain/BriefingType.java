@@ -13,7 +13,9 @@ public enum BriefingType {
   KOREA("Korea"),
   GLOBAL("Global"),
   SOCIAL("Social"),
-  SCIENCE("Science");
+  SCIENCE("Science"),
+  ECONOMY("Economy"),
+  CULTURE("Culture");
 
   private final String value;
 

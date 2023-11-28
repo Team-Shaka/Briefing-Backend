@@ -19,6 +19,7 @@ public class BriefingConverter {
                 .ranks(briefing.getRanks())
                 .title(briefing.getTitle())
                 .subtitle(briefing.getSubtitle())
+                .scrapCount(briefing.getScrapCount())
                 .build();
     }
 
@@ -31,6 +32,62 @@ public class BriefingConverter {
                 .briefings(briefingPreviewDTOList)
                 .build();
     }
+
+    public static BriefingResponseDTO.ArticleResponseDTO toArticleResponseDTO(final Article article){
+        return BriefingResponseDTO.ArticleResponseDTO.builder()
+                .id(article.getId())
+                .press(article.getPress())
+                .title(article.getTitle())
+                .url(article.getUrl())
+                .build();
+    }
+
+    public static BriefingResponseDTO.BriefingDetailDTO toBriefingDetailDTO(
+            Briefing briefing,
+            Boolean isScrap,
+            Boolean isBriefingOpen,
+            Boolean isWarning
+    ){
+
+        List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList = briefing.getBriefingArticles().stream()
+                .map(article -> toArticleResponseDTO(article.getArticle())).toList();
+
+        return BriefingResponseDTO.BriefingDetailDTO.builder()
+                .id(briefing.getId())
+                .ranks(briefing.getRanks())
+                .title(briefing.getTitle())
+                .subtitle(briefing.getSubtitle())
+                .content(briefing.getContent())
+                .date(briefing.getCreatedAt().toLocalDate())
+                .articles(articleResponseDTOList)
+                .isScrap(isScrap)
+                .isBriefingOpen(isBriefingOpen)
+                .isWarning(isWarning)
+                .scrapCount(briefing.getScrapCount())
+                .gptModel(briefing.getGptModel())
+                .build();
+    }
+
+    public static Briefing toBriefing(BriefingRequestDTO.BriefingCreate request){
+        return Briefing.builder()
+                .type(request.getBriefingType())
+                .ranks(request.getRanks())
+                .title(request.getTitle())
+                .subtitle(request.getSubtitle())
+                .content(request.getContent())
+                .gptModel(request.getGptModel())
+                .timeOfDay(request.getTimeOfDay())
+                .build();
+    }
+
+    public static Article toArticle(BriefingRequestDTO.ArticleCreateDTO request){
+        return Article.builder()
+                .press(request.getPress())
+                .title(request.getTitle())
+                .url(request.getUrl())
+                .build();
+    }
+
 
     public static BriefingResponseDTO.BriefingPreviewV2TempDTO toBriefingPreviewV2TempDTO(Long id){
         Integer rank = null;
@@ -85,57 +142,6 @@ public class BriefingConverter {
                 .createdAt(date.atTime(3,0))
                 .type(briefingType.getValue())
                 .briefings(tempDTOList)
-                .build();
-    }
-
-    public static BriefingResponseDTO.ArticleResponseDTO toArticleResponseDTO(final Article article){
-        return BriefingResponseDTO.ArticleResponseDTO.builder()
-                .id(article.getId())
-                .press(article.getPress())
-                .title(article.getTitle())
-                .url(article.getUrl())
-                .build();
-    }
-
-    public static BriefingResponseDTO.BriefingDetailDTO toBriefingDetailDTO(
-            Briefing briefing,
-            Boolean isScrap,
-            Boolean isBriefingOpen,
-            Boolean isWarning
-    ){
-
-        List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList = briefing.getBriefingArticles().stream()
-                .map(article -> toArticleResponseDTO(article.getArticle())).toList();
-
-        return BriefingResponseDTO.BriefingDetailDTO.builder()
-                .id(briefing.getId())
-                .ranks(briefing.getRanks())
-                .title(briefing.getTitle())
-                .subtitle(briefing.getSubtitle())
-                .content(briefing.getContent())
-                .date(briefing.getCreatedAt().toLocalDate())
-                .articles(articleResponseDTOList)
-                .isScrap(isScrap)
-                .isBriefingOpen(isBriefingOpen)
-                .isWarning(isWarning)
-                .build();
-    }
-
-    public static Briefing toBriefing(BriefingRequestDTO.BriefingCreate request){
-        return Briefing.builder()
-                .type(BriefingType.KOREA)
-                .ranks(request.getRanks())
-                .title(request.getTitle())
-                .subtitle(request.getSubtitle())
-                .content(request.getContent())
-                .build();
-    }
-
-    public static Article toArticle(BriefingRequestDTO.ArticleCreateDTO request){
-        return Article.builder()
-                .press(request.getPress())
-                .title(request.getTitle())
-                .url(request.getUrl())
                 .build();
     }
 }
