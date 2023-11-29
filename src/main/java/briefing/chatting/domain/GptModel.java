@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum GptModel {
-  GPT_3_5_TURBO("gpt-3.5-turbo");
+  GPT_3_5_TURBO("gpt-3.5-turbo"),
+  GPT_4("gpt-4");
 
   @JsonValue
   private final String value;

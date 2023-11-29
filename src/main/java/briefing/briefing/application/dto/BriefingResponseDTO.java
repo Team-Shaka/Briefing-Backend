@@ -1,5 +1,6 @@
 package briefing.briefing.application.dto;
 
+import briefing.chatting.domain.GptModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,8 @@ public class BriefingResponseDTO {
         Integer ranks;
         String title;
         String subtitle;
+        @Builder.Default
+        Integer scrapCount = 0;
     }
 
     @Builder
@@ -48,6 +51,10 @@ public class BriefingResponseDTO {
         Boolean isScrap;
         Boolean isBriefingOpen;
         Boolean isWarning;
+        @Builder.Default
+        Integer scrapCount = 0;
+        @Builder.Default
+        GptModel gptModel = GptModel.GPT_3_5_TURBO;
     }
 
     @Builder
@@ -57,5 +64,27 @@ public class BriefingResponseDTO {
     public static class BriefingPreviewListDTO{
         LocalDateTime createdAt;
         List<BriefingPreviewDTO> briefings;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingV2PreviewListDTO{
+        LocalDateTime createdAt;
+        String type;
+        List<BriefingPreviewV2TempDTO> briefings;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingPreviewV2TempDTO{
+        Long id;
+        Integer ranks;
+        String title;
+        String subtitle;
+        Integer scrapCount;
     }
 }

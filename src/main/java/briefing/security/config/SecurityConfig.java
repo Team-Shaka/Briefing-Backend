@@ -70,7 +70,7 @@ public class SecurityConfig {
                 "/v3/api-docs/**",
                 "/swagger-ui/index.html",
                 "/swagger-ui/**",
-                "/docs/**");
+                "/docs/**","/briefings/temp");
     }
 
     @Bean
@@ -82,6 +82,7 @@ public class SecurityConfig {
                 .sessionManagement(manage -> manage.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session 사용 안함
                 .formLogin(AbstractHttpConfigurer::disable)     // form login 사용 안함
                 .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/v2/briefings/**").permitAll();  // 모두 접근 가능합니다.
                     authorize.requestMatchers("/briefings/**").permitAll();  // 모두 접근 가능합니다.
                     authorize.requestMatchers("/members/auth/**").permitAll();
                     authorize.requestMatchers("/chattings/**").permitAll();
