@@ -1,5 +1,7 @@
 package briefing.briefing.application.dto;
 
+import briefing.briefing.domain.BriefingType;
+import briefing.briefing.domain.TimeOfDay;
 import briefing.chatting.domain.GptModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +57,10 @@ public class BriefingResponseDTO {
         Integer scrapCount = 0;
         @Builder.Default
         GptModel gptModel = GptModel.GPT_3_5_TURBO;
+        @Builder.Default
+        TimeOfDay timeOfDay = TimeOfDay.MORNING;
+        @Builder.Default
+        BriefingType type = BriefingType.KOREA;
     }
 
     @Builder
