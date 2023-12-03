@@ -76,6 +76,8 @@ public class BriefingConverter {
                 .isWarning(isWarning)
                 .scrapCount(briefing.getScrapCount())
                 .gptModel(briefing.getGptModel())
+                .timeOfDay(briefing.getTimeOfDay())
+                .type(briefing.getType())
                 .build();
     }
 
