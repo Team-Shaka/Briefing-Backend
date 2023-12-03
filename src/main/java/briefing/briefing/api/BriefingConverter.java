@@ -7,6 +7,7 @@ import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +24,22 @@ public class BriefingConverter {
                 .build();
     }
 
+    private static LocalDateTime getPreviewListDTOCreatedAt(final LocalDate date, List<Briefing> briefingList) {
+        if(!briefingList.isEmpty()) {
+            return briefingList.get(0).getCreatedAt();
+        }
+        if(date != null) {
+            return date.atTime(3,0);
+        }
+        return LocalDateTime.now();
+    }
+
     public static BriefingResponseDTO.BriefingPreviewListDTO toBriefingPreviewListDTO(final LocalDate date, List<Briefing> briefingList){
         final List<BriefingResponseDTO.BriefingPreviewDTO> briefingPreviewDTOList = briefingList.stream()
                 .map(BriefingConverter::toBriefingPreviewDTO).toList();
 
         return BriefingResponseDTO.BriefingPreviewListDTO.builder()
-                .createdAt(date.atTime(3,0))
+                .createdAt(getPreviewListDTOCreatedAt(date, briefingList))
                 .briefings(briefingPreviewDTOList)
                 .build();
     }
