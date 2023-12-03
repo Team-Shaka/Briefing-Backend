@@ -16,8 +16,11 @@ public class BriefingRequestParam {
     public static class BriefingPreviewListParam {
         @NotNull
         private BriefingType type;
-        @NotNull
         private LocalDate date;
         private TimeOfDay timeOfDay = TimeOfDay.MORNING;
+
+        public boolean isPresentDate() {
+            return date != null;
+        }
     }
 }

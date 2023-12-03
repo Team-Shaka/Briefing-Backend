@@ -27,8 +27,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        #        show_sql: true
-        #        format_sql: true
+        show_sql: true
+        format_sql: true
         use_sql_comments: true
         hbm2ddl:
           auto: update
