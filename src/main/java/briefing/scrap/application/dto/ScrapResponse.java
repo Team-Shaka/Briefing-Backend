@@ -1,5 +1,7 @@
 package briefing.scrap.application.dto;
 
+import briefing.briefing.domain.TimeOfDay;
+import briefing.chatting.domain.GptModel;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,5 +44,9 @@ public class ScrapResponse {
         private String title;
         private String subtitle;
         private LocalDate date;
+        @Builder.Default
+        private GptModel gptModel = GptModel.GPT_3_5_TURBO;
+        @Builder.Default
+        private TimeOfDay timeOfDay = TimeOfDay.MORNING;
     }
 }

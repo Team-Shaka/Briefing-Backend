@@ -38,6 +38,8 @@ public class ScrapConverter {
                 .title(scrap.getBriefing().getTitle())
                 .subtitle(scrap.getBriefing().getSubtitle())
                 .date(scrap.getBriefing().getCreatedAt().toLocalDate())
+                .gptModel(scrap.getBriefing().getGptModel())
+                .timeOfDay(scrap.getBriefing().getTimeOfDay())
                 .build();
     }
 }
