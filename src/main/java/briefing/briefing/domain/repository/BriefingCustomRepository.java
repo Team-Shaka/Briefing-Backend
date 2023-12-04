@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface BriefingCustomRepository {
     List<Briefing> findBriefingsWithScrapCount(BriefingType type, LocalDateTime start, LocalDateTime end, TimeOfDay timeOfDay);
 
+    List<Briefing> findTop10ByTypeOrderByCreatedAtDesc(BriefingType type);
+
     Optional<Briefing> findByIdWithScrapCount(Long id);
 }

@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -45,6 +48,30 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                 })
                 .toList();
     }
+
+    @Override
+    public List<Briefing> findTop10ByTypeOrderByCreatedAtDesc(BriefingType type) {
+        QBriefing briefing = QBriefing.briefing;
+        QScrap scrap = QScrap.scrap;
+
+        List<Tuple> results = queryFactory.select(briefing, scrap.count())
+                .from(briefing)
+                .leftJoin(scrap).on(scrap.briefing.eq(briefing))
+                .where(briefing.type.eq(type))
+                .groupBy(briefing)
+                .orderBy(briefing.createdAt.desc())
+                .limit(10)
+                .fetch();
+
+        return results.stream()
+                .map(tuple -> {
+                    Briefing b = tuple.get(briefing);
+                    b.setScrapCount(Math.toIntExact(tuple.get(scrap.count())));
+                    return b;
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
 
     @Override
     public Optional<Briefing> findByIdWithScrapCount(Long id) {

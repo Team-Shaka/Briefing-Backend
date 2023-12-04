@@ -22,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BriefingQueryService {
 
-  private final BriefingRepository briefingRepository;
-
   public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params, APIVersion version) {
     BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(version);
     return briefingQueryContext.findBriefings(params);
