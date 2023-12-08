@@ -40,7 +40,6 @@ public class BriefingApi {
   public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTOV2> findBriefingsV2(
           @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
   ) {
-
     List<Briefing> briefingList = briefingQueryService.findBriefings(params, APIVersion.V2);
     return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTOV2(params.getDate(), briefingList));
   }
