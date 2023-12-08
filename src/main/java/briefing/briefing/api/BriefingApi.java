@@ -10,19 +10,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import briefing.briefing.domain.TimeOfDay;
 import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
 import briefing.scrap.application.ScrapQueryService;
 import briefing.security.handler.annotation.AuthMember;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
@@ -39,12 +37,12 @@ public class BriefingApi {
 
   @GetMapping("/v2/briefings")
   @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V2", description = "")
-  public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefingsV2(
+  public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTOV2> findBriefingsV2(
           @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params
   ) {
 
     List<Briefing> briefingList = briefingQueryService.findBriefings(params, APIVersion.V2);
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList));
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingPreviewListDTOV2(params.getDate(), briefingList));
   }
 
   @GetMapping("/briefings")

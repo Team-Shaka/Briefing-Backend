@@ -29,13 +29,24 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingPreviewDTO{
+    public static class BriefingPreviewDTOV2{
         Long id;
         Integer ranks;
         String title;
         String subtitle;
         @Builder.Default
         Integer scrapCount = 0;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingPreviewDTO{
+        Long id;
+        Integer ranks;
+        String title;
+        String subtitle;
     }
 
     @Builder
@@ -61,6 +72,15 @@ public class BriefingResponseDTO {
         TimeOfDay timeOfDay = TimeOfDay.MORNING;
         @Builder.Default
         BriefingType type = BriefingType.KOREA;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingPreviewListDTOV2{
+        LocalDateTime createdAt;
+        List<BriefingPreviewDTOV2> briefings;
     }
 
     @Builder
