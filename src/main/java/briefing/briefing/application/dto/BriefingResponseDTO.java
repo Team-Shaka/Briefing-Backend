@@ -64,6 +64,23 @@ public class BriefingResponseDTO {
         Boolean isScrap;
         Boolean isBriefingOpen;
         Boolean isWarning;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingDetailDTOV2{
+        Long id;
+        Integer ranks;
+        String title;
+        String subtitle;
+        String content;
+        LocalDate date;
+        List<ArticleResponseDTO> articles;
+        Boolean isScrap;
+        Boolean isBriefingOpen;
+        Boolean isWarning;
         @Builder.Default
         Integer scrapCount = 0;
         @Builder.Default

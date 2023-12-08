@@ -71,7 +71,7 @@ public class BriefingApi {
   @GetMapping("/v2/briefings/{id}")
   @Operation(summary = "03-02Briefing \uD83D\uDCF0  브리핑 단건 조회 V2", description = "")
   @Parameter(name = "member", hidden = true)
-  public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefingV2(
+  public CommonResponse<BriefingResponseDTO.BriefingDetailDTOV2> findBriefingV2(
           @PathVariable final Long id,
           @AuthMember Member member
   ) {
@@ -83,7 +83,7 @@ public class BriefingApi {
     Boolean isBriefingOpen = false;
     Boolean isWarning = false;
 
-    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTO(briefingQueryService.findBriefing(id, APIVersion.V2), isScrap, isBriefingOpen, isWarning));
+    return CommonResponse.onSuccess(BriefingConverter.toBriefingDetailDTOV2(briefingQueryService.findBriefing(id, APIVersion.V2), isScrap, isBriefingOpen, isWarning));
   }
 
   @GetMapping("/briefings/{id}")

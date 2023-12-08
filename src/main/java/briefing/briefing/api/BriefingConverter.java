@@ -93,6 +93,30 @@ public class BriefingConverter {
                 .isScrap(isScrap)
                 .isBriefingOpen(isBriefingOpen)
                 .isWarning(isWarning)
+                .build();
+    }
+
+    public static BriefingResponseDTO.BriefingDetailDTOV2 toBriefingDetailDTOV2(
+            Briefing briefing,
+            Boolean isScrap,
+            Boolean isBriefingOpen,
+            Boolean isWarning
+    ){
+
+        List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList = briefing.getBriefingArticles().stream()
+                .map(article -> toArticleResponseDTO(article.getArticle())).toList();
+
+        return BriefingResponseDTO.BriefingDetailDTOV2.builder()
+                .id(briefing.getId())
+                .ranks(briefing.getRanks())
+                .title(briefing.getTitle())
+                .subtitle(briefing.getSubtitle())
+                .content(briefing.getContent())
+                .date(briefing.getCreatedAt().toLocalDate())
+                .articles(articleResponseDTOList)
+                .isScrap(isScrap)
+                .isBriefingOpen(isBriefingOpen)
+                .isWarning(isWarning)
                 .scrapCount(briefing.getScrapCount())
                 .gptModel(briefing.getGptModel())
                 .timeOfDay(briefing.getTimeOfDay())
