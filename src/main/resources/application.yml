@@ -1,5 +1,7 @@
 # default profile
 spring:
+  application:
+    name: briefing-dev
   profiles:
     active: dev
 springdoc:
@@ -10,6 +12,15 @@ springdoc:
     disabled: true
   use-fqn: true
 
+eureka:
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: dev_briefing_server
+    hostname: dev.newsbreifing.store
+    ip-address: dev.newsbreifing.store
+  client:
+    service-url:
+      defaultZone: http://eureka.newsbreifing.store:8761//eureka
 ---
 spring:
   config:

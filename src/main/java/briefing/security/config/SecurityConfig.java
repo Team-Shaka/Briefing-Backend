@@ -70,7 +70,7 @@ public class SecurityConfig {
                 "/v3/api-docs/**",
                 "/swagger-ui/index.html",
                 "/swagger-ui/**",
-                "/docs/**","/briefings/temp");
+                "/docs/**","/briefings/temp","/v2/briefings");
     }
 
     @Bean
