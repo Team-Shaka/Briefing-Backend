@@ -38,6 +38,16 @@ public class ScrapConverter {
                 .title(scrap.getBriefing().getTitle())
                 .subtitle(scrap.getBriefing().getSubtitle())
                 .date(scrap.getBriefing().getCreatedAt().toLocalDate())
+                .build();
+    }
+
+    public static ScrapResponse.ReadDTOV2 toReadDTOV2(Scrap scrap) {
+        return ScrapResponse.ReadDTOV2.builder()
+                .briefingId(scrap.getBriefing().getId())
+                .ranks(scrap.getBriefing().getRanks())
+                .title(scrap.getBriefing().getTitle())
+                .subtitle(scrap.getBriefing().getSubtitle())
+                .date(scrap.getBriefing().getCreatedAt().toLocalDate())
                 .gptModel(scrap.getBriefing().getGptModel())
                 .timeOfDay(scrap.getBriefing().getTimeOfDay())
                 .build();

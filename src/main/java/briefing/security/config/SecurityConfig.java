@@ -84,9 +84,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/v2/briefings/**").permitAll();  // 모두 접근 가능합니다.
                     authorize.requestMatchers("/briefings/**").permitAll();  // 모두 접근 가능합니다.
+                    authorize.requestMatchers("/v2/members/auth/**").permitAll();
                     authorize.requestMatchers("/members/auth/**").permitAll();
                     authorize.requestMatchers("/chattings/**").permitAll();
+                    authorize.requestMatchers(HttpMethod.DELETE, "/v2/members/{memberId}").authenticated();
                     authorize.requestMatchers(HttpMethod.DELETE, "/members/{memberId}").authenticated();
+                    authorize.requestMatchers("/v2/scraps/**").authenticated();
                     authorize.requestMatchers("/scraps/**").authenticated();
                     authorize.anyRequest().authenticated();
                 })

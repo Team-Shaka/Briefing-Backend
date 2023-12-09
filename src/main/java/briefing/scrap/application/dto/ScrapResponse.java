@@ -33,12 +33,23 @@ public class ScrapResponse {
         private LocalDateTime deletedAt;
     }
 
-
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReadDTO {
+        private Long briefingId;
+        private Integer ranks;
+        private String title;
+        private String subtitle;
+        private LocalDate date;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReadDTOV2 {
         private Long briefingId;
         private Integer ranks;
         private String title;

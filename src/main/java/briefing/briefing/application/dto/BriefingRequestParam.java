@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BriefingRequestParam {
 
+    @Builder
     @Getter @Setter
     @NoArgsConstructor
     @AllArgsConstructor

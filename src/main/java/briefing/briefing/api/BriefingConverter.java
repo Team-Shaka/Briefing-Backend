@@ -14,13 +14,22 @@ import java.util.stream.Collectors;
 
 public class BriefingConverter {
 
+    public static BriefingResponseDTO.BriefingPreviewDTOV2 toBriefingPreviewDTOV2(Briefing briefing){
+        return BriefingResponseDTO.BriefingPreviewDTOV2.builder()
+                .id(briefing.getId())
+                .ranks(briefing.getRanks())
+                .title(briefing.getTitle())
+                .subtitle(briefing.getSubtitle())
+                .scrapCount(briefing.getScrapCount())
+                .build();
+    }
+
     public static BriefingResponseDTO.BriefingPreviewDTO toBriefingPreviewDTO(Briefing briefing){
         return BriefingResponseDTO.BriefingPreviewDTO.builder()
                 .id(briefing.getId())
                 .ranks(briefing.getRanks())
                 .title(briefing.getTitle())
                 .subtitle(briefing.getSubtitle())
-                .scrapCount(briefing.getScrapCount())
                 .build();
     }
 
@@ -32,6 +41,16 @@ public class BriefingConverter {
             return date.atTime(3,0);
         }
         return LocalDateTime.now();
+    }
+
+    public static BriefingResponseDTO.BriefingPreviewListDTOV2 toBriefingPreviewListDTOV2(final LocalDate date, List<Briefing> briefingList){
+        final List<BriefingResponseDTO.BriefingPreviewDTOV2> briefingPreviewDTOList = briefingList.stream()
+                .map(BriefingConverter::toBriefingPreviewDTOV2).toList();
+
+        return BriefingResponseDTO.BriefingPreviewListDTOV2.builder()
+                .createdAt(getPreviewListDTOCreatedAt(date, briefingList))
+                .briefings(briefingPreviewDTOList)
+                .build();
     }
 
     public static BriefingResponseDTO.BriefingPreviewListDTO toBriefingPreviewListDTO(final LocalDate date, List<Briefing> briefingList){
@@ -64,6 +83,30 @@ public class BriefingConverter {
                 .map(article -> toArticleResponseDTO(article.getArticle())).toList();
 
         return BriefingResponseDTO.BriefingDetailDTO.builder()
+                .id(briefing.getId())
+                .ranks(briefing.getRanks())
+                .title(briefing.getTitle())
+                .subtitle(briefing.getSubtitle())
+                .content(briefing.getContent())
+                .date(briefing.getCreatedAt().toLocalDate())
+                .articles(articleResponseDTOList)
+                .isScrap(isScrap)
+                .isBriefingOpen(isBriefingOpen)
+                .isWarning(isWarning)
+                .build();
+    }
+
+    public static BriefingResponseDTO.BriefingDetailDTOV2 toBriefingDetailDTOV2(
+            Briefing briefing,
+            Boolean isScrap,
+            Boolean isBriefingOpen,
+            Boolean isWarning
+    ){
+
+        List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList = briefing.getBriefingArticles().stream()
+                .map(article -> toArticleResponseDTO(article.getArticle())).toList();
+
+        return BriefingResponseDTO.BriefingDetailDTOV2.builder()
                 .id(briefing.getId())
                 .ranks(briefing.getRanks())
                 .title(briefing.getTitle())

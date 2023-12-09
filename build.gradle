@@ -24,6 +24,10 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // eureka client 설정
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
     // querydsl
     // == 스프링 부트 3.0 이상 ==
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
