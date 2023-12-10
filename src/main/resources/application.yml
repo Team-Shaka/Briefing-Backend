@@ -87,7 +87,7 @@ spring:
       ip-address: dev.newsbreifing.store
     client:
       service-url:
-        defaultZone: http://eureka.newsbreifing.store:8761/eureka
+        defaultZone: http://gateway.newsbreifing.store:8761/eureka
 jwt:
   header: Authorization
   # dev server
