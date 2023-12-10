@@ -56,6 +56,7 @@ public enum ErrorCode {
     // scrap 에러
     SCRAP_ALREADY_EXISTS(CONFLICT, "SCRAP_001", "이미 스크랩했습니다."),
     SCRAP_NOT_FOUND(NOT_FOUND, "SCRAP_002", "존재하지 않는 스크랩입니다."),
+    DUPLICATE_SCRAP(CONFLICT, "SCRAP_003", "중복된 스크랩 요청입니다."),
 
     // briefing 에러
     NOT_FOUND_BRIEFING(NOT_FOUND,"BRIEFING_001", "브리핑이 존재하지 않습니다."),

@@ -10,6 +10,9 @@ import lombok.*;
 @Getter @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "briefing_id"})
+})
 public class Scrap extends BaseDateTimeEntity {
 
     @Id
