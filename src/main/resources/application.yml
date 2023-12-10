@@ -64,6 +64,8 @@ openai:
 
 ---
 spring:
+  application:
+    name: dev
   config:
     activate:
       on-profile: dev
