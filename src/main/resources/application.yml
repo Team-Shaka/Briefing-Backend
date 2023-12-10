@@ -86,7 +86,7 @@ eureka:
         default_batch_fetch_size: 1000
   data:
     redis:
-      host: breifing-redis-cluster.bjyb5r.ng.0001.apne1.cache.amazonaws.com
+      host: ${REDIS_URL}
       port: 6379
 jwt:
   header: Authorization
