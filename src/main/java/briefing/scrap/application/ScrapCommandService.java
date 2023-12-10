@@ -13,6 +13,7 @@ import briefing.scrap.domain.Scrap;
 import briefing.scrap.domain.repository.ScrapRepository;
 import briefing.scrap.exception.ScrapException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,13 @@ public class ScrapCommandService {
         Scrap scrap = ScrapConverter.toScrap(member, briefing);
 
         // Scrap 엔티티 저장 및 반환
-        return scrapRepository.save(scrap);
+        try {
+            // Scrap 엔티티 저장 및 반환
+            return scrapRepository.save(scrap);
+        } catch (DataIntegrityViolationException e) {
+            // 중복 스크랩 예외 처리
+            throw new ScrapException(ErrorCode.DUPLICATE_SCRAP);
+        }
     }
 
     public Scrap delete(Long briefingId, Long memberId) {
