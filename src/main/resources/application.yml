@@ -88,6 +88,7 @@ spring:
     client:
       service-url:
         defaultZone: http://gateway.newsbreifing.store:8761/eureka
+
 jwt:
   header: Authorization
   # dev server
