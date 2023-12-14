@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest # (3).OS환경
     if: >
-      (github.event_name == 'push' && github.ref == 'refs/heads/release') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/release' && github.event.head_commit.message !~ /Merge pull request #\d+ from .+/) ||
       (github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'release')
 
 
