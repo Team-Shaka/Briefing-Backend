@@ -13,7 +13,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest # (3).OS환경
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/develop') || (github.event.pull_request && github.event.pull_request.merged == true)
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/develop') || (github.event.pull_request && github.event.pull_request.merged == true && github.base_ref == 'develop')
 
     steps:
       - name: Checkout
