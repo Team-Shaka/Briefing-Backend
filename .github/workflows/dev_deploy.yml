@@ -1,9 +1,6 @@
 name: Breifing Dev CI/CD
 
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     branches:
       - develop
@@ -14,9 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest # (3).OS환경
-    if: >
-      (github.event_name == 'push' && github.ref == 'refs/heads/develop' && github.event.head_commit.message !~ /Merge pull request #\d+ from .+/) ||
-      (github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop')
+    if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout
