@@ -39,6 +39,16 @@ spring:
     redis:
       host: localhost
       port: 6379
+eureka:
+  client:
+    service-url:
+      defaultZone: http://gateway.newsbreifing.store:8761/eureka
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: dev_briefing_server
+    hostname: dev.newsbreifing.store
+    ip-address: dev.newsbreifing.store
+
 jwt:
   header: Authorization
   # dev server
@@ -54,6 +64,8 @@ openai:
 
 ---
 spring:
+  application:
+    name: dev
   config:
     activate:
       on-profile: dev
@@ -79,15 +91,15 @@ spring:
     redis:
       host: ${REDIS_URL}
       port: 6379
-  eureka:
-    instance:
-      # 표기되는 규칙 변경
-      instance-id: dev_briefing_server
-      hostname: dev.newsbreifing.store
-      ip-address: dev.newsbreifing.store
-    client:
-      service-url:
-        defaultZone: http://gateway.newsbreifing.store:8761/eureka
+eureka:
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: dev_briefing_server
+    hostname: dev.newsbreifing.store
+    ip-address: dev.newsbreifing.store
+  client:
+    service-url:
+      defaultZone: http://gateway.newsbreifing.store:8761/eureka
 
 jwt:
   header: Authorization

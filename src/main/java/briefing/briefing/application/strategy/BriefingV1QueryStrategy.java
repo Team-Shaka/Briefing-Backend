@@ -2,6 +2,7 @@ package briefing.briefing.application.strategy;
 
 import briefing.briefing.application.dto.BriefingRequestParam;
 import briefing.briefing.domain.Briefing;
+import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.repository.BriefingRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +21,9 @@ public class BriefingV1QueryStrategy implements BriefingQueryStrategy {
         final LocalDateTime startDateTime = params.getDate().atStartOfDay();
         final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
 
-        return briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
-                params.getType(), startDateTime, endDateTime);
+        List<Briefing> briefingList = briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(params.getType(), startDateTime, endDateTime);
+        if(briefingList.isEmpty()) return briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
+        return briefingList;
     }
 
     @Override

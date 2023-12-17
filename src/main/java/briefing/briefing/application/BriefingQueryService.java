@@ -3,11 +3,7 @@ package briefing.briefing.application;
 import briefing.briefing.application.context.BriefingQueryContext;
 import briefing.briefing.application.context.BriefingQueryContextFactory;
 import briefing.briefing.application.dto.BriefingRequestParam;
-import briefing.briefing.application.strategy.BriefingV1QueryStrategy;
 import briefing.briefing.domain.Briefing;
-import briefing.briefing.domain.repository.BriefingRepository;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import briefing.common.enums.APIVersion;
