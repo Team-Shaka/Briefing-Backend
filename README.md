@@ -46,12 +46,16 @@
   <img src="https://img.shields.io/badge/Java-F5821A?style=square&logo=Java&logoColor=white">
   <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=square&logo=Spring Boot&logoColor=white">
   <img src="https://img.shields.io/badge/Spring Cloud-6DB33F?style=square&logo=Spring Cloud&logoColor=white">
-  <img src="https://img.shields.io/badge/JPA-6DB33F?style=square&logo=JPA&logoColor=white">
-  <img src="https://img.shields.io/badge/QueryDSL-6DB33F?style=square&logo=QueryDSL&logoColor=white">
-  <img src="https://img.shields.io/badge/Gradle-02303A?style=square&logo=Gradle&logoColor=white">
-  <img src="https://img.shields.io/badge/MySQL-4479A1.svg?style=square&logo=MySQL&logoColor=white">
-  <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=square&logo=Amazon AWS&logoColor=white">
+  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=square&logo=Spring Security&logoColor=white">
   <img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=square&logo=JSON Web Tokens&logoColor=white">
+  <img src="https://img.shields.io/badge/JPA-6DB33F?style=square&logo=JPA&logoColor=white">
+  <img src="https://img.shields.io/badge/QueryDSL-0081CC?style=square&logo=QueryDSL&logoColor=white">
+  <img src="https://img.shields.io/badge/Gradle-02303A?style=square&logo=Gradle&logoColor=white">
+</div>
+<div>
+  <img src="https://img.shields.io/badge/MySQL-4479A1.svg?style=square&logo=MySQL&logoColor=white">
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white">
+  <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=square&logo=Amazon AWS&logoColor=white">
 </div>
 
 
