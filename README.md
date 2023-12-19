@@ -14,6 +14,8 @@
 
 ![image](https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/3fc54a19-3944-4168-a18f-701536ebe128)
 
+<br/>
+
 ## 👨‍👩‍👧‍👦 팀 소개
 ### Project Manager
 | **진윤겸** |
@@ -40,6 +42,7 @@
 | :------: | :------: | :------: |
 | [<img src="https://avatars.githubusercontent.com/u/71651608?v=4" height=100 width=100> <br/> @hyeonjerry](https://github.com/hyeonjerry) | [<img src="https://avatars.githubusercontent.com/u/53550707?v=4" height=100 width=100> <br/> @swa07016](https://github.com/swa07016) | [<img src="https://avatars.githubusercontent.com/u/60510921?v=4" height=100 width=100> <br/> @CYY1007](https://github.com/CYY1007) |
 
+<br/>
 
 ## 👨‍💻 기술 스택
 <div>
@@ -58,7 +61,37 @@
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=square&logo=Amazon AWS&logoColor=white">
 </div>
 
+<br/>
 
 ## 📚 개발 과정
 
+<br/>
+
 ## 📁 프로젝트 아키텍쳐
+<table>
+  <tr>
+    <td width="50%"><b>API 운영 Server</b></td>
+    <td width="50%"><b>API 개발 Server</b></td>
+  </tr>
+  <tr>
+    <td width="50%" style="background-color: white;"><img src="https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/716bcfda-dfb4-4561-9fdf-a55f497dfc70"></td>
+    <td width="50%"><img src="https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/13865d2f-65d6-4a74-bb49-08bb858759ee"></td>
+  </tr>
+   <tr>
+    <td width="50%"><b>Crawler</b></td>
+    <td width="50%"><b>Cloud</b></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/95d02ae6-d7dd-4744-b120-b99ff13deea4"></td>
+    <td width="50%"><img src="https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/ee45fec0-1205-41e0-8cb5-267493985023"></td>
+  </tr>
+     <tr>
+    <td width="50%"><b>API Server CI/CD</b></td>
+    <td width="50%"><b>Cloud CI/CD</b></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/85812e51-6695-4a05-9559-e80bdaeae82e"></td>
+    <td width="50%"><img src="https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/a049597f-7476-4b62-a57b-463e3de39003"></td>
+  </tr>
+</table>
+
