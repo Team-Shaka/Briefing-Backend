@@ -7,17 +7,11 @@
 <br/>
 
 ## 📰 서비스 소개
-<a href="https://www.instagram.com/briefing_today" style="text-decoration: none;">
-  <img src="https://img.shields.io/badge/Instagram-E1306C?style=square&logo=Instagram&logoColor=white&link=https://www.instagram.com/briefing_today"/>
-</a>
+<a href="https://www.instagram.com/briefing_today" target="_blank"><img src="https://img.shields.io/badge/Instagram-E1306C?style=square&logo=Instagram&logoColor=white"/></a>
+<a href="https://apps.apple.com/kr/app/briefing/id6463561633" target="_blank"><img src="https://img.shields.io/badge/AppStore-1C9BF6?style=square&logo=AppStore&logoColor=white"/></a>
+<a href="https://play.google.com/store/apps/details?id=com.dev.briefing" target="_blank"><img src="https://img.shields.io/badge/GooglePlay-A2B339?style=square&logo=GooglePlay&logoColor=white"/></a>
 
-<a href="https://apps.apple.com/kr/app/briefing/id6463561633" style="text-decoration: none;">
-  <img src="https://img.shields.io/badge/AppStore-1C9BF6?style=square&logo=AppStore&logoColor=white&link=https://apps.apple.com/kr/app/briefing/id6463561633"/>
-</a>
 
-<a href="https://play.google.com/store/apps/details?id=com.dev.briefing" style="text-decoration: none;">
-  <img src="https://img.shields.io/badge/GooglePlay-A2B339?style=square&logo=GooglePlay&logoColor=white&link=https://play.google.com/store/apps/details?id=com.dev.briefing"/>
-</a>
 
 ![image](https://github.com/Team-Shaka/Briefing-Backend/assets/53550707/3fc54a19-3944-4168-a18f-701536ebe128)
 
