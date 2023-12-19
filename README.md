@@ -60,6 +60,19 @@
   <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white">
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=square&logo=Amazon AWS&logoColor=white">
 </div>
+<br/>
+
+<b>Spring Cloud</b>
+- write
+
+<b>QueryDSL</b>
+- 컴파일 시점 문법 검사와 개발 편의성을 위해 QueryDSL을 사용했습니다.
+
+<b>Redis</b>
+- Refresh Token 관리를 위해 Redis를 사용했습니다.
+
+<b>AWS</b>
+- write
 
 <br/>
 
