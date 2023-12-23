@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum BriefingType {
   KOREA("Korea"),
-  GLOBAL("Global");
+  GLOBAL("Global"),
+  SOCIAL("Social"),
+  SCIENCE("Science"),
+  ECONOMY("Economy");
 
   private final String value;
 

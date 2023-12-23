@@ -1,9 +1,6 @@
 package briefing.config;
 
-import briefing.converter.BriefingTypeRequestConverter;
-import briefing.converter.GptModelRequestConverter;
-import briefing.converter.MessageRoleRequestConverter;
-import briefing.converter.SocialTypeRequestConverter;
+import briefing.converter.*;
 import briefing.security.handler.annotation.AuthUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -29,11 +26,18 @@ public class GlobalWebConfig implements WebMvcConfigurer {
     registry.addConverter(new GptModelRequestConverter());
     registry.addConverter(new MessageRoleRequestConverter());
     registry.addConverter(new SocialTypeRequestConverter());
+    registry.addConverter(new TimeOfDayConverter());
+    registry.addConverter(new APIVersionRequestConverter());
   }
 
   @Override
   public void addCorsMappings(final CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins("http://localhost:3000", "https://briefing-web.vercel.app","https://dev.newsbreifing.store");
+            .allowedOrigins("*")
+            .allowedMethods("*")
+            .allowedHeaders("*")
+            .allowCredentials(false)
+            .maxAge(6000);
+
   }
 }

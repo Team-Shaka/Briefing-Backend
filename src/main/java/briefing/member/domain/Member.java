@@ -27,13 +27,16 @@ public class Member extends BaseDateTimeEntity {
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private MemberStatus status = MemberStatus.INACTIVE;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private MemberRole role = MemberRole.ROLE_USER;
 
     // cascade 설정
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Scrap> scrapList = new ArrayList<>();
 }

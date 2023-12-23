@@ -1,5 +1,7 @@
 # default profile
 spring:
+  application:
+    name: briefing-dev
   profiles:
     active: dev
 springdoc:
@@ -9,7 +11,6 @@ springdoc:
   cache:
     disabled: true
   use-fqn: true
-
 ---
 spring:
   config:
@@ -27,8 +28,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        #        show_sql: true
-        #        format_sql: true
+        show_sql: true
+        format_sql: true
         use_sql_comments: true
         hbm2ddl:
           auto: update
@@ -38,6 +39,16 @@ spring:
     redis:
       host: localhost
       port: 6379
+eureka:
+  client:
+    service-url:
+      defaultZone: http://gateway.newsbreifing.store:8761/eureka
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: dev_briefing_server
+    hostname: dev.newsbreifing.store
+    ip-address: dev.newsbreifing.store
+
 jwt:
   header: Authorization
   # dev server
@@ -53,6 +64,8 @@ openai:
 
 ---
 spring:
+  application:
+    name: dev
   config:
     activate:
       on-profile: dev
@@ -76,8 +89,18 @@ spring:
         default_batch_fetch_size: 1000
   data:
     redis:
-      host: breifing-redis-cluster.bjyb5r.ng.0001.apne1.cache.amazonaws.com
+      host: ${REDIS_URL}
       port: 6379
+eureka:
+  instance:
+    # 표기되는 규칙 변경
+    instance-id: dev_briefing_server
+    hostname: dev.newsbreifing.store
+    ip-address: dev.newsbreifing.store
+  client:
+    service-url:
+      defaultZone: http://gateway.newsbreifing.store:8761/eureka
+
 jwt:
   header: Authorization
   # dev server
@@ -91,7 +114,6 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
-
 ---
 spring:
   config:
@@ -117,7 +139,7 @@ spring:
         default_batch_fetch_size: 1000
   data:
     redis:
-      host: briefing-release-redis.0ot2cs.ng.0001.apn2.cache.amazonaws.com
+      host: ${release.redis.host}
       port: 6379
 jwt:
   header: Authorization
