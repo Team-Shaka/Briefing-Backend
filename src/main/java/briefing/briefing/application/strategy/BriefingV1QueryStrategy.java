@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,10 @@ public class BriefingV1QueryStrategy implements BriefingQueryStrategy {
         final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
 
         List<Briefing> briefingList = briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(params.getType(), startDateTime, endDateTime);
-        if(briefingList.isEmpty()) return briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
+        if(briefingList.isEmpty()) {
+            briefingList = briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
+            Collections.reverse(briefingList);
+        }
         return briefingList;
     }
 
