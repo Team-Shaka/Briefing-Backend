@@ -7,31 +7,33 @@ import briefing.briefing.domain.repository.BriefingRepository;
 import briefing.common.enums.APIVersion;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
 @Component
-@RequiredArgsConstructor
 public class BriefingQueryContextFactory {
 
-    private final BriefingRepository briefingRepository;
-    private static BriefingQueryContext staticBriefingQueryContextV1;
-    private static BriefingQueryContext staticBriefingQueryContextV2;
+    private final Map<APIVersion, BriefingQueryContext> contextMap;
 
-    @PostConstruct
-    private void init() {
-        staticBriefingQueryContextV1 = createContext(new BriefingV1QueryStrategy(briefingRepository));
-        staticBriefingQueryContextV2 = createContext(new BriefingV2QueryStrategy(briefingRepository));
+    @Autowired
+    public BriefingQueryContextFactory(List<BriefingQueryStrategy> strategies) {
+        contextMap = new EnumMap<>(APIVersion.class);
+        for (BriefingQueryStrategy strategy : strategies) {
+            APIVersion version = strategy.getVersion();
+            contextMap.put(version, new BriefingQueryContext(strategy));
+        }
     }
 
-    private static BriefingQueryContext createContext(BriefingQueryStrategy strategy) {
-        return new BriefingQueryContext(strategy);
-    }
-
-    public static BriefingQueryContext getContextByVersion(APIVersion version) {
-        return switch (version) {
-            case V1 -> staticBriefingQueryContextV1;
-            case V2 -> staticBriefingQueryContextV2;
-        };
+    public BriefingQueryContext getContextByVersion(APIVersion version) {
+        BriefingQueryContext context = contextMap.get(version);
+        if (context == null) {
+            throw new IllegalArgumentException("Invalid API version: " + version);
+        }
+        return context;
     }
 }
 

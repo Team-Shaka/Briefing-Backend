@@ -18,13 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BriefingQueryService {
 
+  private final BriefingQueryContextFactory briefingQueryContextFactory;
+
   public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params, APIVersion version) {
-    BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(version);
+    BriefingQueryContext briefingQueryContext = briefingQueryContextFactory.getContextByVersion(version);
     return briefingQueryContext.findBriefings(params);
   }
 
   public Briefing findBriefing(final Long id, final APIVersion version) {
-    BriefingQueryContext briefingQueryContext = BriefingQueryContextFactory.getContextByVersion(version);
+    BriefingQueryContext briefingQueryContext = briefingQueryContextFactory.getContextByVersion(version);
     return briefingQueryContext.findById(id)
         .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
   }

@@ -3,7 +3,9 @@ package briefing.briefing.application.strategy;
 import briefing.briefing.application.dto.BriefingRequestParam;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.repository.BriefingRepository;
+import briefing.common.enums.APIVersion;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 @RequiredArgsConstructor
 public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
 
@@ -34,5 +37,10 @@ public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
     @Override
     public Optional<Briefing> findById(Long id) {
         return briefingRepository.findByIdWithScrapCount(id);
+    }
+
+    @Override
+    public APIVersion getVersion() {
+        return APIVersion.V2;
     }
 }
