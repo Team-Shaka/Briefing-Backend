@@ -1,8 +1,9 @@
 package briefing.converter;
 
+import org.springframework.core.convert.converter.Converter;
+
 import briefing.briefing.domain.TimeOfDay;
 import lombok.NonNull;
-import org.springframework.core.convert.converter.Converter;
 
 public class TimeOfDayConverter implements Converter<String, TimeOfDay> {
     @Override

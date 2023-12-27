@@ -1,18 +1,14 @@
 package briefing.briefing.application.context;
 
-import briefing.briefing.application.strategy.BriefingQueryStrategy;
-import briefing.briefing.application.strategy.BriefingV1QueryStrategy;
-import briefing.briefing.application.strategy.BriefingV2QueryStrategy;
-import briefing.briefing.domain.repository.BriefingRepository;
-import briefing.common.enums.APIVersion;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import briefing.briefing.application.strategy.BriefingQueryStrategy;
+import briefing.common.enums.APIVersion;
 
 @Component
 public class BriefingQueryContextFactory {
@@ -36,4 +32,3 @@ public class BriefingQueryContextFactory {
         return context;
     }
 }
-

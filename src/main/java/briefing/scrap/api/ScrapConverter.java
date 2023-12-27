@@ -1,11 +1,11 @@
 package briefing.scrap.api;
 
+import java.time.LocalDateTime;
+
 import briefing.briefing.domain.Briefing;
 import briefing.member.domain.Member;
 import briefing.scrap.application.dto.ScrapResponse;
 import briefing.scrap.domain.Scrap;
-
-import java.time.LocalDateTime;
 
 public class ScrapConverter {
     public static ScrapResponse.CreateDTO toCreateDTO(Scrap createdScrap) {
@@ -18,10 +18,7 @@ public class ScrapConverter {
     }
 
     public static Scrap toScrap(Member member, Briefing briefing) {
-        return Scrap.builder()
-                .member(member)
-                .briefing(briefing)
-                .build();
+        return Scrap.builder().member(member).briefing(briefing).build();
     }
 
     public static ScrapResponse.DeleteDTO toDeleteDTO(Scrap deletedScrap) {

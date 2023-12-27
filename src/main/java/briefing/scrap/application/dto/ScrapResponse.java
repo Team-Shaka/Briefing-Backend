@@ -1,15 +1,14 @@
 package briefing.scrap.application.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import briefing.briefing.domain.TimeOfDay;
 import briefing.chatting.domain.GptModel;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ScrapResponse {
 
@@ -55,9 +54,7 @@ public class ScrapResponse {
         private String title;
         private String subtitle;
         private LocalDate date;
-        @Builder.Default
-        private GptModel gptModel = GptModel.GPT_3_5_TURBO;
-        @Builder.Default
-        private TimeOfDay timeOfDay = TimeOfDay.MORNING;
+        @Builder.Default private GptModel gptModel = GptModel.GPT_3_5_TURBO;
+        @Builder.Default private TimeOfDay timeOfDay = TimeOfDay.MORNING;
     }
 }

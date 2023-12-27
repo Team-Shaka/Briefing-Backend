@@ -1,10 +1,11 @@
 package briefing.scrap.domain.repository;
 
-import briefing.scrap.domain.Scrap;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import briefing.scrap.domain.Scrap;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 

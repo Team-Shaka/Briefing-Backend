@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public interface BaseExceptionType {
 
-  HttpStatus status();
+    HttpStatus status();
 
-  String message();
+    String message();
 }
