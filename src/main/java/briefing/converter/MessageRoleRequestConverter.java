@@ -7,8 +7,8 @@ import lombok.NonNull;
 
 public class MessageRoleRequestConverter implements Converter<String, MessageRole> {
 
-@Override
-public MessageRole convert(@NonNull final String role) {
-	return MessageRole.from(role);
-}
+    @Override
+    public MessageRole convert(@NonNull final String role) {
+        return MessageRole.from(role);
+    }
 }

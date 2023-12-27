@@ -4,9 +4,9 @@ import lombok.Getter;
 
 public class ScrapRequest {
 
-@Getter
-public static class CreateDTO {
-	private Long memberId;
-	private Long briefingId;
-}
+    @Getter
+    public static class CreateDTO {
+        private Long memberId;
+        private Long briefingId;
+    }
 }

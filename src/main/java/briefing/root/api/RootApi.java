@@ -14,9 +14,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RootApi {
 
-@Operation(summary = "01-01 Root\uD83C\uDF10 헬스 체크 #FRAME", description = "헬스 체크 API입니다.")
-@GetMapping("/")
-public String healthCheck() {
-	return "I'm healthy!!!!";
-}
+    @Operation(summary = "01-01 Root\uD83C\uDF10 헬스 체크 #FRAME", description = "헬스 체크 API입니다.")
+    @GetMapping("/")
+    public String healthCheck() {
+        return "I'm healthy!!!!";
+    }
 }

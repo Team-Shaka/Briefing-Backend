@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.2'
-    id 'com.diffplug.spotless' version '6.23.3'
+    id 'com.diffplug.spotless' version '6.23.3' // Spotless 플러그인
 }
 
 group = 'briefing.info'
@@ -88,7 +88,12 @@ jar {
 spotless {
     java {
         // Google Java 포맷 적용
-        googleJavaFormat()
+        /*
+            googleJavaFormat() : 탭은 2개의 공백
+            googleJavaFormat().aosp() : 탭은 4개의 공백
+            [참고] https://github.com/google/google-java-format/issues/525
+         */
+        googleJavaFormat().aosp()
         // 아래 순서로 import문 정렬
         importOrder('java', 'javax', 'jakarta', 'org', 'com')
         // 사용하지 않는 import 제거
@@ -97,7 +102,5 @@ spotless {
         trimTrailingWhitespace()
         // 파일 끝에 새로운 라인 추가
         endWithNewline()
-        // 공백 4개로 들여쓰기
-        indentWithTabs(4)
     }
 }

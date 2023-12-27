@@ -12,12 +12,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ApplePublicKeyList {
-private List<ApplePublicKey> keys;
+    private List<ApplePublicKey> keys;
 
-public ApplePublicKey getMatchesKey(String alg, String kid) {
-	return this.keys.stream()
-		.filter(k -> k.getAlg().equals(alg) && k.getKid().equals(kid))
-		.findFirst()
-		.orElseThrow(() -> new AppleOAuthException(ErrorCode.APPLE_BAD_REQUEST));
-}
+    public ApplePublicKey getMatchesKey(String alg, String kid) {
+        return this.keys.stream()
+                .filter(k -> k.getAlg().equals(alg) && k.getKid().equals(kid))
+                .findFirst()
+                .orElseThrow(() -> new AppleOAuthException(ErrorCode.APPLE_BAD_REQUEST));
+    }
 }

@@ -10,13 +10,13 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BriefingQueryContext {
-private final BriefingQueryStrategy briefingQueryStrategy;
+    private final BriefingQueryStrategy briefingQueryStrategy;
 
-public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
-	return this.briefingQueryStrategy.findBriefings(params);
-}
+    public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
+        return this.briefingQueryStrategy.findBriefings(params);
+    }
 
-public Optional<Briefing> findById(Long id) {
-	return this.briefingQueryStrategy.findById(id);
-}
+    public Optional<Briefing> findById(Long id) {
+        return this.briefingQueryStrategy.findById(id);
+    }
 }

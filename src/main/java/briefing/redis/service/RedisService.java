@@ -6,10 +6,10 @@ import briefing.redis.domain.RefreshToken;
 
 public interface RedisService {
 
-RefreshToken generateRefreshToken(String socialId, SocialType socialType);
+    RefreshToken generateRefreshToken(String socialId, SocialType socialType);
 
-// accessToken 만료 시 발급 혹은 그대로 반환
-RefreshToken reGenerateRefreshToken(MemberRequest.ReissueDTO request);
+    // accessToken 만료 시 발급 혹은 그대로 반환
+    RefreshToken reGenerateRefreshToken(MemberRequest.ReissueDTO request);
 
-void deleteRefreshToken(String refreshToken);
+    void deleteRefreshToken(String refreshToken);
 }

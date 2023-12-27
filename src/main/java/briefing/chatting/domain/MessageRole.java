@@ -13,21 +13,21 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MessageRole {
-SYSTEM("system"),
-ASSISTANT("assistant"),
-USER("user");
+    SYSTEM("system"),
+    ASSISTANT("assistant"),
+    USER("user");
 
-@JsonValue private final String value;
+    @JsonValue private final String value;
 
-@JsonCreator
-public static MessageRole from(final String role) {
-	return Arrays.stream(values())
-		.filter(value -> value.getValue().equals(role))
-		.findAny()
-		.orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_ROLE));
-}
+    @JsonCreator
+    public static MessageRole from(final String role) {
+        return Arrays.stream(values())
+                .filter(value -> value.getValue().equals(role))
+                .findAny()
+                .orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_ROLE));
+    }
 
-public boolean isNotUser() {
-	return !this.equals(USER);
-}
+    public boolean isNotUser() {
+        return !this.equals(USER);
+    }
 }

@@ -16,20 +16,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChattingQueryService {
 
-private final ChattingRepository chattingRepository;
+    private final ChattingRepository chattingRepository;
 
-public List<Chatting> findChattings(final List<Long> ids) {
-	final List<Chatting> chattings = chattingRepository.findAllById(ids);
+    public List<Chatting> findChattings(final List<Long> ids) {
+        final List<Chatting> chattings = chattingRepository.findAllById(ids);
 
-	return chattings;
-}
+        return chattings;
+    }
 
-public Chatting findChatting(final Long id) {
-	final Chatting chatting =
-		chattingRepository
-			.findById(id)
-			.orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_CHATTING));
+    public Chatting findChatting(final Long id) {
+        final Chatting chatting =
+                chattingRepository
+                        .findById(id)
+                        .orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_CHATTING));
 
-	return chatting;
-}
+        return chatting;
+    }
 }

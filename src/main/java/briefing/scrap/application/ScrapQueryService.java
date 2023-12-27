@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ScrapQueryService {
 
-private final ScrapRepository scrapRepository;
+    private final ScrapRepository scrapRepository;
 
-public List<Scrap> getScrapsByMemberId(Long memberId) {
-	return scrapRepository.findByMember_Id(memberId);
-}
+    public List<Scrap> getScrapsByMemberId(Long memberId) {
+        return scrapRepository.findByMember_Id(memberId);
+    }
 
-public Boolean existsByMemberIdAndBriefingId(Long memberId, Long briefingId) {
-	return scrapRepository.existsByMember_IdAndBriefing_Id(memberId, briefingId);
-}
+    public Boolean existsByMemberIdAndBriefingId(Long memberId, Long briefingId) {
+        return scrapRepository.existsByMember_IdAndBriefing_Id(memberId, briefingId);
+    }
 }

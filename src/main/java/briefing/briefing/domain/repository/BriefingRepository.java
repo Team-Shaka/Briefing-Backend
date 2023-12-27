@@ -11,8 +11,8 @@ import briefing.briefing.domain.BriefingType;
 
 @Repository
 public interface BriefingRepository
-	extends JpaRepository<Briefing, Long>, BriefingCustomRepository {
+        extends JpaRepository<Briefing, Long>, BriefingCustomRepository {
 
-List<Briefing> findAllByTypeAndCreatedAtBetweenOrderByRanks(
-	BriefingType type, LocalDateTime start, LocalDateTime end);
+    List<Briefing> findAllByTypeAndCreatedAtBetweenOrderByRanks(
+            BriefingType type, LocalDateTime start, LocalDateTime end);
 }

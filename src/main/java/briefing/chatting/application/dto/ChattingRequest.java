@@ -8,15 +8,15 @@ import lombok.Getter;
 
 public class ChattingRequest {
 
-@Getter
-public static class MessageRequestDTO {
-	MessageRole role;
-	String content;
-}
+    @Getter
+    public static class MessageRequestDTO {
+        MessageRole role;
+        String content;
+    }
 
-@Getter
-public static class AnswerRequestDTO {
-	GptModel model;
-	List<MessageRequestDTO> messages;
-}
+    @Getter
+    public static class AnswerRequestDTO {
+        GptModel model;
+        List<MessageRequestDTO> messages;
+    }
 }

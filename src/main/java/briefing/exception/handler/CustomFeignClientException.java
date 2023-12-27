@@ -5,7 +5,7 @@ import briefing.exception.GeneralException;
 
 public class CustomFeignClientException extends GeneralException {
 
-public CustomFeignClientException(ErrorCode errorCode) {
-	super(errorCode);
-}
+    public CustomFeignClientException(ErrorCode errorCode) {
+        super(errorCode);
+    }
 }

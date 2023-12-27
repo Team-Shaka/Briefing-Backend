@@ -16,31 +16,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GlobalWebConfig implements WebMvcConfigurer {
 
-private final AuthUserArgumentResolver authUserArgumentResolver;
+    private final AuthUserArgumentResolver authUserArgumentResolver;
 
-@Override
-public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
-	resolverList.add(authUserArgumentResolver);
-}
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
+        resolverList.add(authUserArgumentResolver);
+    }
 
-@Override
-public void addFormatters(final FormatterRegistry registry) {
-	registry.addConverter(new BriefingTypeRequestConverter());
-	registry.addConverter(new GptModelRequestConverter());
-	registry.addConverter(new MessageRoleRequestConverter());
-	registry.addConverter(new SocialTypeRequestConverter());
-	registry.addConverter(new TimeOfDayConverter());
-	registry.addConverter(new APIVersionRequestConverter());
-}
+    @Override
+    public void addFormatters(final FormatterRegistry registry) {
+        registry.addConverter(new BriefingTypeRequestConverter());
+        registry.addConverter(new GptModelRequestConverter());
+        registry.addConverter(new MessageRoleRequestConverter());
+        registry.addConverter(new SocialTypeRequestConverter());
+        registry.addConverter(new TimeOfDayConverter());
+        registry.addConverter(new APIVersionRequestConverter());
+    }
 
-@Override
-public void addCorsMappings(final CorsRegistry registry) {
-	registry
-		.addMapping("/**")
-		.allowedOrigins("*")
-		.allowedMethods("*")
-		.allowedHeaders("*")
-		.allowCredentials(false)
-		.maxAge(6000);
-}
+    @Override
+    public void addCorsMappings(final CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(false)
+                .maxAge(6000);
+    }
 }

@@ -10,39 +10,39 @@ import lombok.NoArgsConstructor;
 
 public class MemberResponse {
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class LoginDTO {
-	private Long memberId;
-	private String accessToken;
-	private String refreshToken;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginDTO {
+        private Long memberId;
+        private String accessToken;
+        private String refreshToken;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class ReIssueTokenDTO {
-	private Long memberId;
-	private String accessToken;
-	private String refreshToken;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReIssueTokenDTO {
+        private Long memberId;
+        private String accessToken;
+        private String refreshToken;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class ListReIssueTokenDTO {
-	List<ReIssueTokenDTO> ReIssueTokenList;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ListReIssueTokenDTO {
+        List<ReIssueTokenDTO> ReIssueTokenList;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class QuitDTO {
-	private LocalDateTime quitAt;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class QuitDTO {
+        private LocalDateTime quitAt;
+    }
 }

@@ -12,20 +12,20 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum APIVersion {
-V1("v1"),
-V2("v2");
+    V1("v1"),
+    V2("v2");
 
-private final String version;
+    private final String version;
 
-public static APIVersion findByValue(String type) {
-	return Arrays.stream(values())
-		.filter(value -> value.getVersion().equals(type))
-		.findAny()
-		.orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_TYPE));
-}
+    public static APIVersion findByValue(String type) {
+        return Arrays.stream(values())
+                .filter(value -> value.getVersion().equals(type))
+                .findAny()
+                .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_TYPE));
+    }
 
-@JsonValue
-String getAPIVersion() {
-	return this.getVersion();
-}
+    @JsonValue
+    String getAPIVersion() {
+        return this.getVersion();
+    }
 }

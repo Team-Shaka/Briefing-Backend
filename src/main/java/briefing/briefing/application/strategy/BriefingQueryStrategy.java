@@ -8,9 +8,9 @@ import briefing.briefing.domain.Briefing;
 import briefing.common.enums.APIVersion;
 
 public interface BriefingQueryStrategy {
-List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params);
+    List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params);
 
-Optional<Briefing> findById(Long id);
+    Optional<Briefing> findById(Long id);
 
-APIVersion getVersion();
+    APIVersion getVersion();
 }

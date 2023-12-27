@@ -17,9 +17,9 @@ import lombok.Getter;
 @Getter
 public abstract class BaseDateTimeEntity {
 
-@Column(updatable = false)
-@CreatedDate
-private LocalDateTime createdAt;
+    @Column(updatable = false)
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-@LastModifiedDate private LocalDateTime updatedAt;
+    @LastModifiedDate private LocalDateTime updatedAt;
 }

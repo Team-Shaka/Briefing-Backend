@@ -18,20 +18,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BriefingArticle extends BaseDateTimeEntity {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@ManyToOne(fetch = FetchType.LAZY)
-@JoinColumn(nullable = false)
-private Briefing briefing;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Briefing briefing;
 
-@ManyToOne(fetch = FetchType.LAZY)
-@JoinColumn(nullable = false)
-private Article article;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Article article;
 
-public BriefingArticle(final Briefing briefing, final Article article) {
-	this.briefing = briefing;
-	this.article = article;
-}
+    public BriefingArticle(final Briefing briefing, final Article article) {
+        this.briefing = briefing;
+        this.article = article;
+    }
 }

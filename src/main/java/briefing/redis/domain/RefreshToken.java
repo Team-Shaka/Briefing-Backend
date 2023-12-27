@@ -14,9 +14,9 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken {
 
-@Id private String token;
+    @Id private String token;
 
-private Long memberId;
+    private Long memberId;
 
-private LocalDateTime expireTime;
+    private LocalDateTime expireTime;
 }

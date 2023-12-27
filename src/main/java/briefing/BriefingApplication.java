@@ -13,7 +13,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @ImportAutoConfiguration({FeignAutoConfiguration.class})
 public class BriefingApplication {
 
-public static void main(final String[] args) {
-	SpringApplication.run(BriefingApplication.class, args);
-}
+    public static void main(final String[] args) {
+        SpringApplication.run(BriefingApplication.class, args);
+    }
 }

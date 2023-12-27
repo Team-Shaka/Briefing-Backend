@@ -8,10 +8,10 @@ import briefing.feign.oauth.google.config.GoogleOauth2FeignConfiguration;
 import briefing.feign.oauth.google.dto.GoogleUserInfo;
 
 @FeignClient(
-	name = "googleOauth2Client",
-	url = "https://www.googleapis.com/oauth2/v3",
-	configuration = GoogleOauth2FeignConfiguration.class)
+        name = "googleOauth2Client",
+        url = "https://www.googleapis.com/oauth2/v3",
+        configuration = GoogleOauth2FeignConfiguration.class)
 public interface GoogleOauth2Client {
-@GetMapping("/tokeninfo")
-GoogleUserInfo verifyToken(@RequestParam("id_token") String id_token);
+    @GetMapping("/tokeninfo")
+    GoogleUserInfo verifyToken(@RequestParam("id_token") String id_token);
 }

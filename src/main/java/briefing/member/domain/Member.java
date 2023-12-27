@@ -16,29 +16,29 @@ import lombok.*;
 @AllArgsConstructor
 public class Member extends BaseDateTimeEntity {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-private String profileImgUrl;
+    private String profileImgUrl;
 
-private String nickName;
+    private String nickName;
 
-private String socialId;
+    private String socialId;
 
-@Enumerated(EnumType.STRING)
-private SocialType socialType;
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
 
-@Builder.Default
-@Enumerated(EnumType.STRING)
-private MemberStatus status = MemberStatus.INACTIVE;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status = MemberStatus.INACTIVE;
 
-@Builder.Default
-@Enumerated(EnumType.STRING)
-private MemberRole role = MemberRole.ROLE_USER;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private MemberRole role = MemberRole.ROLE_USER;
 
-// cascade 설정
-@Builder.Default
-@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-private List<Scrap> scrapList = new ArrayList<>();
+    // cascade 설정
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Scrap> scrapList = new ArrayList<>();
 }

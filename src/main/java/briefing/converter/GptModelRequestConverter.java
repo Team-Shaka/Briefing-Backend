@@ -7,8 +7,8 @@ import lombok.NonNull;
 
 public class GptModelRequestConverter implements Converter<String, GptModel> {
 
-@Override
-public GptModel convert(@NonNull final String model) {
-	return GptModel.from(model);
-}
+    @Override
+    public GptModel convert(@NonNull final String model) {
+        return GptModel.from(model);
+    }
 }

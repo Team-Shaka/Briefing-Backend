@@ -15,26 +15,26 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberQueryService {
-private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-public Member findById(Long memberId) {
-	return memberRepository
-		.findById(memberId)
-		.orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
-}
+    public Member findById(Long memberId) {
+        return memberRepository
+                .findById(memberId)
+                .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
+    }
 
-@Transactional
-public Member testForTokenApi() {
-	return memberRepository
-		.findFirstByOrderByCreatedAt()
-		.orElseGet(
-			() ->
-				memberRepository.save(
-					Member.builder()
-						.nickName(",,,!,1")
-						.socialId("1234567")
-						.socialType(SocialType.GOOGLE)
-						.role(MemberRole.ROLE_USER)
-						.build()));
-}
+    @Transactional
+    public Member testForTokenApi() {
+        return memberRepository
+                .findFirstByOrderByCreatedAt()
+                .orElseGet(
+                        () ->
+                                memberRepository.save(
+                                        Member.builder()
+                                                .nickName(",,,!,1")
+                                                .socialId("1234567")
+                                                .socialType(SocialType.GOOGLE)
+                                                .role(MemberRole.ROLE_USER)
+                                                .build()));
+    }
 }

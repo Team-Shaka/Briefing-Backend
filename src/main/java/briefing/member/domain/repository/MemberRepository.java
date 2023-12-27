@@ -8,7 +8,7 @@ import briefing.member.domain.Member;
 import briefing.member.domain.SocialType;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-Optional<Member> findBySocialIdAndSocialType(String socialId, SocialType socialType);
+    Optional<Member> findBySocialIdAndSocialType(String socialId, SocialType socialType);
 
-Optional<Member> findFirstByOrderByCreatedAt();
+    Optional<Member> findFirstByOrderByCreatedAt();
 }

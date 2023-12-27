@@ -7,8 +7,8 @@ import lombok.NonNull;
 
 public class APIVersionRequestConverter implements Converter<String, APIVersion> {
 
-@Override
-public APIVersion convert(@NonNull final String source) {
-	return APIVersion.findByValue(source);
-}
+    @Override
+    public APIVersion convert(@NonNull final String source) {
+        return APIVersion.findByValue(source);
+    }
 }

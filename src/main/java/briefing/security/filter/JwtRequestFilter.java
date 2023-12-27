@@ -19,23 +19,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
-private final TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
-@Override
-protected void doFilterInternal(
-	HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-	throws ServletException, IOException {
-	HttpServletRequest httpServletRequest = request;
-	String jwt = tokenProvider.resolveToken(httpServletRequest);
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        HttpServletRequest httpServletRequest = request;
+        String jwt = tokenProvider.resolveToken(httpServletRequest);
 
-	if (StringUtils.hasText(jwt)
-		&& tokenProvider.validateToken(jwt, TokenProvider.TokenType.ACCESS)) {
+        if (StringUtils.hasText(jwt)
+                && tokenProvider.validateToken(jwt, TokenProvider.TokenType.ACCESS)) {
 
-	Authentication authentication = tokenProvider.getAuthentication(jwt);
-	SecurityContextHolder.getContext().setAuthentication(authentication);
-	} else {
-	SecurityContextHolder.getContext().setAuthentication(null);
-	}
-	filterChain.doFilter(httpServletRequest, response);
-}
+            Authentication authentication = tokenProvider.getAuthentication(jwt);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
+        filterChain.doFilter(httpServletRequest, response);
+    }
 }

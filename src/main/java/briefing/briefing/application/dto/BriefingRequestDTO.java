@@ -11,29 +11,29 @@ import lombok.Getter;
 
 public class BriefingRequestDTO {
 
-@Getter
-public static class ArticleCreateDTO {
-	String press;
-	String title;
-	String url;
-}
+    @Getter
+    public static class ArticleCreateDTO {
+        String press;
+        String title;
+        String url;
+    }
 
-@Getter
-public static class BriefingCreate {
-	@JsonProperty("id")
-	Integer ranks;
+    @Getter
+    public static class BriefingCreate {
+        @JsonProperty("id")
+        Integer ranks;
 
-	@JsonProperty("keyword")
-	String title;
+        @JsonProperty("keyword")
+        String title;
 
-	String subtitle;
+        String subtitle;
 
-	@JsonProperty("context")
-	String content;
+        @JsonProperty("context")
+        String content;
 
-	List<ArticleCreateDTO> articles;
-	GptModel gptModel = GptModel.GPT_4;
-	TimeOfDay timeOfDay = TimeOfDay.MORNING;
-	BriefingType briefingType = BriefingType.KOREA;
-}
+        List<ArticleCreateDTO> articles;
+        GptModel gptModel = GptModel.GPT_4;
+        TimeOfDay timeOfDay = TimeOfDay.MORNING;
+        BriefingType briefingType = BriefingType.KOREA;
+    }
 }

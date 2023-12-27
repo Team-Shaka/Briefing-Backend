@@ -16,37 +16,35 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CheckSameMemberValidator implements ConstraintValidator<CheckSameMember, Long> {
 
-@Override
-public void initialize(CheckSameMember constraintAnnotation) {
-	ConstraintValidator.super.initialize(constraintAnnotation);
-}
+    @Override
+    public void initialize(CheckSameMember constraintAnnotation) {
+        ConstraintValidator.super.initialize(constraintAnnotation);
+    }
 
-@Override
-public boolean isValid(Long value, ConstraintValidatorContext context) {
-	Object principal = null;
-	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @Override
+    public boolean isValid(Long value, ConstraintValidatorContext context) {
+        Object principal = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-	if (authentication != null) {
-	principal = authentication.getPrincipal();
-	}
-	if (principal == null || principal.getClass() == String.class) {
-	context.disableDefaultConstraintViolation();
-	context
-		.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_FOUND.toString())
-		.addConstraintViolation();
-	return false;
-	}
+        if (authentication != null) {
+            principal = authentication.getPrincipal();
+        }
+        if (principal == null || principal.getClass() == String.class) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_FOUND.toString())
+                    .addConstraintViolation();
+            return false;
+        }
 
-	UsernamePasswordAuthenticationToken authenticationToken =
-		(UsernamePasswordAuthenticationToken) authentication;
-	// 로그인 한 사용자가 어드민인지 나중에 추가
-	if (!value.equals(Long.valueOf(authenticationToken.getName()))) {
-	context.disableDefaultConstraintViolation();
-	context
-		.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_SAME.toString())
-		.addConstraintViolation();
-	return false;
-	}
-	return true;
-}
+        UsernamePasswordAuthenticationToken authenticationToken =
+                (UsernamePasswordAuthenticationToken) authentication;
+        // 로그인 한 사용자가 어드민인지 나중에 추가
+        if (!value.equals(Long.valueOf(authenticationToken.getName()))) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_SAME.toString())
+                    .addConstraintViolation();
+            return false;
+        }
+        return true;
+    }
 }

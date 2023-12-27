@@ -19,30 +19,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BriefingV1QueryStrategy implements BriefingQueryStrategy {
 
-private final BriefingRepository briefingRepository;
+    private final BriefingRepository briefingRepository;
 
-@Override
-public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
-	final LocalDateTime startDateTime = params.getDate().atStartOfDay();
-	final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
+    @Override
+    public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
+        final LocalDateTime startDateTime = params.getDate().atStartOfDay();
+        final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
 
-	List<Briefing> briefingList =
-		briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
-			params.getType(), startDateTime, endDateTime);
-	if (briefingList.isEmpty()) {
-	briefingList = briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
-	Collections.reverse(briefingList);
-	}
-	return briefingList;
-}
+        List<Briefing> briefingList =
+                briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
+                        params.getType(), startDateTime, endDateTime);
+        if (briefingList.isEmpty()) {
+            briefingList =
+                    briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
+            Collections.reverse(briefingList);
+        }
+        return briefingList;
+    }
 
-@Override
-public Optional<Briefing> findById(Long id) {
-	return briefingRepository.findById(id);
-}
+    @Override
+    public Optional<Briefing> findById(Long id) {
+        return briefingRepository.findById(id);
+    }
 
-@Override
-public APIVersion getVersion() {
-	return APIVersion.V1;
-}
+    @Override
+    public APIVersion getVersion() {
+        return APIVersion.V1;
+    }
 }

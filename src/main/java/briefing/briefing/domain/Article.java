@@ -16,22 +16,22 @@ import lombok.*;
 @AllArgsConstructor
 public class Article extends BaseDateTimeEntity {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@Column(nullable = false)
-private String press;
+    @Column(nullable = false)
+    private String press;
 
-@Column(nullable = false)
-private String title;
+    @Column(nullable = false)
+    private String title;
 
-@Column(nullable = false, length = 1024)
-private String url;
+    @Column(nullable = false, length = 1024)
+    private String url;
 
-//  public Article(final String press, final String title, final String url) {
-//    this.press = press;
-//    this.title = title;
-//    this.url = url;
-//  }
+    //  public Article(final String press, final String title, final String url) {
+    //    this.press = press;
+    //    this.title = title;
+    //    this.url = url;
+    //  }
 }

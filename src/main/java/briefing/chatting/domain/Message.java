@@ -27,27 +27,27 @@ import lombok.*;
 @AllArgsConstructor
 public class Message {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@ManyToOne(fetch = FetchType.LAZY)
-@JoinColumn(nullable = false)
-private Chatting chatting;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Chatting chatting;
 
-@Enumerated(EnumType.STRING)
-private MessageRole role;
+    @Enumerated(EnumType.STRING)
+    private MessageRole role;
 
-@Column(nullable = false, length = 1024)
-private String content;
+    @Column(nullable = false, length = 1024)
+    private String content;
 
-@CreatedDate
-@Column(updatable = false)
-private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
-public Message(final Chatting chatting, final MessageRole role, final String content) {
-	this.chatting = chatting;
-	this.role = role;
-	this.content = content;
-}
+    public Message(final Chatting chatting, final MessageRole role, final String content) {
+        this.chatting = chatting;
+        this.role = role;
+        this.content = content;
+    }
 }

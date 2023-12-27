@@ -9,34 +9,34 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ApplePublicKey {
 
-@Override
-public String toString() {
-	return "ApplePublicKeyDTO{"
-		+ "kty='"
-		+ kty
-		+ '\''
-		+ ", kid='"
-		+ kid
-		+ '\''
-		+ ", use='"
-		+ use
-		+ '\''
-		+ ", alg='"
-		+ alg
-		+ '\''
-		+ ", n='"
-		+ n
-		+ '\''
-		+ ", e='"
-		+ e
-		+ '\''
-		+ '}';
-}
+    @Override
+    public String toString() {
+        return "ApplePublicKeyDTO{"
+                + "kty='"
+                + kty
+                + '\''
+                + ", kid='"
+                + kid
+                + '\''
+                + ", use='"
+                + use
+                + '\''
+                + ", alg='"
+                + alg
+                + '\''
+                + ", n='"
+                + n
+                + '\''
+                + ", e='"
+                + e
+                + '\''
+                + '}';
+    }
 
-private String kty;
-private String kid;
-private String use;
-private String alg;
-private String n;
-private String e;
+    private String kty;
+    private String kid;
+    private String use;
+    private String alg;
+    private String n;
+    private String e;
 }

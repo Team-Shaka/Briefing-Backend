@@ -23,33 +23,38 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChattingApi {
 
-private final ChattingQueryService chattingQueryService;
-private final ChattingCommandService chattingCommandService;
+    private final ChattingQueryService chattingQueryService;
+    private final ChattingCommandService chattingCommandService;
 
-@GetMapping
-public CommonResponse<ChattingResponse.ChattingListResponseDTO> findChattings(
-	@RequestParam final List<Long> ids) {
-	return CommonResponse.onSuccess(
-		ChattingConverter.toChattingListResponseDTO(chattingQueryService.findChattings(ids)));
-}
+    @GetMapping
+    public CommonResponse<ChattingResponse.ChattingListResponseDTO> findChattings(
+            @RequestParam final List<Long> ids) {
+        return CommonResponse.onSuccess(
+                ChattingConverter.toChattingListResponseDTO(
+                        chattingQueryService.findChattings(ids)));
+    }
 
-@GetMapping("/{id}")
-public CommonResponse<ChattingResponse.ChattingDetailResponseDTO> findChatting(
-	@PathVariable final Long id) {
-	return CommonResponse.onSuccess(
-		ChattingConverter.toChattingDetailResponseDTO(chattingQueryService.findChatting(id)));
-}
+    @GetMapping("/{id}")
+    public CommonResponse<ChattingResponse.ChattingDetailResponseDTO> findChatting(
+            @PathVariable final Long id) {
+        return CommonResponse.onSuccess(
+                ChattingConverter.toChattingDetailResponseDTO(
+                        chattingQueryService.findChatting(id)));
+    }
 
-@PostMapping
-public CommonResponse<ChattingResponse.ChattingCreateResponseDTO> createChatting() {
-	return CommonResponse.onSuccess(
-		ChattingConverter.toChattingCreateResponseDTO(chattingCommandService.createChatting()));
-}
+    @PostMapping
+    public CommonResponse<ChattingResponse.ChattingCreateResponseDTO> createChatting() {
+        return CommonResponse.onSuccess(
+                ChattingConverter.toChattingCreateResponseDTO(
+                        chattingCommandService.createChatting()));
+    }
 
-@PostMapping("/{id}")
-public CommonResponse<ChattingResponse.AnswerResponseDTO> requestAnswer(
-	@PathVariable final Long id, @RequestBody final ChattingRequest.AnswerRequestDTO request) {
-	return CommonResponse.onSuccess(
-		ChattingConverter.toAnswerResponseDTO(chattingCommandService.requestAnswer(id, request)));
-}
+    @PostMapping("/{id}")
+    public CommonResponse<ChattingResponse.AnswerResponseDTO> requestAnswer(
+            @PathVariable final Long id,
+            @RequestBody final ChattingRequest.AnswerRequestDTO request) {
+        return CommonResponse.onSuccess(
+                ChattingConverter.toAnswerResponseDTO(
+                        chattingCommandService.requestAnswer(id, request)));
+    }
 }

@@ -20,20 +20,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BriefingCommandService {
 
-private final BriefingRepository briefingRepository;
-private final ArticleRepository articleRepository;
-private final BriefingArticleRepository briefingArticleRepository;
+    private final BriefingRepository briefingRepository;
+    private final ArticleRepository articleRepository;
+    private final BriefingArticleRepository briefingArticleRepository;
 
-public void createBriefing(final BriefingRequestDTO.BriefingCreate request) {
-	final Briefing briefing = BriefingConverter.toBriefing(request);
-	final List<Article> articles =
-		request.getArticles().stream().map(BriefingConverter::toArticle).toList();
+    public void createBriefing(final BriefingRequestDTO.BriefingCreate request) {
+        final Briefing briefing = BriefingConverter.toBriefing(request);
+        final List<Article> articles =
+                request.getArticles().stream().map(BriefingConverter::toArticle).toList();
 
-	briefingRepository.save(briefing);
-	articleRepository.saveAll(articles);
+        briefingRepository.save(briefing);
+        articleRepository.saveAll(articles);
 
-	final List<BriefingArticle> briefingArticles =
-		articles.stream().map(article -> new BriefingArticle(briefing, article)).toList();
-	briefingArticleRepository.saveAll(briefingArticles);
-}
+        final List<BriefingArticle> briefingArticles =
+                articles.stream().map(article -> new BriefingArticle(briefing, article)).toList();
+        briefingArticleRepository.saveAll(briefingArticles);
+    }
 }

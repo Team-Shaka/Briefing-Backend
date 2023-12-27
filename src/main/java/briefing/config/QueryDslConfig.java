@@ -13,10 +13,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class QueryDslConfig {
 
-private final EntityManager em;
+    private final EntityManager em;
 
-@Bean
-public JPAQueryFactory jpaQueryFactory() {
-	return new JPAQueryFactory(em);
-}
+    @Bean
+    public JPAQueryFactory jpaQueryFactory() {
+        return new JPAQueryFactory(em);
+    }
 }

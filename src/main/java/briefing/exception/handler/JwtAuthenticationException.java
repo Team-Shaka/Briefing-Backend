@@ -6,7 +6,7 @@ import briefing.exception.ErrorCode;
 
 public class JwtAuthenticationException extends AuthenticationException {
 
-public JwtAuthenticationException(ErrorCode code) {
-	super(code.name());
-}
+    public JwtAuthenticationException(ErrorCode code) {
+        super(code.name());
+    }
 }

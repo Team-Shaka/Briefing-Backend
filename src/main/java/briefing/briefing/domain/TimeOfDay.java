@@ -12,20 +12,20 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum TimeOfDay {
-MORNING("Morning"),
-EVENING("Evening");
+    MORNING("Morning"),
+    EVENING("Evening");
 
-private final String description;
+    private final String description;
 
-public static TimeOfDay findByValue(String type) {
-	return Arrays.stream(values())
-		.filter(value -> value.getDescription().equals(type))
-		.findAny()
-		.orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_TYPE));
-}
+    public static TimeOfDay findByValue(String type) {
+        return Arrays.stream(values())
+                .filter(value -> value.getDescription().equals(type))
+                .findAny()
+                .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_TYPE));
+    }
 
-@JsonValue
-String getTimeOfDay() {
-	return this.getDescription();
-}
+    @JsonValue
+    String getTimeOfDay() {
+        return this.getDescription();
+    }
 }

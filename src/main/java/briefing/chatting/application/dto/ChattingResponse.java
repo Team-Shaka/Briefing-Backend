@@ -11,62 +11,62 @@ import lombok.NoArgsConstructor;
 
 public class ChattingResponse {
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class AnswerResponseDTO {
-	Long id;
-	MessageRole role;
-	String content;
-	LocalDateTime createdAt;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AnswerResponseDTO {
+        Long id;
+        MessageRole role;
+        String content;
+        LocalDateTime createdAt;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class MessageResponseDTO {
-	Long id;
-	MessageRole role;
-	String content;
-	LocalDateTime createdAt;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MessageResponseDTO {
+        Long id;
+        MessageRole role;
+        String content;
+        LocalDateTime createdAt;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class ChattingDetailResponseDTO {
-	Long id;
-	String title;
-	List<MessageResponseDTO> messages;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChattingDetailResponseDTO {
+        Long id;
+        String title;
+        List<MessageResponseDTO> messages;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class ChattingResponseDTO {
-	Long id;
-	String title;
-	LocalDateTime createdAt;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChattingResponseDTO {
+        Long id;
+        String title;
+        LocalDateTime createdAt;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class ChattingListResponseDTO {
-	List<ChattingResponseDTO> chattings;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChattingListResponseDTO {
+        List<ChattingResponseDTO> chattings;
+    }
 
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public static class ChattingCreateResponseDTO {
-	Long id;
-	LocalDateTime createdAt;
-}
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChattingCreateResponseDTO {
+        Long id;
+        LocalDateTime createdAt;
+    }
 }
