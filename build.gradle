@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.2'
-//    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+    id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'briefing.info'
@@ -72,6 +72,32 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+
+/*
+    compileJava 태스크가 실행되기 전에 spotlessApply 태스크가 먼저 실행되도록 구성
+    개발자가 별도로 코드 포맷팅을 신경 쓸 필요 없이, 코드가 항상 일관된 스타일을 유지하도록 설정
+ */
+tasks.named('compileJava') {
+    dependsOn 'spotlessApply'
+}
+
 jar {
     enabled = false
+}
+
+spotless {
+    java {
+        // Google Java 포맷 적용
+        googleJavaFormat()
+        // 아래 순서로 import문 정렬
+        importOrder('java', 'javax', 'jakarta', 'org', 'com')
+        // 사용하지 않는 import 제거
+        removeUnusedImports()
+        // 각 라인 끝에 있는 공백을 제거
+        trimTrailingWhitespace()
+        // 파일 끝에 새로운 라인 추가
+        endWithNewline()
+        // 공백 4개로 들여쓰기
+        indentWithTabs(4)
+    }
 }

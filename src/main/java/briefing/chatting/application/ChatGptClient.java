@@ -1,13 +1,7 @@
 package briefing.chatting.application;
 
-import briefing.chatting.application.ChatGptClient.GptAnswerResponse.Choice.ChoiceMessage;
-import briefing.chatting.application.dto.ChattingRequest;
-import briefing.chatting.domain.Chatting;
-import briefing.chatting.domain.GptModel;
-import briefing.chatting.domain.Message;
-import briefing.chatting.domain.MessageRole;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,76 +10,77 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import briefing.chatting.application.ChatGptClient.GptAnswerResponse.Choice.ChoiceMessage;
+import briefing.chatting.application.dto.ChattingRequest;
+import briefing.chatting.domain.Chatting;
+import briefing.chatting.domain.GptModel;
+import briefing.chatting.domain.Message;
+import briefing.chatting.domain.MessageRole;
+import lombok.RequiredArgsConstructor;
+
 @Component
 @RequiredArgsConstructor
 public class ChatGptClient {
 
-  private static final float TEMPERATURE = 1;
+private static final float TEMPERATURE = 1;
 
-  private final RestTemplate restTemplate;
+private final RestTemplate restTemplate;
 
-  @Value("${openai.url.chat}")
-  private String chatUrl;
-  @Value("${openai.token}")
-  private String token;
+@Value("${openai.url.chat}")
+private String chatUrl;
 
-  public Message requestAnswer(final Chatting chatting, final ChattingRequest.AnswerRequestDTO request) {
-    final HttpEntity<GptAnswerRequest> requestEntity = generateRequestEntity(request);
+@Value("${openai.token}")
+private String token;
 
-    final GptAnswerResponse response = restTemplate.exchange(chatUrl, HttpMethod.POST,
-            requestEntity, GptAnswerResponse.class)
-        .getBody();
+public Message requestAnswer(
+	final Chatting chatting, final ChattingRequest.AnswerRequestDTO request) {
+	final HttpEntity<GptAnswerRequest> requestEntity = generateRequestEntity(request);
 
-    return new Message(chatting, response.getRole(), response.getContent());
-  }
+	final GptAnswerResponse response =
+		restTemplate
+			.exchange(chatUrl, HttpMethod.POST, requestEntity, GptAnswerResponse.class)
+			.getBody();
 
-  private HttpEntity<GptAnswerRequest> generateRequestEntity(final ChattingRequest.AnswerRequestDTO request) {
-    final HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.setBearerAuth(token);
+	return new Message(chatting, response.getRole(), response.getContent());
+}
 
-    final GptAnswerRequest requestBody = GptAnswerRequest.from(request, TEMPERATURE);
+private HttpEntity<GptAnswerRequest> generateRequestEntity(
+	final ChattingRequest.AnswerRequestDTO request) {
+	final HttpHeaders headers = new HttpHeaders();
+	headers.setContentType(MediaType.APPLICATION_JSON);
+	headers.setBearerAuth(token);
 
-    return new HttpEntity<>(requestBody, headers);
-  }
+	final GptAnswerRequest requestBody = GptAnswerRequest.from(request, TEMPERATURE);
 
-  record GptAnswerRequest(GptModel model, float temperature, List<ChattingRequest.MessageRequestDTO> messages) {
+	return new HttpEntity<>(requestBody, headers);
+}
 
-    public static GptAnswerRequest from(final ChattingRequest.AnswerRequestDTO request, final float temperature) {
-      return new GptAnswerRequest(
-          request.getModel(),
-          temperature,
-          request.getMessages()
-      );
-    }
-  }
+record GptAnswerRequest(
+	GptModel model, float temperature, List<ChattingRequest.MessageRequestDTO> messages) {
 
-  record GptAnswerResponse(
-      List<Choice> choices
-  ) {
+	public static GptAnswerRequest from(
+		final ChattingRequest.AnswerRequestDTO request, final float temperature) {
+	return new GptAnswerRequest(request.getModel(), temperature, request.getMessages());
+	}
+}
 
-    public MessageRole getRole() {
-      return getAnswer().role();
-    }
+record GptAnswerResponse(List<Choice> choices) {
 
-    public String getContent() {
-      return getAnswer().content();
-    }
+	public MessageRole getRole() {
+	return getAnswer().role();
+	}
 
-    private ChoiceMessage getAnswer() {
-      return choices.get(0).message();
-    }
+	public String getContent() {
+	return getAnswer().content();
+	}
 
-    record Choice(
-        ChoiceMessage message
-    ) {
+	private ChoiceMessage getAnswer() {
+	return choices.get(0).message();
+	}
 
-      record ChoiceMessage(
-          MessageRole role,
-          String content
-      ) {
+	record Choice(ChoiceMessage message) {
 
-      }
-    }
-  }
+	record ChoiceMessage(MessageRole role, String content) {}
+	}
+}
 }
