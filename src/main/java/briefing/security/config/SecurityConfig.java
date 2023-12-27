@@ -80,11 +80,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // 비활성화
                 .sessionManagement(
                         manage ->
-                                manage.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session 사용 안함
+                                manage.sessionCreationPolicy(
+                                        SessionCreationPolicy.STATELESS)) // Session 사용 안함
                 .formLogin(AbstractHttpConfigurer::disable) // form login 사용 안함
                 .authorizeHttpRequests(
                         authorize -> {
-                            authorize.requestMatchers("/v2/briefings/**").permitAll(); // 모두 접근 가능합니다.
+                            authorize
+                                    .requestMatchers("/v2/briefings/**")
+                                    .permitAll(); // 모두 접근 가능합니다.
                             authorize.requestMatchers("/briefings/**").permitAll(); // 모두 접근 가능합니다.
                             authorize.requestMatchers("/v2/members/auth/**").permitAll();
                             authorize.requestMatchers("/members/auth/**").permitAll();
@@ -92,7 +95,9 @@ public class SecurityConfig {
                             authorize
                                     .requestMatchers(HttpMethod.DELETE, "/v2/members/{memberId}")
                                     .authenticated();
-                            authorize.requestMatchers(HttpMethod.DELETE, "/members/{memberId}").authenticated();
+                            authorize
+                                    .requestMatchers(HttpMethod.DELETE, "/members/{memberId}")
+                                    .authenticated();
                             authorize.requestMatchers("/v2/scraps/**").authenticated();
                             authorize.requestMatchers("/scraps/**").authenticated();
                             authorize.anyRequest().authenticated();
@@ -103,7 +108,8 @@ public class SecurityConfig {
                                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                                         .accessDeniedHandler(jwtAccessDeniedHandler))
                 .addFilterBefore(
-                        new JwtRequestFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                        new JwtRequestFilter(tokenProvider),
+                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationExceptionHandler, JwtRequestFilter.class)
                 .build();
     }

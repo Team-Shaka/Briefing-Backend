@@ -1,5 +1,7 @@
 package briefing.chatting.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -11,11 +13,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDateTime;
 
-import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import lombok.*;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -25,23 +27,27 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 public class Message {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(nullable = false)
-  private Chatting chatting;
-  @Enumerated(EnumType.STRING)
-  private MessageRole role;
-  @Column(nullable = false, length = 1024)
-  private String content;
-  @CreatedDate
-  @Column(updatable = false)
-  private LocalDateTime createdAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  public Message(final Chatting chatting, final MessageRole role, final String content) {
-    this.chatting = chatting;
-    this.role = role;
-    this.content = content;
-  }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Chatting chatting;
+
+    @Enumerated(EnumType.STRING)
+    private MessageRole role;
+
+    @Column(nullable = false, length = 1024)
+    private String content;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    public Message(final Chatting chatting, final MessageRole role, final String content) {
+        this.chatting = chatting;
+        this.role = role;
+        this.content = content;
+    }
 }

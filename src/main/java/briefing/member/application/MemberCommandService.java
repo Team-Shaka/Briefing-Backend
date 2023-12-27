@@ -1,5 +1,20 @@
 package briefing.member.application;
 
+import java.math.BigInteger;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.RSAPublicKeySpec;
+import java.util.Base64;
+import java.util.Optional;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.AppleOAuthException;
 import briefing.exception.handler.MemberException;
@@ -11,29 +26,12 @@ import briefing.feign.oauth.google.dto.GoogleUserInfo;
 import briefing.member.api.MemberConverter;
 import briefing.member.application.dto.MemberRequest;
 import briefing.member.domain.Member;
-import briefing.member.domain.MemberRole;
-import briefing.member.domain.MemberStatus;
 import briefing.member.domain.SocialType;
 import briefing.member.domain.repository.MemberRepository;
 import briefing.redis.domain.RefreshToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigInteger;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.spec.RSAPublicKeySpec;
-import java.util.Base64;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -47,7 +45,6 @@ public class MemberCommandService {
 
     Logger logger = LoggerFactory.getLogger(MemberCommandService.class);
 
-
     public Member login(SocialType socialType, MemberRequest.LoginDTO request) {
         return switch (socialType) {
             case GOOGLE -> loginWithGoogle(request);
@@ -59,8 +56,10 @@ public class MemberCommandService {
         // 구글에서 사용자 정보 조회
         GoogleUserInfo googleUserInfo = googleOauth2Client.verifyToken(request.getIdentityToken());
 
-        Member member = memberRepository.findBySocialIdAndSocialType(googleUserInfo.getSub(), SocialType.GOOGLE)
-                .orElseGet(() -> MemberConverter.toMember(googleUserInfo));
+        Member member =
+                memberRepository
+                        .findBySocialIdAndSocialType(googleUserInfo.getSub(), SocialType.GOOGLE)
+                        .orElseGet(() -> MemberConverter.toMember(googleUserInfo));
 
         return memberRepository.save(member);
     }
@@ -86,8 +85,9 @@ public class MemberCommandService {
             Object kid = headerJson.get("kid");
             Object alg = headerJson.get("alg");
 
-            applePublicKey = applePublicKeys.getMatchesKey(String.valueOf(alg), String.valueOf(kid));
-        }catch (ParseException e){
+            applePublicKey =
+                    applePublicKeys.getMatchesKey(String.valueOf(alg), String.valueOf(kid));
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -95,16 +95,24 @@ public class MemberCommandService {
         System.out.println(applePublicKey.toString());
         PublicKey publicKey = this.getPublicKey(applePublicKey);
 
-        Claims userInfo = Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(request.getIdentityToken()).getBody();
+        Claims userInfo =
+                Jwts.parserBuilder()
+                        .setSigningKey(publicKey)
+                        .build()
+                        .parseClaimsJws(request.getIdentityToken())
+                        .getBody();
 
         System.out.println("파싱된 유저의 정보");
         System.out.println(userInfo);
 
         String appleSocialId = userInfo.get("sub", String.class);
 
-        Optional<Member> foundMember = memberRepository.findBySocialIdAndSocialType(appleSocialId, SocialType.APPLE);
+        Optional<Member> foundMember =
+                memberRepository.findBySocialIdAndSocialType(appleSocialId, SocialType.APPLE);
 
-        return foundMember.isEmpty() ? memberRepository.save(MemberConverter.toMember(appleSocialId)) : foundMember.get();
+        return foundMember.isEmpty()
+                ? memberRepository.save(MemberConverter.toMember(appleSocialId))
+                : foundMember.get();
     }
 
     private PublicKey getPublicKey(ApplePublicKey applePublicKeyDTO) {
@@ -130,11 +138,13 @@ public class MemberCommandService {
         }
     }
 
-    public Member parseRefreshToken(RefreshToken refreshToken){
-        return memberRepository.findById(refreshToken.getMemberId()).orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
+    public Member parseRefreshToken(RefreshToken refreshToken) {
+        return memberRepository
+                .findById(refreshToken.getMemberId())
+                .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
-    public void deleteMember(Long memberId){
+    public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
     }
 }

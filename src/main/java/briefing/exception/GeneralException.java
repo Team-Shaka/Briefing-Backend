@@ -3,7 +3,7 @@ package briefing.exception;
 import lombok.Getter;
 
 @Getter
-public class GeneralException extends RuntimeException{
+public class GeneralException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public GeneralException() {

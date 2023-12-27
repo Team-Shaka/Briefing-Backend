@@ -1,10 +1,11 @@
 package briefing.member.domain.repository;
 
-import briefing.member.domain.Member;
-import briefing.member.domain.SocialType;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import briefing.member.domain.Member;
+import briefing.member.domain.SocialType;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findBySocialIdAndSocialType(String socialId, SocialType socialType);

@@ -1,10 +1,14 @@
 package briefing.security.provider;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.handler.JwtAuthenticationException;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 import jakarta.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,12 +21,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
+import briefing.exception.ErrorCode;
+import briefing.exception.handler.JwtAuthenticationException;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class TokenProvider implements InitializingBean {
@@ -37,21 +39,24 @@ public class TokenProvider implements InitializingBean {
 
     private final long accessTokenValidityInMilliseconds;
 
-//    private final RefreshTokenRepository refreshTokenRepository;
+    //    private final RefreshTokenRepository refreshTokenRepository;
 
     private Key key;
 
-    public enum TokenType{
-        ACCESS, REFRESH;
+    public enum TokenType {
+        ACCESS,
+        REFRESH;
     }
 
-    public TokenProvider(@Value("${jwt.secret}") String secret,
-                         @Value("${jwt.authorities-key}") String authoritiesKey,
-                         @Value("${jwt.access-token-validity-in-seconds}") long accessTokenValidityInMilliseconds){
+    public TokenProvider(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.authorities-key}") String authoritiesKey,
+            @Value("${jwt.access-token-validity-in-seconds}")
+                    long accessTokenValidityInMilliseconds) {
         this.secret = secret;
         this.AUTHORITIES_KEY = authoritiesKey;
         this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds;
-//        this.refreshTokenRepository = refreshTokenRepository;
+        //        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -61,7 +66,11 @@ public class TokenProvider implements InitializingBean {
     }
 
     // 수정 해야함
-    public String createAccessToken(Long userId, String socialType, String socialId, Collection<? extends GrantedAuthority> authorities){
+    public String createAccessToken(
+            Long userId,
+            String socialType,
+            String socialId,
+            Collection<? extends GrantedAuthority> authorities) {
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.accessTokenValidityInMilliseconds);
 
@@ -75,7 +84,8 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-    public String createAccessToken(Long userId,String phoneNum, Collection<? extends GrantedAuthority> authorities){
+    public String createAccessToken(
+            Long userId, String phoneNum, Collection<? extends GrantedAuthority> authorities) {
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.accessTokenValidityInMilliseconds);
 
@@ -88,12 +98,9 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
-    public Authentication getAuthentication(String token){
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    public Authentication getAuthentication(String token) {
+        Claims claims =
+                Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
@@ -104,40 +111,41 @@ public class TokenProvider implements InitializingBean {
     }
 
     public boolean validateToken(String token, TokenType type) throws JwtAuthenticationException {
-        try{
+        try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        }catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             throw new JwtAuthenticationException(ErrorCode.INVALID_TOKEN_EXCEPTION);
-        }catch (ExpiredJwtException e){
-            if (type == TokenType.ACCESS) throw new JwtAuthenticationException(ErrorCode.EXPIRED_JWT_EXCEPTION);
+        } catch (ExpiredJwtException e) {
+            if (type == TokenType.ACCESS)
+                throw new JwtAuthenticationException(ErrorCode.EXPIRED_JWT_EXCEPTION);
             else throw new JwtAuthenticationException(ErrorCode.RELOGIN_EXCEPTION);
-        }catch (UnsupportedJwtException e){
+        } catch (UnsupportedJwtException e) {
             throw new JwtAuthenticationException(ErrorCode.INVALID_TOKEN_EXCEPTION);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new JwtAuthenticationException(ErrorCode.INVALID_TOKEN_EXCEPTION);
         }
     }
 
-//    public Long validateAndReturnId(String token) throws JwtAuthenticationException{
-//        try{
-//            Claims body = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-//            return Long.valueOf(body.getSubject());
-//        }catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
-//            throw new JwtAuthenticationException(Er.JWT_BAD_REQUEST);
-//        }catch (UnsupportedJwtException e){
-//            throw new JwtAuthenticationException(Code.JWT_UNSUPPORTED_TOKEN);
-//        }catch (IllegalArgumentException e){
-//            throw new JwtAuthenticationException(Code.JWT_BAD_REQUEST);
-//        }
-//    }
+    //    public Long validateAndReturnId(String token) throws JwtAuthenticationException{
+    //        try{
+    //            Claims body =
+    // Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    //            return Long.valueOf(body.getSubject());
+    //        }catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
+    //            throw new JwtAuthenticationException(Er.JWT_BAD_REQUEST);
+    //        }catch (UnsupportedJwtException e){
+    //            throw new JwtAuthenticationException(Code.JWT_UNSUPPORTED_TOKEN);
+    //        }catch (IllegalArgumentException e){
+    //            throw new JwtAuthenticationException(Code.JWT_BAD_REQUEST);
+    //        }
+    //    }
 
-    public String resolveToken(HttpServletRequest request){
+    public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
         return null;
     }
-
 }

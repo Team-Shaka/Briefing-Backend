@@ -1,24 +1,20 @@
 package briefing.validation.validator;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.handler.MemberException;
-import briefing.member.application.MemberQueryService;
-import briefing.member.domain.Member;
-import briefing.validation.annotation.CheckSameMember;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.RecursiveTask;
+import briefing.exception.ErrorCode;
+import briefing.validation.annotation.CheckSameMember;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class CheckSameMemberValidator implements ConstraintValidator<CheckSameMember, Long>{
-
+public class CheckSameMemberValidator implements ConstraintValidator<CheckSameMember, Long> {
 
     @Override
     public void initialize(CheckSameMember constraintAnnotation) {
@@ -35,15 +31,18 @@ public class CheckSameMemberValidator implements ConstraintValidator<CheckSameMe
         }
         if (principal == null || principal.getClass() == String.class) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_FOUND.toString()).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_FOUND.toString())
+                    .addConstraintViolation();
             return false;
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
+        UsernamePasswordAuthenticationToken authenticationToken =
+                (UsernamePasswordAuthenticationToken) authentication;
         // 로그인 한 사용자가 어드민인지 나중에 추가
-        if(!value.equals(Long.valueOf(authenticationToken.getName()))){
+        if (!value.equals(Long.valueOf(authenticationToken.getName()))) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_SAME.toString()).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorCode.MEMBER_NOT_SAME.toString())
+                    .addConstraintViolation();
             return false;
         }
         return true;
