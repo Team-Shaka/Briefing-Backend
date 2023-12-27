@@ -23,7 +23,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-
     private final MemberQueryService memberQueryService;
     private final TokenProvider tokenProvider;
 

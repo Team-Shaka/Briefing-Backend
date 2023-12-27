@@ -62,15 +62,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
-                "",
-                "/",
-                "/schedule",
-                "/swagger-ui.html",
-                "/v3/api-docs",
-                "/v3/api-docs/**",
-                "/swagger-ui/index.html",
-                "/swagger-ui/**",
-                "/docs/**","/briefings/temp");
+                "");
     }
 
     @Bean
@@ -80,19 +72,7 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable) // 비활성화
                 .sessionManagement(manage -> manage.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session 사용 안함
-                .formLogin(AbstractHttpConfigurer::disable)     // form login 사용 안함
-                .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/v2/briefings/**").permitAll();  // 모두 접근 가능합니다.
-                    authorize.requestMatchers("/briefings/**").permitAll();  // 모두 접근 가능합니다.
-                    authorize.requestMatchers("/v2/members/auth/**").permitAll();
-                    authorize.requestMatchers("/members/auth/**").permitAll();
-                    authorize.requestMatchers("/chattings/**").permitAll();
-                    authorize.requestMatchers(HttpMethod.DELETE, "/v2/members/{memberId}").authenticated();
-                    authorize.requestMatchers(HttpMethod.DELETE, "/members/{memberId}").authenticated();
-                    authorize.requestMatchers("/v2/scraps/**").authenticated();
-                    authorize.requestMatchers("/scraps/**").authenticated();
-                    authorize.anyRequest().authenticated();
-                })
+                .formLogin(Customizer.withDefaults())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler)

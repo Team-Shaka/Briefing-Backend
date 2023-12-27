@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ApiErrorResult {
+public class    ApiErrorResult {
 
     private Boolean isSuccess;
     private String code;
