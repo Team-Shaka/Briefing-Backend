@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,15 +22,17 @@ public class BriefingV2QueryStrategy implements BriefingQueryStrategy{
 
     @Override
     public List<Briefing> findBriefings(BriefingRequestParam.BriefingPreviewListParam params) {
+        List<Briefing> briefingList;
         if(params.isPresentDate()) {
             final LocalDateTime startDateTime = params.getDate().atStartOfDay();
             final LocalDateTime endDateTime = params.getDate().atTime(LocalTime.MAX);
 
-            return briefingRepository.findBriefingsWithScrapCount(
+            briefingList = briefingRepository.findBriefingsWithScrapCount(
                     params.getType(), startDateTime, endDateTime, params.getTimeOfDay());
+            if(!briefingList.isEmpty()) return briefingList;
         }
 
-        List<Briefing> briefingList = briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(params.getType());
+        briefingList = briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(params.getType());
         Collections.reverse(briefingList);
         return briefingList;
     }
