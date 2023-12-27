@@ -77,6 +77,8 @@
 <br/>
 
 ## 📚 개발 과정
+- [[Briefing] API 버전 관리 & 전략 패턴](https://velog.io/@cekim/briefing-api-versioning)
+
 
 <br/>
 
