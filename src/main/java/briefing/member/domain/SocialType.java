@@ -1,13 +1,13 @@
 package briefing.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public enum SocialType {
-
     GOOGLE("google", "구글"),
     APPLE("apple", "애플");
 
@@ -22,6 +22,7 @@ public enum SocialType {
         }
         throw new IllegalArgumentException("Invalid SocialType value: " + value);
     }
+
     @JsonValue
     String getSocialType() {
         return this.name().toLowerCase();

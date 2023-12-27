@@ -1,25 +1,23 @@
 package briefing.member.api;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.handler.MemberException;
+import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Component;
+
 import briefing.feign.oauth.google.dto.GoogleUserInfo;
 import briefing.member.application.dto.MemberResponse;
 import briefing.member.domain.Member;
 import briefing.member.domain.MemberRole;
 import briefing.member.domain.MemberStatus;
 import briefing.member.domain.SocialType;
-import briefing.member.domain.repository.MemberRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
 public class MemberConverter {
 
-    public static MemberResponse.LoginDTO toLoginDTO(Member member, String accessToken, String refreshToken) {
+    public static MemberResponse.LoginDTO toLoginDTO(
+            Member member, String accessToken, String refreshToken) {
         return MemberResponse.LoginDTO.builder()
                 .memberId(member.getId())
                 .accessToken(accessToken)
@@ -40,8 +38,8 @@ public class MemberConverter {
 
     public static Member toMember(String appleSocialId) {
         return Member.builder()
-//                .profileImgUrl(googleUserInfo.getPicture())
-//                .nickName(googleUserInfo.getName())
+                //                .profileImgUrl(googleUserInfo.getPicture())
+                //                .nickName(googleUserInfo.getName())
                 .socialId(appleSocialId)
                 .socialType(SocialType.APPLE)
                 .role(MemberRole.ROLE_USER)
@@ -49,7 +47,8 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(Long memberId,String accessToken, String refreshToken){
+    public static MemberResponse.ReIssueTokenDTO toReIssueTokenDTO(
+            Long memberId, String accessToken, String refreshToken) {
         return MemberResponse.ReIssueTokenDTO.builder()
                 .memberId(memberId)
                 .accessToken(accessToken)
@@ -57,9 +56,7 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResponse.QuitDTO toQuitDTO(){
-        return MemberResponse.QuitDTO.builder()
-                .quitAt(LocalDateTime.now())
-                .build();
+    public static MemberResponse.QuitDTO toQuitDTO() {
+        return MemberResponse.QuitDTO.builder().quitAt(LocalDateTime.now()).build();
     }
 }

@@ -1,15 +1,17 @@
 package briefing.member.domain;
 
-import briefing.base.BaseDateTimeEntity;
-import briefing.scrap.domain.Scrap;
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+import briefing.base.BaseDateTimeEntity;
+import briefing.scrap.domain.Scrap;
+import lombok.*;
+
 @Entity
-@Getter @Builder
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Member extends BaseDateTimeEntity {

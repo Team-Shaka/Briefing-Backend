@@ -1,10 +1,11 @@
 package briefing.redis.domain;
 
-import lombok.*;
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
 @RedisHash(value = "refreshToken_Breifing", timeToLive = 1800000)
 @Builder
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken {
 
-    @Id
-    private String token;
+    @Id private String token;
 
     private Long memberId;
 
