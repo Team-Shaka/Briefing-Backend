@@ -2,6 +2,7 @@ package briefing.scrap.api;
 
 import java.util.List;
 
+import briefing.common.enums.APIVersion;
 import org.springframework.web.bind.annotation.*;
 
 import briefing.common.response.CommonResponse;
@@ -25,7 +26,7 @@ public class ScrapApi {
     @PostMapping("/scraps/briefings")
     public CommonResponse<ScrapResponse.CreateDTO> create(
             @RequestBody ScrapRequest.CreateDTO request) {
-        Scrap createdScrap = scrapCommandService.create(request);
+        Scrap createdScrap = scrapCommandService.create(request, APIVersion.V1);
         return CommonResponse.onSuccess(ScrapConverter.toCreateDTO(createdScrap));
     }
 
@@ -33,7 +34,7 @@ public class ScrapApi {
     @DeleteMapping("/scraps/briefings/{briefingId}/members/{memberId}")
     public CommonResponse<ScrapResponse.DeleteDTO> delete(
             @PathVariable Long briefingId, @PathVariable Long memberId) {
-        Scrap deletedScrap = scrapCommandService.delete(briefingId, memberId);
+        Scrap deletedScrap = scrapCommandService.delete(briefingId, memberId, APIVersion.V1);
         return CommonResponse.onSuccess(ScrapConverter.toDeleteDTO(deletedScrap));
     }
 

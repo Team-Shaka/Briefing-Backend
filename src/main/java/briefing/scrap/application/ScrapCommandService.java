@@ -1,5 +1,6 @@
 package briefing.scrap.application;
 
+import briefing.common.enums.APIVersion;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class ScrapCommandService {
     private final MemberRepository memberRepository;
     private final BriefingRepository briefingRepository;
 
-    public Scrap create(ScrapRequest.CreateDTO request) {
+    public Scrap create(ScrapRequest.CreateDTO request, APIVersion version) {
         // 이미 스크랩한경우
         if (scrapRepository.existsByMember_IdAndBriefing_Id(
                 request.getMemberId(), request.getBriefingId()))
@@ -55,7 +56,7 @@ public class ScrapCommandService {
         }
     }
 
-    public Scrap delete(Long briefingId, Long memberId) {
+    public Scrap delete(Long briefingId, Long memberId, APIVersion version) {
         Scrap scrap =
                 scrapRepository
                         .findByBriefing_IdAndMember_Id(briefingId, memberId)
