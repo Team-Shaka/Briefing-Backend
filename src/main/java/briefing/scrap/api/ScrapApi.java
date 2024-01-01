@@ -2,9 +2,9 @@ package briefing.scrap.api;
 
 import java.util.List;
 
-import briefing.common.enums.APIVersion;
 import org.springframework.web.bind.annotation.*;
 
+import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
 import briefing.scrap.application.ScrapCommandService;
 import briefing.scrap.application.ScrapQueryService;

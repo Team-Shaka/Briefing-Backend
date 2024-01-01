@@ -1,13 +1,14 @@
 package briefing.scrap.application.context;
 
-import briefing.common.enums.APIVersion;
-import briefing.scrap.application.strategy.ScrapCommandStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import briefing.common.enums.APIVersion;
+import briefing.scrap.application.strategy.ScrapCommandStrategy;
 
 @Component
 public class ScrapCommandContextFactory {
