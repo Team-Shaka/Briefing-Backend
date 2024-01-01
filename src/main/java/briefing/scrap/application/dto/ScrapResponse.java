@@ -27,8 +27,32 @@ public class ScrapResponse {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class CreateDTOV2 {
+        private Long scrapId;
+        private Long memberId;
+        private Long briefingId;
+        private Boolean isScrap;
+        private Integer scrapCount;
+        private LocalDateTime createdAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class DeleteDTO {
         private Long scrapId;
+        private LocalDateTime deletedAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DeleteDTOV2 {
+        private Long scrapId;
+        private Boolean isScrap;
+        private Integer scrapCount;
         private LocalDateTime deletedAt;
     }
 
