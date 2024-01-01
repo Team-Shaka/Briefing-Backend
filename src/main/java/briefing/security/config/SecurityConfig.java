@@ -4,18 +4,28 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.Collections;
 
+import briefing.security.handler.SwaggerLoginSuccessHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.NullRoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -46,6 +56,14 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST = {};
 
+    private final SwaggerLoginSuccessHandler swaggerLoginSuccessHandler = new SwaggerLoginSuccessHandler();
+
+    @Value("${swagger.login.id}")
+    private String swaggerId;
+
+    @Value("${swagger.login.password}")
+    private String swaggerPass;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -64,17 +82,35 @@ public class SecurityConfig {
                                 "",
                                 "/",
                                 "/schedule",
-                                "/swagger-ui.html",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
-                                "/swagger-ui/index.html",
-                                "/swagger-ui/**",
                                 "/docs/**",
                                 "/briefings/temp");
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
+        return http.securityMatcher("/swagger-ui/**", "/login")
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
+                .httpBasic(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable) // 비활성화
+                .sessionManagement(
+                        manage ->
+                                manage.sessionCreationPolicy(
+                                        SessionCreationPolicy.IF_REQUIRED)
+                                        )
+                .formLogin(authorize->authorize
+                        .successHandler(swaggerLoginSuccessHandler)
+                        .defaultSuccessUrl("/swagger-ui/index.html")
+                        .permitAll())
+                .authorizeHttpRequests(authorize-> authorize.requestMatchers("/swagger-ui/index.html").authenticated()
+                        .anyRequest().permitAll())
+                .build();
+    }
+
+    @Bean
+    public SecurityFilterChain JwtFilterChain(HttpSecurity http) throws Exception {
         return http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfiguration()))
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable) // 비활성화
@@ -82,7 +118,7 @@ public class SecurityConfig {
                         manage ->
                                 manage.sessionCreationPolicy(
                                         SessionCreationPolicy.STATELESS)) // Session 사용 안함
-                .formLogin(AbstractHttpConfigurer::disable) // form login 사용 안함
+                .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorize -> {
                             authorize
@@ -112,6 +148,17 @@ public class SecurityConfig {
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationExceptionHandler, JwtRequestFilter.class)
                 .build();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails userDetails = User.builder()
+                .username(swaggerId)
+                .password(passwordEncoder().encode(swaggerPass))
+                .roles("USER", "ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(userDetails);
     }
 
     public CorsConfigurationSource corsConfiguration() {
