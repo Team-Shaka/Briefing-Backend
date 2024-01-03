@@ -23,4 +23,8 @@ public class ScrapQueryService {
     public Boolean existsByMemberIdAndBriefingId(Long memberId, Long briefingId) {
         return scrapRepository.existsByMember_IdAndBriefing_Id(memberId, briefingId);
     }
+
+    public Integer countByBriefingId(Long briefingId) {
+        return scrapRepository.countByBriefing_Id(briefingId);
+    }
 }

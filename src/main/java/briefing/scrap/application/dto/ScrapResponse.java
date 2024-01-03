@@ -5,11 +5,9 @@ import java.time.LocalDateTime;
 
 import briefing.briefing.domain.TimeOfDay;
 import briefing.chatting.domain.GptModel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ScrapResponse {
 
     @Builder

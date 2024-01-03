@@ -4,7 +4,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.Collections;
 
-import briefing.security.handler.SwaggerLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,18 +11,15 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.NullRoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -34,6 +30,7 @@ import briefing.security.filter.JwtRequestFilter;
 import briefing.security.handler.JwtAccessDeniedHandler;
 import briefing.security.handler.JwtAuthenticationEntryPoint;
 import briefing.security.handler.JwtAuthenticationExceptionHandler;
+import briefing.security.handler.SwaggerLoginSuccessHandler;
 import briefing.security.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +53,8 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST = {};
 
-    private final SwaggerLoginSuccessHandler swaggerLoginSuccessHandler = new SwaggerLoginSuccessHandler();
+    private final SwaggerLoginSuccessHandler swaggerLoginSuccessHandler =
+            new SwaggerLoginSuccessHandler();
 
     @Value("${swagger.login.id}")
     private String swaggerId;
@@ -96,16 +94,20 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable) // 비활성화
                 .sessionManagement(
-                        manage ->
-                                manage.sessionCreationPolicy(
-                                        SessionCreationPolicy.IF_REQUIRED)
-                                        )
-                .formLogin(authorize->authorize
-                        .successHandler(swaggerLoginSuccessHandler)
-                        .defaultSuccessUrl("/swagger-ui/index.html")
-                        .permitAll())
-                .authorizeHttpRequests(authorize-> authorize.requestMatchers("/swagger-ui/index.html").authenticated()
-                        .anyRequest().permitAll())
+                        manage -> manage.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .formLogin(
+                        authorize ->
+                                authorize
+                                        .successHandler(swaggerLoginSuccessHandler)
+                                        .defaultSuccessUrl("/swagger-ui/index.html")
+                                        .permitAll())
+                .authorizeHttpRequests(
+                        authorize ->
+                                authorize
+                                        .requestMatchers("/swagger-ui/index.html")
+                                        .authenticated()
+                                        .anyRequest()
+                                        .permitAll())
                 .build();
     }
 
@@ -152,11 +154,12 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.builder()
-                .username(swaggerId)
-                .password(passwordEncoder().encode(swaggerPass))
-                .roles("USER", "ADMIN")
-                .build();
+        UserDetails userDetails =
+                User.builder()
+                        .username(swaggerId)
+                        .password(passwordEncoder().encode(swaggerPass))
+                        .roles("USER", "ADMIN")
+                        .build();
 
         return new InMemoryUserDetailsManager(userDetails);
     }

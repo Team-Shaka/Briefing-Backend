@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import briefing.briefing.domain.Briefing;
 import briefing.member.domain.Member;
 import briefing.scrap.application.dto.ScrapResponse;
-import briefing.scrap.application.dto.ScrapV2;
 import briefing.scrap.domain.Scrap;
 
 public class ScrapConverter {
@@ -18,13 +17,13 @@ public class ScrapConverter {
                 .build();
     }
 
-    public static ScrapResponse.CreateDTOV2 toCreateDTOV2(ScrapV2 createdScrap) {
+    public static ScrapResponse.CreateDTOV2 toCreateDTOV2(Scrap createdScrap, Integer scrapCount) {
         return ScrapResponse.CreateDTOV2.builder()
                 .scrapId(createdScrap.getId())
                 .memberId(createdScrap.getMember().getId())
                 .briefingId(createdScrap.getBriefing().getId())
-                .scrapCount(createdScrap.getScrapCount())
-                .isScrap(createdScrap.getIsScrap())
+                .scrapCount(scrapCount)
+                .isScrap(Boolean.TRUE)
                 .createdAt(createdScrap.getCreatedAt())
                 .build();
     }
@@ -40,11 +39,11 @@ public class ScrapConverter {
                 .build();
     }
 
-    public static ScrapResponse.DeleteDTOV2 toDeleteDTOV2(ScrapV2 deletedScrap) {
+    public static ScrapResponse.DeleteDTOV2 toDeleteDTOV2(Scrap deletedScrap, Integer scrapCount) {
         return ScrapResponse.DeleteDTOV2.builder()
                 .scrapId(deletedScrap.getId())
-                .isScrap(deletedScrap.getIsScrap())
-                .scrapCount(deletedScrap.getScrapCount())
+                .isScrap(Boolean.FALSE)
+                .scrapCount(scrapCount)
                 .deletedAt(LocalDateTime.now())
                 .build();
     }
