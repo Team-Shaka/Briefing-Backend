@@ -63,7 +63,8 @@
 <br/>
 
 <b>Spring Cloud</b>
-- write
+- Node.js 크롤러 서버가 하나의 Base Url만을 이용하여 개발 서버와 릴리즈 서버 모두에게 요청을 보낼 수 있도록 해서 편의성을 늘렸습니다.
+- 개발 편의성을 Feign 클라이언트를 사용해 외부 API를 호출 했습니다.
 
 <b>QueryDSL</b>
 - 컴파일 시점 문법 검사와 개발 편의성을 위해 QueryDSL을 사용했습니다.
@@ -79,6 +80,7 @@
 ## 📚 개발 과정
 - [[Briefing] API 버전 관리 & 전략 패턴](https://poisson-it.tistory.com/75)
 - [[Briefing] Spotless로 코드 포맷 유지하기](https://poisson-it.tistory.com/77)
+- [[Briefing] Spring Security - Swagger 로그인 적용하기](https://ddol-dev-blog.tistory.com/3)
 
 <br/>
 
