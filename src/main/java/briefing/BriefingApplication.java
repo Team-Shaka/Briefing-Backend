@@ -7,6 +7,15 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
+
+@OpenAPIDefinition(
+        servers = {
+            @Server(url = "http://localhost:8080", description = "local server"),
+            @Server(url = "https://dev.briefing.store", description = "dev server"),
+            @Server(url = "https://api.newsbreifing.store", description = "release server")
+        })
 @SpringBootApplication
 @EnableFeignClients
 @EnableRedisRepositories

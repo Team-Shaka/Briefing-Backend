@@ -1,6 +1,5 @@
 package briefing.member.api;
 
-import java.util.Arrays;
 import java.util.List;
 
 import jakarta.validation.Valid;
@@ -32,7 +31,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "02-Member \uD83D\uDC64", description = "사용자 관련 API")
+@Tag(name = "02-Member V2 \uD83D\uDC64", description = "사용자 관련 API V2")
 @RestController
 @Validated
 @RequiredArgsConstructor
@@ -42,7 +41,8 @@ import lombok.RequiredArgsConstructor;
             description = "SERVER ERROR, 백앤드 개발자에게 알려주세요",
             content = @Content(schema = @Schema(implementation = CommonResponse.class))),
 })
-public class MemberApi {
+@RequestMapping("/v2")
+public class MemberV2Api {
     private final MemberQueryService memberQueryService;
     private final MemberCommandService memberCommandService;
 
@@ -50,25 +50,9 @@ public class MemberApi {
 
     private final RedisService redisService;
 
-    @Operation(summary = "Member\uD83D\uDC64 토큰 잘 발급되나 테스트용API", description = "테스트 용")
-    @GetMapping("/members/auth/test")
-    public CommonResponse<MemberResponse.LoginDTO> testGenerateToken() {
-        Member member = memberQueryService.testForTokenApi();
-        String accessToken =
-                tokenProvider.createAccessToken(
-                        member.getId(),
-                        member.getSocialType().toString(),
-                        member.getSocialId(),
-                        Arrays.asList(new SimpleGrantedAuthority(member.getRole().name())));
-        RefreshToken refreshToken =
-                redisService.generateRefreshToken(member.getSocialId(), member.getSocialType());
-        return CommonResponse.onSuccess(
-                MemberConverter.toLoginDTO(member, accessToken, refreshToken.getToken()));
-    }
-
-    @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 V1", description = "구글, 애플 소셜로그인 API입니다.")
+    @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 V2", description = "구글, 애플 소셜로그인 API입니다.")
     @PostMapping("/members/auth/{socialType}")
-    public CommonResponse<MemberResponse.LoginDTO> login(
+    public CommonResponse<MemberResponse.LoginDTO> loginV2(
             @Parameter(description = "소셜로그인 종류", example = "google") @PathVariable
                     final SocialType socialType,
             @RequestBody final MemberRequest.LoginDTO request) {
@@ -88,7 +72,7 @@ public class MemberApi {
     }
 
     @Operation(
-            summary = "02-01 Member\uD83D\uDC64 accessToken 재발급 받기 V1",
+            summary = "02-01 Member\uD83D\uDC64 accessToken 재발급 받기 V2",
             description = "accessToken 만료 시 refreshToken으로 재발급을 받는 API 입니다.")
     @ApiResponses({
         @ApiResponse(responseCode = "1000", description = "OK, 성공"),
@@ -106,7 +90,7 @@ public class MemberApi {
                 content = @Content(schema = @Schema(implementation = CommonResponse.class))),
     })
     @PostMapping("/members/auth/token")
-    public CommonResponse<MemberResponse.ReIssueTokenDTO> reissueToken(
+    public CommonResponse<MemberResponse.ReIssueTokenDTO> reissueTokenV2(
             @Valid @RequestBody MemberRequest.ReissueDTO request) {
         RefreshToken refreshToken = redisService.reGenerateRefreshToken(request);
         Member parsedMember = memberCommandService.parseRefreshToken(refreshToken);
@@ -121,7 +105,7 @@ public class MemberApi {
                         parsedMember.getId(), accessToken, refreshToken.getToken()));
     }
 
-    @Operation(summary = "02-01 Member\uD83D\uDC64 회원 탈퇴 V1", description = "회원 탈퇴 API 입니다.")
+    @Operation(summary = "02-01 Member\uD83D\uDC64 회원 탈퇴 V2", description = "회원 탈퇴 API 입니다.")
     @DeleteMapping("/members/{memberId}")
     @Parameters({
         @Parameter(name = "member", hidden = true),
@@ -150,7 +134,7 @@ public class MemberApi {
                 description = "로그인 한 사용자와 탈퇴 대상이 동일하지 않습니다.",
                 content = @Content(schema = @Schema(implementation = CommonResponse.class))),
     })
-    public CommonResponse<MemberResponse.QuitDTO> quitMember(
+    public CommonResponse<MemberResponse.QuitDTO> quitMemberV2(
             @AuthMember Member member, @CheckSameMember @PathVariable Long memberId) {
         memberCommandService.deleteMember(memberId);
         return CommonResponse.onSuccess(MemberConverter.toQuitDTO());

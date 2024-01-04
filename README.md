@@ -77,8 +77,8 @@
 <br/>
 
 ## 📚 개발 과정
-- [[Briefing] API 버전 관리 & 전략 패턴](https://velog.io/@cekim/briefing-api-versioning)
-- [[Briefing] Spotless로 코드 포맷 유지하기](https://velog.io/@cekim/briefing-spotless)
+- [[Briefing] API 버전 관리 & 전략 패턴](https://poisson-it.tistory.com/75)
+- [[Briefing] Spotless로 코드 포맷 유지하기](https://poisson-it.tistory.com/77)
 
 <br/>
 

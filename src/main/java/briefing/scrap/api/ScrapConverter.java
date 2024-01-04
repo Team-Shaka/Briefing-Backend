@@ -17,6 +17,17 @@ public class ScrapConverter {
                 .build();
     }
 
+    public static ScrapResponse.CreateDTOV2 toCreateDTOV2(Scrap createdScrap, Integer scrapCount) {
+        return ScrapResponse.CreateDTOV2.builder()
+                .scrapId(createdScrap.getId())
+                .memberId(createdScrap.getMember().getId())
+                .briefingId(createdScrap.getBriefing().getId())
+                .scrapCount(scrapCount)
+                .isScrap(Boolean.TRUE)
+                .createdAt(createdScrap.getCreatedAt())
+                .build();
+    }
+
     public static Scrap toScrap(Member member, Briefing briefing) {
         return Scrap.builder().member(member).briefing(briefing).build();
     }
@@ -24,6 +35,15 @@ public class ScrapConverter {
     public static ScrapResponse.DeleteDTO toDeleteDTO(Scrap deletedScrap) {
         return ScrapResponse.DeleteDTO.builder()
                 .scrapId(deletedScrap.getId())
+                .deletedAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static ScrapResponse.DeleteDTOV2 toDeleteDTOV2(Scrap deletedScrap, Integer scrapCount) {
+        return ScrapResponse.DeleteDTOV2.builder()
+                .scrapId(deletedScrap.getId())
+                .isScrap(Boolean.FALSE)
+                .scrapCount(scrapCount)
                 .deletedAt(LocalDateTime.now())
                 .build();
     }

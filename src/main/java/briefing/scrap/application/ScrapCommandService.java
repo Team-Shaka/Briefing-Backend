@@ -28,7 +28,6 @@ public class ScrapCommandService {
     private final BriefingRepository briefingRepository;
 
     public Scrap create(ScrapRequest.CreateDTO request) {
-        // 이미 스크랩한경우
         if (scrapRepository.existsByMember_IdAndBriefing_Id(
                 request.getMemberId(), request.getBriefingId()))
             throw new ScrapException(ErrorCode.SCRAP_ALREADY_EXISTS);
@@ -44,13 +43,9 @@ public class ScrapCommandService {
                         .orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
 
         Scrap scrap = ScrapConverter.toScrap(member, briefing);
-
-        // Scrap 엔티티 저장 및 반환
         try {
-            // Scrap 엔티티 저장 및 반환
             return scrapRepository.save(scrap);
         } catch (DataIntegrityViolationException e) {
-            // 중복 스크랩 예외 처리
             throw new ScrapException(ErrorCode.DUPLICATE_SCRAP);
         }
     }

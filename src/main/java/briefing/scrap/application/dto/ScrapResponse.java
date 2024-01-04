@@ -5,11 +5,9 @@ import java.time.LocalDateTime;
 
 import briefing.briefing.domain.TimeOfDay;
 import briefing.chatting.domain.GptModel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ScrapResponse {
 
     @Builder
@@ -27,8 +25,32 @@ public class ScrapResponse {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class CreateDTOV2 {
+        private Long scrapId;
+        private Long memberId;
+        private Long briefingId;
+        private Boolean isScrap;
+        private Integer scrapCount;
+        private LocalDateTime createdAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class DeleteDTO {
         private Long scrapId;
+        private LocalDateTime deletedAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DeleteDTOV2 {
+        private Long scrapId;
+        private Boolean isScrap;
+        private Integer scrapCount;
         private LocalDateTime deletedAt;
     }
 

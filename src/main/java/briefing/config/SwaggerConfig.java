@@ -15,8 +15,16 @@ import io.swagger.v3.oas.models.servers.Server;
 public class SwaggerConfig {
 
     @Bean
-    public GroupedOpenApi publicApi() {
-        return GroupedOpenApi.builder().group("v1-definition").packagesToScan("briefing").build();
+    public GroupedOpenApi v1Api() {
+
+        return GroupedOpenApi.builder().group("Briefing V1 API").pathsToExclude("/v2/**").build();
+    }
+
+    @Bean
+    public GroupedOpenApi v2Api() {
+        String[] paths = {"/v2/**"};
+
+        return GroupedOpenApi.builder().group("Briefing V2 API").pathsToMatch(paths).build();
     }
 
     @Bean
