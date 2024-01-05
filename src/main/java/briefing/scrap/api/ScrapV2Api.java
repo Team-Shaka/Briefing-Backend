@@ -2,9 +2,9 @@ package briefing.scrap.api;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
+import briefing.common.aop.annotation.CacheEvictByBriefingId;
 import briefing.common.response.CommonResponse;
 import briefing.scrap.application.ScrapCommandService;
 import briefing.scrap.application.ScrapQueryService;
@@ -23,7 +23,7 @@ public class ScrapV2Api {
     private final ScrapQueryService scrapQueryService;
     private final ScrapCommandService scrapCommandService;
 
-    @CacheEvict(value = "findBriefingsV2", allEntries = true)
+    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#request.getBriefingId()")
     @Operation(summary = "05-01 Scrap📁 스크랩하기 V2", description = "브리핑을 스크랩하는 API입니다.")
     @PostMapping("/scraps/briefings")
     public CommonResponse<ScrapResponse.CreateDTOV2> createV2(
@@ -33,7 +33,7 @@ public class ScrapV2Api {
         return CommonResponse.onSuccess(ScrapConverter.toCreateDTOV2(createdScrap, scrapCount));
     }
 
-    @CacheEvict(value = "findBriefingsV2", allEntries = true)
+    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#briefingId")
     @Operation(summary = "05-02 Scrap📁 스크랩 취소 V2", description = "스크랩을 취소하는 API입니다.")
     @DeleteMapping("/scraps/briefings/{briefingId}/members/{memberId}")
     public CommonResponse<ScrapResponse.DeleteDTOV2> deleteV2(
