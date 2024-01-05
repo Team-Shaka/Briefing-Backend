@@ -81,6 +81,7 @@
 - [[Briefing] API 버전 관리 & 전략 패턴](https://poisson-it.tistory.com/75)
 - [[Briefing] Spotless로 코드 포맷 유지하기](https://poisson-it.tistory.com/77)
 - [[Briefing] Spring Security - Swagger 로그인 적용하기](https://ddol-dev-blog.tistory.com/3)
+- [[Briefing] API 응답 캐싱을 통한 속도 개선](https://poisson-it.tistory.com/78)
 
 <br/>
 
