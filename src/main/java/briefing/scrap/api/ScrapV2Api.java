@@ -33,6 +33,7 @@ public class ScrapV2Api {
         return CommonResponse.onSuccess(ScrapConverter.toCreateDTOV2(createdScrap, scrapCount));
     }
 
+    @CacheEvict(value = "findBriefingsV2", allEntries = true)
     @Operation(summary = "05-02 Scrap📁 스크랩 취소 V2", description = "스크랩을 취소하는 API입니다.")
     @DeleteMapping("/scraps/briefings/{briefingId}/members/{memberId}")
     public CommonResponse<ScrapResponse.DeleteDTOV2> deleteV2(
@@ -42,7 +43,6 @@ public class ScrapV2Api {
         return CommonResponse.onSuccess(ScrapConverter.toDeleteDTOV2(deletedScrap, scrapCount));
     }
 
-    @CacheEvict(value = "findBriefingsV2", allEntries = true)
     @Operation(summary = "05-03 Scrap📁 내 스크랩 조회 V2", description = "내 스크랩을 조회하는 API입니다.")
     @GetMapping("/scraps/briefings/members/{memberId}")
     public CommonResponse<List<ScrapResponse.ReadDTOV2>> getScrapsByMemberV2(
