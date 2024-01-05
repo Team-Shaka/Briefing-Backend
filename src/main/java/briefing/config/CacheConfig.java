@@ -31,7 +31,7 @@ public class CacheConfig {
 
         RedisCacheConfiguration cacheConfiguration =
                 RedisCacheConfiguration.defaultCacheConfig()
-                        .entryTtl(Duration.ofHours(1)) // 예: 캐시 유효 시간 1시간
+                        .entryTtl(Duration.ofMinutes(30)) // 캐시 유효 시간 30분
                         .disableCachingNullValues()
                         .prefixCacheNameWith("responseCache::") // 캐시 키 접두사 설정
                         .serializeKeysWith(
