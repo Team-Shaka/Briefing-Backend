@@ -2,6 +2,7 @@ package briefing.scrap.api;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import briefing.common.response.CommonResponse;
@@ -22,6 +23,7 @@ public class ScrapV2Api {
     private final ScrapQueryService scrapQueryService;
     private final ScrapCommandService scrapCommandService;
 
+    @CacheEvict(value = "findBriefingsV2", allEntries = true)
     @Operation(summary = "05-01 Scrap📁 스크랩하기 V2", description = "브리핑을 스크랩하는 API입니다.")
     @PostMapping("/scraps/briefings")
     public CommonResponse<ScrapResponse.CreateDTOV2> createV2(
@@ -40,6 +42,7 @@ public class ScrapV2Api {
         return CommonResponse.onSuccess(ScrapConverter.toDeleteDTOV2(deletedScrap, scrapCount));
     }
 
+    @CacheEvict(value = "findBriefingsV2", allEntries = true)
     @Operation(summary = "05-03 Scrap📁 내 스크랩 조회 V2", description = "내 스크랩을 조회하는 API입니다.")
     @GetMapping("/scraps/briefings/members/{memberId}")
     public CommonResponse<List<ScrapResponse.ReadDTOV2>> getScrapsByMemberV2(

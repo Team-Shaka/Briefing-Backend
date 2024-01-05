@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import briefing.briefing.application.BriefingCommandService;
@@ -32,6 +33,7 @@ public class BriefingV2Api {
 
     @GetMapping("/briefings")
     @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V2", description = "")
+    @Cacheable(value = "findBriefingsV2", key = "#params.toString()")
     public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTOV2> findBriefingsV2(
             @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params) {
         List<Briefing> briefingList = briefingQueryService.findBriefings(params, APIVersion.V2);

@@ -12,13 +12,19 @@ import lombok.Getter;
 public class CommonResponse<T> {
 
     @JsonProperty("isSuccess")
-    private final Boolean isSuccess;
+    private Boolean isSuccess;
 
-    private final String code;
-    private final String message;
+    @JsonProperty("code")
+    private String code;
+
+    @JsonProperty("message")
+    private String message;
+
+    @JsonProperty("result")
     private T result;
 
-    // 요청에 성공한 경우11
+    // 기본 생성자 추가
+    public CommonResponse() {}
 
     public static <T> CommonResponse<T> onSuccess(T data) {
         return new CommonResponse<>(true, "요청에 성공하였습니다.", "1000", data);

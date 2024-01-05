@@ -3,6 +3,7 @@ package briefing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
             @Server(url = "https://api.newsbreifing.store", description = "release server")
         })
 @SpringBootApplication
+@EnableCaching
 @EnableFeignClients
 @EnableRedisRepositories
 @ImportAutoConfiguration({FeignAutoConfiguration.class})

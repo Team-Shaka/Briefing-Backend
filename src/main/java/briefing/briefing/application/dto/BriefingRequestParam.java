@@ -16,6 +16,7 @@ public class BriefingRequestParam {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
+    @ToString
     public static class BriefingPreviewListParam {
         @NotNull private BriefingType type;
         private LocalDate date;
