@@ -57,7 +57,7 @@
 </div>
 <div>
   <img src="https://img.shields.io/badge/MySQL-4479A1.svg?style=square&logo=MySQL&logoColor=white">
-  <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white">
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=square&logo=Redis&logoColor=white">
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=square&logo=Amazon AWS&logoColor=white">
 </div>
 <br/>
