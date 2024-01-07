@@ -78,7 +78,7 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                         .on(scrap.briefing.eq(briefing))
                         .where(briefing.type.eq(type))
                         .groupBy(briefing)
-                        .orderBy(date.desc(), briefing.ranks.desc())
+                        .orderBy(date.desc(), briefing.ranks.asc())
                         .limit(10)
                         .fetch();
 
