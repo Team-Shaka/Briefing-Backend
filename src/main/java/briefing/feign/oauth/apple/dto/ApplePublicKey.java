@@ -11,14 +11,26 @@ public class ApplePublicKey {
 
     @Override
     public String toString() {
-        return "ApplePublicKeyDTO{" +
-                "kty='" + kty + '\'' +
-                ", kid='" + kid + '\'' +
-                ", use='" + use + '\'' +
-                ", alg='" + alg + '\'' +
-                ", n='" + n + '\'' +
-                ", e='" + e + '\'' +
-                '}';
+        return "ApplePublicKeyDTO{"
+                + "kty='"
+                + kty
+                + '\''
+                + ", kid='"
+                + kid
+                + '\''
+                + ", use='"
+                + use
+                + '\''
+                + ", alg='"
+                + alg
+                + '\''
+                + ", n='"
+                + n
+                + '\''
+                + ", e='"
+                + e
+                + '\''
+                + '}';
     }
 
     private String kty;

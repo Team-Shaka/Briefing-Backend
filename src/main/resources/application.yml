@@ -11,6 +11,10 @@ springdoc:
   cache:
     disabled: true
   use-fqn: true
+swagger:
+  login:
+    id: ${SWAGGER_ID}
+    password : ${SWAGGER_PASS}
 ---
 spring:
   config:

@@ -1,12 +1,13 @@
 package briefing.common.enums;
 
+import java.util.Arrays;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import briefing.exception.ErrorCode;
 import briefing.exception.handler.BriefingException;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor

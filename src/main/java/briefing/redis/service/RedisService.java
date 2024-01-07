@@ -1,7 +1,6 @@
 package briefing.redis.service;
 
 import briefing.member.application.dto.MemberRequest;
-import briefing.member.domain.Member;
 import briefing.member.domain.SocialType;
 import briefing.redis.domain.RefreshToken;
 

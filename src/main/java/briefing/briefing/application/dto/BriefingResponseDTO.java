@@ -1,5 +1,9 @@
 package briefing.briefing.application.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.TimeOfDay;
 import briefing.chatting.domain.GptModel;
@@ -8,17 +12,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
 public class BriefingResponseDTO {
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ArticleResponseDTO{
+    public static class ArticleResponseDTO {
         Long id;
         String press;
         String title;
@@ -29,20 +29,19 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingPreviewDTOV2{
+    public static class BriefingPreviewDTOV2 {
         Long id;
         Integer ranks;
         String title;
         String subtitle;
-        @Builder.Default
-        Integer scrapCount = 0;
+        @Builder.Default Integer scrapCount = 0;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingPreviewDTO{
+    public static class BriefingPreviewDTO {
         Long id;
         Integer ranks;
         String title;
@@ -53,24 +52,7 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingDetailDTO{
-        Long id;
-        Integer ranks;
-        String title;
-        String subtitle;
-        String content;
-        LocalDate date;
-        List<ArticleResponseDTO> articles;
-        Boolean isScrap;
-        Boolean isBriefingOpen;
-        Boolean isWarning;
-    }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class BriefingDetailDTOV2{
+    public static class BriefingDetailDTO {
         Long id;
         Integer ranks;
         String title;
@@ -81,21 +63,34 @@ public class BriefingResponseDTO {
         Boolean isScrap;
         Boolean isBriefingOpen;
         Boolean isWarning;
-        @Builder.Default
-        Integer scrapCount = 0;
-        @Builder.Default
-        GptModel gptModel = GptModel.GPT_3_5_TURBO;
-        @Builder.Default
-        TimeOfDay timeOfDay = TimeOfDay.MORNING;
-        @Builder.Default
-        BriefingType type = BriefingType.KOREA;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingPreviewListDTOV2{
+    public static class BriefingDetailDTOV2 {
+        Long id;
+        Integer ranks;
+        String title;
+        String subtitle;
+        String content;
+        LocalDate date;
+        List<ArticleResponseDTO> articles;
+        Boolean isScrap;
+        Boolean isBriefingOpen;
+        Boolean isWarning;
+        @Builder.Default Integer scrapCount = 0;
+        @Builder.Default GptModel gptModel = GptModel.GPT_3_5_TURBO;
+        @Builder.Default TimeOfDay timeOfDay = TimeOfDay.MORNING;
+        @Builder.Default BriefingType type = BriefingType.KOREA;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingPreviewListDTOV2 {
         LocalDateTime createdAt;
         List<BriefingPreviewDTOV2> briefings;
     }
@@ -104,7 +99,7 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingPreviewListDTO{
+    public static class BriefingPreviewListDTO {
         LocalDateTime createdAt;
         List<BriefingPreviewDTO> briefings;
     }
@@ -113,7 +108,7 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingV2PreviewListDTO{
+    public static class BriefingV2PreviewListDTO {
         LocalDateTime createdAt;
         String type;
         List<BriefingPreviewV2TempDTO> briefings;
@@ -123,11 +118,21 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingPreviewV2TempDTO{
+    public static class BriefingPreviewV2TempDTO {
         Long id;
         Integer ranks;
         String title;
         String subtitle;
         Integer scrapCount;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingUpdateDTO{
+        String title;
+        String subTitle;
+        String content;
     }
 }
