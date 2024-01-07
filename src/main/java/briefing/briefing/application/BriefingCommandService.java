@@ -44,14 +44,9 @@ public class BriefingCommandService {
 
     public Briefing updateBriefing(Long id, final BriefingRequestDTO.BriefingUpdateDTO request){
 
-        // throw 부분을 컨트롤러에서 validator annotation을 사용하는 것이 더 좋을지??
         Briefing briefing = briefingRepository.findById(id).orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
 
-
-        // 이 코드 더 깔끔하게 리팩토링이 가능할지??
-        Optional.ofNullable(request.getContent()).ifPresent(briefing::setContent);
-        Optional.ofNullable(request.getTitle()).ifPresent(briefing::setTitle);
-        Optional.ofNullable(request.getSubTitle()).ifPresent(briefing::setSubtitle);
+        briefing.updateBriefing(request.getTitle(),request.getSubTitle(),request.getContent());
 
         return briefing;
     }
