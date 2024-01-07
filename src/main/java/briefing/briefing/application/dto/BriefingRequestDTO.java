@@ -7,7 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.TimeOfDay;
 import briefing.chatting.domain.GptModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class BriefingRequestDTO {
 
@@ -35,5 +38,12 @@ public class BriefingRequestDTO {
         GptModel gptModel = GptModel.GPT_4;
         TimeOfDay timeOfDay = TimeOfDay.MORNING;
         BriefingType briefingType = BriefingType.KOREA;
+    }
+
+    @Getter
+    public static class BriefingUpdateDTO{
+        String title;
+        String subTitle;
+        String content;
     }
 }

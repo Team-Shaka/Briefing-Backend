@@ -196,4 +196,13 @@ public class BriefingConverter {
                 .briefings(tempDTOList)
                 .build();
     }
+
+    public static BriefingResponseDTO.BriefingUpdateDTO toBriefingUpdateDTO(Briefing briefing){
+        return BriefingResponseDTO.BriefingUpdateDTO
+                .builder()
+                .title(briefing.getTitle())
+                .subTitle(briefing.getSubtitle())
+                .content(briefing.getContent())
+                .build();
+    }
 }
