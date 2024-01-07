@@ -2,7 +2,6 @@ package briefing.briefing.application.strategy;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +31,6 @@ public class BriefingV1QueryStrategy implements BriefingQueryStrategy {
         if (briefingList.isEmpty()) {
             briefingList =
                     briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
-            Collections.reverse(briefingList);
         }
         return briefingList;
     }

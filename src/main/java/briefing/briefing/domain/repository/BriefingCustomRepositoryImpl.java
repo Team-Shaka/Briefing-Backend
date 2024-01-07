@@ -1,5 +1,6 @@
 package briefing.briefing.domain.repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.DateTemplate;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import briefing.briefing.domain.Briefing;
@@ -61,6 +65,11 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
         QBriefing briefing = QBriefing.briefing;
         QScrap scrap = QScrap.scrap;
 
+        DateTimePath<LocalDateTime> dateTime = briefing.createdAt;
+        DateTemplate<LocalDate> date =
+                Expressions.dateTemplate(
+                        LocalDate.class, "DATE_FORMAT({0}, {1})", dateTime, "%Y-%m-%d");
+
         List<Tuple> results =
                 queryFactory
                         .select(briefing, scrap.count())
@@ -69,7 +78,7 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                         .on(scrap.briefing.eq(briefing))
                         .where(briefing.type.eq(type))
                         .groupBy(briefing)
-                        .orderBy(briefing.createdAt.desc())
+                        .orderBy(date.desc(), briefing.ranks.asc())
                         .limit(10)
                         .fetch();
 
