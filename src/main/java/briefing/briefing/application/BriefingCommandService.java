@@ -1,7 +1,10 @@
 package briefing.briefing.application;
 
 import java.util.List;
+import java.util.Optional;
 
+import briefing.exception.ErrorCode;
+import briefing.exception.handler.BriefingException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,8 @@ import briefing.briefing.domain.repository.ArticleRepository;
 import briefing.briefing.domain.repository.BriefingArticleRepository;
 import briefing.briefing.domain.repository.BriefingRepository;
 import lombok.RequiredArgsConstructor;
+
+import javax.swing.text.html.Option;
 
 @Service
 @Transactional
@@ -35,5 +40,14 @@ public class BriefingCommandService {
         final List<BriefingArticle> briefingArticles =
                 articles.stream().map(article -> new BriefingArticle(briefing, article)).toList();
         briefingArticleRepository.saveAll(briefingArticles);
+    }
+
+    public Briefing updateBriefing(Long id, final BriefingRequestDTO.BriefingUpdateDTO request){
+
+        Briefing briefing = briefingRepository.findById(id).orElseThrow(() -> new BriefingException(ErrorCode.NOT_FOUND_BRIEFING));
+
+        briefing.updateBriefing(request.getTitle(),request.getSubTitle(),request.getContent());
+
+        return briefing;
     }
 }

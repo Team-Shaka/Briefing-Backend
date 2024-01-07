@@ -2,6 +2,7 @@ package briefing.briefing.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.*;
 
@@ -52,5 +53,23 @@ public class Briefing extends BaseDateTimeEntity {
 
     public void setScrapCount(Integer scrapCount) {
         this.scrapCount = scrapCount;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void updateBriefing(String title, String subtitle, String content){
+        Optional.ofNullable(title).ifPresent(this::setTitle);
+        Optional.ofNullable(subtitle).ifPresent(this::setSubtitle);
+        Optional.ofNullable(content).ifPresent(this::setContent);
     }
 }

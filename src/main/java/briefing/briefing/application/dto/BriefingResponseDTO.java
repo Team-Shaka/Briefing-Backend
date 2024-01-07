@@ -125,4 +125,14 @@ public class BriefingResponseDTO {
         String subtitle;
         Integer scrapCount;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BriefingUpdateDTO{
+        String title;
+        String subTitle;
+        String content;
+    }
 }
