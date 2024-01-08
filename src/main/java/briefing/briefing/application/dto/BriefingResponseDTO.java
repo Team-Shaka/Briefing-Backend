@@ -130,7 +130,7 @@ public class BriefingResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class BriefingUpdateDTO{
+    public static class BriefingUpdateDTO {
         String title;
         String subTitle;
         String content;

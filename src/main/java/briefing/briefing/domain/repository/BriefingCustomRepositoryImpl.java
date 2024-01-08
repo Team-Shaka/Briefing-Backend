@@ -68,7 +68,7 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
         DateTimePath<LocalDateTime> dateTime = briefing.createdAt;
         DateTemplate<LocalDate> date =
                 Expressions.dateTemplate(
-                        LocalDate.class, "DATE_FORMAT({0}, {1})", dateTime, "%Y-%m-%d");
+                        LocalDate.class, "DATE_FORMAT({0}, {1})", dateTime, "%Y-%m-%d %H");
 
         List<Tuple> results =
                 queryFactory

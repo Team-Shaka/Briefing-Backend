@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import jakarta.validation.Valid;
+
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +72,6 @@ public class BriefingApi {
         briefingCommandService.createBriefing(request);
     }
 
-
     /*
      * TODO 브리핑 수정 API는 우선적으로 인가 처리를 진행하지 않으나
      *  빠른 시일 내로 브리핑 등록과 함께 인가 처리 예정
@@ -79,18 +79,15 @@ public class BriefingApi {
      */
 
     /**
-     *
      * @param id, BriefingResponseDTO.BriefingUpdateDTO
      * @return 수정된 값, 요청으로 온 값과 동일
      */
-
     @Operation(summary = "03-04Briefing \uD83D\uDCF0  브리핑 내용 수정", description = "")
     @Parameter(name = "id", description = "브리핑 아이디", example = "1")
     @PatchMapping("/briefings/{id}")
     public CommonResponse<BriefingResponseDTO.BriefingUpdateDTO> patchBriefingContent(
             @PathVariable(name = "id") Long id,
-            @RequestBody @Valid BriefingRequestDTO.BriefingUpdateDTO request
-    ){
+            @RequestBody @Valid BriefingRequestDTO.BriefingUpdateDTO request) {
 
         Briefing briefing = briefingCommandService.updateBriefing(id, request);
         return CommonResponse.onSuccess(BriefingConverter.toBriefingUpdateDTO(briefing));
