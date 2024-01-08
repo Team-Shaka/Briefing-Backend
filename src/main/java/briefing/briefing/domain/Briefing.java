@@ -67,7 +67,7 @@ public class Briefing extends BaseDateTimeEntity {
         this.content = content;
     }
 
-    public void updateBriefing(String title, String subtitle, String content){
+    public void updateBriefing(String title, String subtitle, String content) {
         Optional.ofNullable(title).ifPresent(this::setTitle);
         Optional.ofNullable(subtitle).ifPresent(this::setSubtitle);
         Optional.ofNullable(content).ifPresent(this::setContent);
