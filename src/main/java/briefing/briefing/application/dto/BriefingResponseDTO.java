@@ -6,7 +6,7 @@ import java.util.List;
 
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.TimeOfDay;
-import briefing.chatting.domain.GptModel;
+import briefing.common.enums.GptModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

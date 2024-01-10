@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import briefing.briefing.domain.TimeOfDay;
-import briefing.chatting.domain.GptModel;
+import briefing.common.enums.GptModel;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

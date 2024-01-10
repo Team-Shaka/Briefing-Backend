@@ -27,7 +27,6 @@ public class GlobalWebConfig implements WebMvcConfigurer {
     public void addFormatters(final FormatterRegistry registry) {
         registry.addConverter(new BriefingTypeRequestConverter());
         registry.addConverter(new GptModelRequestConverter());
-        registry.addConverter(new MessageRoleRequestConverter());
         registry.addConverter(new SocialTypeRequestConverter());
         registry.addConverter(new TimeOfDayConverter());
         registry.addConverter(new APIVersionRequestConverter());

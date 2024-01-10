@@ -29,7 +29,7 @@ public class QBriefing extends EntityPathBase<Briefing> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final EnumPath<briefing.chatting.domain.GptModel> gptModel = createEnum("gptModel", briefing.chatting.domain.GptModel.class);
+    public final EnumPath<briefing.common.enums.GptModel> gptModel = createEnum("gptModel", briefing.common.enums.GptModel.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

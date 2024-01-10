@@ -1,4 +1,4 @@
-package briefing.chatting.domain;
+package briefing.common.enums;
 
 import java.util.Arrays;
 
@@ -12,22 +12,17 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MessageRole {
-    SYSTEM("system"),
-    ASSISTANT("assistant"),
-    USER("user");
+public enum GptModel {
+    GPT_3_5_TURBO("gpt-3.5-turbo"),
+    GPT_4("gpt-4");
 
     @JsonValue private final String value;
 
     @JsonCreator
-    public static MessageRole from(final String role) {
+    public static GptModel from(final String model) {
         return Arrays.stream(values())
-                .filter(value -> value.getValue().equals(role))
+                .filter(value -> value.getValue().equals(model))
                 .findAny()
-                .orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_ROLE));
-    }
-
-    public boolean isNotUser() {
-        return !this.equals(USER);
+                .orElseThrow(() -> new ChattingException(ErrorCode.NOT_FOUND_MODEL));
     }
 }
