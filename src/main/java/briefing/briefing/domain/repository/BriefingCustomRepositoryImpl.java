@@ -91,8 +91,7 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                         .collect(Collectors.toCollection(ArrayList::new));
 
         Map<Integer, Briefing> briefingMap = new HashMap<>();
-        for (Briefing candidate : briefingList)
-            briefingMap.putIfAbsent(candidate.getRanks(), candidate);
+        briefingList.forEach(candidate -> briefingMap.putIfAbsent(candidate.getRanks(), candidate));
 
         return briefingMap.values().stream().toList();
     }
