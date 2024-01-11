@@ -2,7 +2,7 @@ package briefing.converter;
 
 import org.springframework.core.convert.converter.Converter;
 
-import briefing.chatting.domain.GptModel;
+import briefing.common.enums.GptModel;
 import lombok.NonNull;
 
 public class GptModelRequestConverter implements Converter<String, GptModel> {

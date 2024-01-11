@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.TimeOfDay;
-import briefing.chatting.domain.GptModel;
+import briefing.common.enums.GptModel;
 import lombok.Getter;
 
 public class BriefingRequestDTO {

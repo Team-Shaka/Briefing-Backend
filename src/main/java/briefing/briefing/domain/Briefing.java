@@ -7,7 +7,7 @@ import java.util.Optional;
 import jakarta.persistence.*;
 
 import briefing.base.BaseDateTimeEntity;
-import briefing.chatting.domain.GptModel;
+import briefing.common.enums.GptModel;
 import lombok.*;
 
 @Entity

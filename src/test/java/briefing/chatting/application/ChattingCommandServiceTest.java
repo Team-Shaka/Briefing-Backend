@@ -1,9 +1,9 @@
 package briefing.chatting.application;
 
-import static briefing.chatting.domain.GptModel.GPT_3_5_TURBO;
 import static briefing.chatting.domain.MessageRole.ASSISTANT;
 import static briefing.chatting.domain.MessageRole.SYSTEM;
 import static briefing.chatting.domain.MessageRole.USER;
+import static briefing.common.enums.GptModel.GPT_3_5_TURBO;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

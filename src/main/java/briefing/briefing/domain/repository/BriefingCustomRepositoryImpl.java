@@ -2,9 +2,7 @@ package briefing.briefing.domain.repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -79,17 +77,23 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                         .where(briefing.type.eq(type))
                         .groupBy(briefing)
                         .orderBy(date.desc(), briefing.ranks.asc())
-                        .limit(10)
+                        .limit(20)
                         .fetch();
 
-        return results.stream()
-                .map(
-                        tuple -> {
-                            Briefing b = tuple.get(briefing);
-                            b.setScrapCount(Math.toIntExact(tuple.get(scrap.count())));
-                            return b;
-                        })
-                .collect(Collectors.toCollection(ArrayList::new));
+        List<Briefing> briefingList =
+                results.stream()
+                        .map(
+                                tuple -> {
+                                    Briefing b = tuple.get(briefing);
+                                    b.setScrapCount(Math.toIntExact(tuple.get(scrap.count())));
+                                    return b;
+                                })
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<Integer, Briefing> briefingMap = new HashMap<>();
+        briefingList.forEach(candidate -> briefingMap.putIfAbsent(candidate.getRanks(), candidate));
+
+        return briefingMap.values().stream().toList();
     }
 
     @Override
