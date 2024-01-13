@@ -6,6 +6,7 @@ import java.util.Optional;
 import jakarta.validation.Valid;
 
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import briefing.briefing.application.BriefingCommandService;
 import briefing.briefing.application.BriefingQueryService;
 import briefing.briefing.application.dto.*;
 import briefing.briefing.domain.Briefing;
+import briefing.common.aop.annotation.CacheEvictByBriefingId;
 import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
@@ -65,6 +67,7 @@ public class BriefingApi {
                         isWarning));
     }
 
+    @CacheEvict(value = "findBriefingsV2", key = "#request.getBriefingType()")
     @PostMapping("/briefings")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "03-03Briefing \uD83D\uDCF0  브리핑 등록", description = "")
@@ -82,6 +85,7 @@ public class BriefingApi {
      * @param id, BriefingResponseDTO.BriefingUpdateDTO
      * @return 수정된 값, 요청으로 온 값과 동일
      */
+    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#id")
     @Operation(summary = "03-04Briefing \uD83D\uDCF0  브리핑 내용 수정", description = "")
     @Parameter(name = "id", description = "브리핑 아이디", example = "1")
     @PatchMapping("/briefings/{id}")
