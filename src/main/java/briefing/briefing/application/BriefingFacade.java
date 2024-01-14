@@ -30,17 +30,17 @@ public class BriefingFacade {
     private final BriefingCommandService briefingCommandService;
     private final ArticleCommandService articleCommandService;
     private final BriefingArticleCommandService briefingArticleCommandService;
+    private static final APIVersion version = APIVersion.V1;
 
     @Transactional(readOnly = true)
     public BriefingResponseDTO.BriefingPreviewListDTO findBriefings(
-            BriefingRequestParam.BriefingPreviewListParam params, APIVersion version) {
+            BriefingRequestParam.BriefingPreviewListParam params) {
         List<Briefing> briefingList = briefingQueryService.findBriefings(params, version);
         return BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList);
     }
 
     @Transactional(readOnly = true)
-    public BriefingResponseDTO.BriefingDetailDTO findBriefing(
-            final Long id, final APIVersion version, Member member) {
+    public BriefingResponseDTO.BriefingDetailDTO findBriefing(final Long id, Member member) {
         Boolean isScrap =
                 Optional.ofNullable(member)
                         .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))

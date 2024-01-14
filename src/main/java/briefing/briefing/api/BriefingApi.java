@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import briefing.briefing.application.BriefingFacade;
 import briefing.briefing.application.dto.*;
 import briefing.common.aop.annotation.CacheEvictByBriefingId;
-import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
 import briefing.security.handler.annotation.AuthMember;
@@ -31,7 +30,7 @@ public class BriefingApi {
     @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V1", description = "")
     public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
             @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params) {
-        return CommonResponse.onSuccess(briefingFacade.findBriefings(params, APIVersion.V1));
+        return CommonResponse.onSuccess(briefingFacade.findBriefings(params));
     }
 
     @GetMapping("/briefings/{id}")
@@ -39,7 +38,7 @@ public class BriefingApi {
     @Operation(summary = "03-02Briefing \uD83D\uDCF0  브리핑 단건 조회 V1", description = "")
     public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
             @PathVariable final Long id, @AuthMember Member member) {
-        return CommonResponse.onSuccess(briefingFacade.findBriefing(id, APIVersion.V1, member));
+        return CommonResponse.onSuccess(briefingFacade.findBriefing(id, member));
     }
 
     @CacheEvict(value = "findBriefingsV2", key = "#request.getBriefingType()")
