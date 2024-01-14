@@ -7,10 +7,10 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
-import briefing.briefing.application.BriefingCommandService;
-import briefing.briefing.application.BriefingQueryService;
 import briefing.briefing.application.dto.BriefingRequestParam;
 import briefing.briefing.application.dto.BriefingResponseDTO;
+import briefing.briefing.application.service.BriefingCommandService;
+import briefing.briefing.application.service.BriefingQueryService;
 import briefing.briefing.domain.Briefing;
 import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
