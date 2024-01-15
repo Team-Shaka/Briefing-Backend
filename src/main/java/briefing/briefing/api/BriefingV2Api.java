@@ -1,21 +1,14 @@
 package briefing.briefing.api;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
-import briefing.briefing.application.BriefingCommandService;
-import briefing.briefing.application.BriefingQueryService;
+import briefing.briefing.application.BriefingV2Facade;
 import briefing.briefing.application.dto.BriefingRequestParam;
 import briefing.briefing.application.dto.BriefingResponseDTO;
-import briefing.briefing.domain.Briefing;
-import briefing.common.enums.APIVersion;
 import briefing.common.response.CommonResponse;
 import briefing.member.domain.Member;
-import briefing.scrap.application.ScrapQueryService;
 import briefing.security.handler.annotation.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,18 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/v2")
 public class BriefingV2Api {
-    private final BriefingQueryService briefingQueryService;
-    private final BriefingCommandService briefingCommandService;
-    private final ScrapQueryService scrapQueryService;
+    private final BriefingV2Facade briefingFacade;
 
     @GetMapping("/briefings")
     @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V2", description = "")
     @Cacheable(value = "findBriefingsV2", key = "#params.getType()")
     public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTOV2> findBriefingsV2(
             @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params) {
-        List<Briefing> briefingList = briefingQueryService.findBriefings(params, APIVersion.V2);
-        return CommonResponse.onSuccess(
-                BriefingConverter.toBriefingPreviewListDTOV2(params.getDate(), briefingList));
+        return CommonResponse.onSuccess(briefingFacade.findBriefings(params));
     }
 
     @GetMapping("/briefings/{id}")
@@ -46,20 +35,6 @@ public class BriefingV2Api {
     @Parameter(name = "member", hidden = true)
     public CommonResponse<BriefingResponseDTO.BriefingDetailDTOV2> findBriefingV2(
             @PathVariable final Long id, @AuthMember Member member) {
-
-        Boolean isScrap =
-                Optional.ofNullable(member)
-                        .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
-                        .orElseGet(() -> Boolean.FALSE);
-
-        Boolean isBriefingOpen = false;
-        Boolean isWarning = false;
-
-        return CommonResponse.onSuccess(
-                BriefingConverter.toBriefingDetailDTOV2(
-                        briefingQueryService.findBriefing(id, APIVersion.V2),
-                        isScrap,
-                        isBriefingOpen,
-                        isWarning));
+        return CommonResponse.onSuccess(briefingFacade.findBriefing(id, member));
     }
 }
