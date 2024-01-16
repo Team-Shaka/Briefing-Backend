@@ -82,6 +82,7 @@
 - [[Briefing] Spotless로 코드 포맷 유지하기](https://poisson-it.tistory.com/77)
 - [[Briefing] Spring Security - Swagger 로그인 적용하기](https://ddol-dev-blog.tistory.com/3)
 - [[Briefing] API 응답 캐싱을 통한 조회 속도 개선](https://poisson-it.tistory.com/78)
+- [[Briefing] Facade로 계층 구조 개선하기](https://poisson-it.tistory.com/79)
 
 <br/>
 
