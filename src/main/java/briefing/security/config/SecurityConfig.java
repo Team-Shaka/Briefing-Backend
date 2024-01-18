@@ -83,7 +83,7 @@ public class SecurityConfig {
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
                                 "/docs/**",
-                                "/briefings/temp");
+                                "/briefings/temp","/v2/**","/briefings/**");
     }
 
     @Bean
