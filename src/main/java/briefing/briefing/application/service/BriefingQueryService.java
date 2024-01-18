@@ -1,9 +1,8 @@
-package briefing.briefing.application;
+package briefing.briefing.application.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import briefing.briefing.application.context.BriefingQueryContext;
 import briefing.briefing.application.context.BriefingQueryContextFactory;
@@ -15,7 +14,6 @@ import briefing.exception.handler.BriefingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BriefingQueryService {
 
