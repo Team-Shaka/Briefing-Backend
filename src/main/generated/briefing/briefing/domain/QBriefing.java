@@ -20,7 +20,7 @@ public class QBriefing extends EntityPathBase<Briefing> {
 
     public static final QBriefing briefing = new QBriefing("briefing");
 
-    public final briefing.base.QBaseDateTimeEntity _super = new briefing.base.QBaseDateTimeEntity(this);
+    public final briefing.common.domain.QBaseDateTimeEntity _super = new briefing.common.domain.QBaseDateTimeEntity(this);
 
     public final ListPath<BriefingArticle, QBriefingArticle> briefingArticles = this.<BriefingArticle, QBriefingArticle>createList("briefingArticles", BriefingArticle.class, QBriefingArticle.class, PathInits.DIRECT2);
 

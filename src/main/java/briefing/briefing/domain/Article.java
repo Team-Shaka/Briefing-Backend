@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import briefing.base.BaseDateTimeEntity;
+import briefing.common.domain.BaseDateTimeEntity;
 import lombok.*;
 
 @Entity

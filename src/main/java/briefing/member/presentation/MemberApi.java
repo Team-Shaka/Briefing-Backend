@@ -1,27 +1,17 @@
 package briefing.member.presentation;
 
-import java.util.Arrays;
-import java.util.List;
-
 import jakarta.validation.Valid;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import briefing.common.enums.MemberRole;
 import briefing.common.enums.SocialType;
 import briefing.common.presentation.response.CommonResponse;
-import briefing.infra.redis.domain.RefreshToken;
-import briefing.infra.redis.service.RedisService;
-import briefing.member.business.MemberConverter;
+import briefing.member.business.MemberFacade;
 import briefing.member.domain.Member;
-import briefing.member.implement.MemberCommandService;
-import briefing.member.implement.MemberQueryService;
 import briefing.member.presentation.dto.MemberRequest;
 import briefing.member.presentation.dto.MemberResponse;
 import briefing.security.handler.annotation.AuthMember;
-import briefing.security.provider.TokenProvider;
 import briefing.validation.annotation.CheckSameMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,13 +34,9 @@ import lombok.RequiredArgsConstructor;
             content = @Content(schema = @Schema(implementation = CommonResponse.class))),
 })
 public class MemberApi {
-    private final MemberQueryService memberQueryService;
-    private final MemberCommandService memberCommandService;
+    private final MemberFacade memberFacade;
 
-    private final TokenProvider tokenProvider;
-
-    private final RedisService redisService;
-
+    /*
     @Operation(summary = "Member\uD83D\uDC64 토큰 잘 발급되나 테스트용API", description = "테스트 용")
     @GetMapping("/members/auth/test")
     public CommonResponse<MemberResponse.LoginDTO> testGenerateToken() {
@@ -66,6 +52,7 @@ public class MemberApi {
         return CommonResponse.onSuccess(
                 MemberConverter.toLoginDTO(member, accessToken, refreshToken.getToken()));
     }
+     */
 
     @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 V1", description = "구글, 애플 소셜로그인 API입니다.")
     @PostMapping("/members/auth/{socialType}")
@@ -73,19 +60,7 @@ public class MemberApi {
             @Parameter(description = "소셜로그인 종류", example = "google") @PathVariable
                     final SocialType socialType,
             @RequestBody final MemberRequest.LoginDTO request) {
-        Member member = memberCommandService.login(socialType, request);
-        String accessToken =
-                tokenProvider.createAccessToken(
-                        member.getId(),
-                        member.getSocialType().toString(),
-                        member.getSocialId(),
-                        List.of(new SimpleGrantedAuthority(MemberRole.ROLE_USER.name())));
-        String refreshToken =
-                redisService
-                        .generateRefreshToken(member.getSocialId(), member.getSocialType())
-                        .getToken();
-        return CommonResponse.onSuccess(
-                MemberConverter.toLoginDTO(member, accessToken, refreshToken));
+        return CommonResponse.onSuccess(memberFacade.login(socialType, request));
     }
 
     @Operation(
@@ -109,17 +84,7 @@ public class MemberApi {
     @PostMapping("/members/auth/token")
     public CommonResponse<MemberResponse.ReIssueTokenDTO> reissueToken(
             @Valid @RequestBody MemberRequest.ReissueDTO request) {
-        RefreshToken refreshToken = redisService.reGenerateRefreshToken(request);
-        Member parsedMember = memberCommandService.parseRefreshToken(refreshToken);
-        String accessToken =
-                tokenProvider.createAccessToken(
-                        parsedMember.getId(),
-                        parsedMember.getSocialType().toString(),
-                        parsedMember.getSocialId(),
-                        List.of(new SimpleGrantedAuthority(parsedMember.getRole().toString())));
-        return CommonResponse.onSuccess(
-                MemberConverter.toReIssueTokenDTO(
-                        parsedMember.getId(), accessToken, refreshToken.getToken()));
+        return CommonResponse.onSuccess(memberFacade.reIssueToken(request));
     }
 
     @Operation(summary = "02-01 Member\uD83D\uDC64 회원 탈퇴 V1", description = "회원 탈퇴 API 입니다.")
@@ -153,7 +118,6 @@ public class MemberApi {
     })
     public CommonResponse<MemberResponse.QuitDTO> quitMember(
             @AuthMember Member member, @CheckSameMember @PathVariable Long memberId) {
-        memberCommandService.deleteMember(memberId);
-        return CommonResponse.onSuccess(MemberConverter.toQuitDTO());
+        return CommonResponse.onSuccess(memberFacade.quit(memberId));
     }
 }

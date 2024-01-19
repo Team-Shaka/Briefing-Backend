@@ -3,8 +3,8 @@ package briefing.common.exception.handler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import briefing.base.BaseException;
-import briefing.base.BaseExceptionType;
+import briefing.common.exception.common.BaseException;
+import briefing.common.exception.common.BaseExceptionType;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

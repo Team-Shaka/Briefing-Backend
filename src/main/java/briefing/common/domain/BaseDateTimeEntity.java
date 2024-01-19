@@ -1,4 +1,4 @@
-package briefing.base;
+package briefing.common.domain;
 
 import java.time.LocalDateTime;
 

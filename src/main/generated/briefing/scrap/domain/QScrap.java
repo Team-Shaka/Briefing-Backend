@@ -22,7 +22,7 @@ public class QScrap extends EntityPathBase<Scrap> {
 
     public static final QScrap scrap = new QScrap("scrap");
 
-    public final briefing.base.QBaseDateTimeEntity _super = new briefing.base.QBaseDateTimeEntity(this);
+    public final briefing.common.domain.QBaseDateTimeEntity _super = new briefing.common.domain.QBaseDateTimeEntity(this);
 
     public final briefing.briefing.domain.QBriefing briefing;
 

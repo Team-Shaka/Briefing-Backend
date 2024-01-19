@@ -2,8 +2,8 @@ package briefing.scrap.domain;
 
 import jakarta.persistence.*;
 
-import briefing.base.BaseDateTimeEntity;
 import briefing.briefing.domain.Briefing;
+import briefing.common.domain.BaseDateTimeEntity;
 import briefing.member.domain.Member;
 import lombok.*;
 

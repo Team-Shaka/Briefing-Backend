@@ -5,7 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-import briefing.base.BaseDateTimeEntity;
+import briefing.common.domain.BaseDateTimeEntity;
 import briefing.common.enums.MemberRole;
 import briefing.common.enums.MemberStatus;
 import briefing.common.enums.SocialType;

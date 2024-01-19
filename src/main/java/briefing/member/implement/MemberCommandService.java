@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import briefing.common.enums.SocialType;
 import briefing.common.exception.AppleOAuthException;
@@ -21,46 +20,28 @@ import briefing.common.exception.common.ErrorCode;
 import briefing.infra.feign.oauth.apple.client.AppleOauth2Client;
 import briefing.infra.feign.oauth.apple.dto.ApplePublicKey;
 import briefing.infra.feign.oauth.apple.dto.ApplePublicKeyList;
-import briefing.infra.feign.oauth.google.client.GoogleOauth2Client;
-import briefing.infra.feign.oauth.google.dto.GoogleUserInfo;
-import briefing.infra.redis.domain.RefreshToken;
 import briefing.member.business.MemberConverter;
 import briefing.member.domain.Member;
 import briefing.member.domain.repository.MemberRepository;
-import briefing.member.exception.MemberException;
 import briefing.member.presentation.dto.MemberRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberCommandService {
 
     private final MemberRepository memberRepository;
-    private final GoogleOauth2Client googleOauth2Client;
-
     private final AppleOauth2Client appleOauth2Client;
 
     Logger logger = LoggerFactory.getLogger(MemberCommandService.class);
 
-    public Member login(SocialType socialType, MemberRequest.LoginDTO request) {
-        return switch (socialType) {
-            case GOOGLE -> loginWithGoogle(request);
-            case APPLE -> loginWithApple(request);
-        };
+    public Member login(MemberRequest.LoginDTO request) {
+        return loginWithApple(request);
     }
 
-    private Member loginWithGoogle(MemberRequest.LoginDTO request) {
-        // 구글에서 사용자 정보 조회
-        GoogleUserInfo googleUserInfo = googleOauth2Client.verifyToken(request.getIdentityToken());
-
-        Member member =
-                memberRepository
-                        .findBySocialIdAndSocialType(googleUserInfo.getSub(), SocialType.GOOGLE)
-                        .orElseGet(() -> MemberConverter.toMember(googleUserInfo));
-
+    public Member save(Member member) {
         return memberRepository.save(member);
     }
 
@@ -73,14 +54,9 @@ public class MemberCommandService {
             JSONParser parser = new JSONParser();
             String[] decodeArr = request.getIdentityToken().split("\\.");
 
-            System.out.println("decode Arr의 값");
-            System.out.println(decodeArr);
             String header = new String(Base64.getDecoder().decode(decodeArr[0]));
 
             JSONObject headerJson = (JSONObject) parser.parse(header);
-
-            System.out.println("identity token의 전자서명 정보");
-            System.out.println(headerJson);
 
             Object kid = headerJson.get("kid");
             Object alg = headerJson.get("alg");
@@ -91,8 +67,6 @@ public class MemberCommandService {
             e.printStackTrace();
         }
 
-        System.out.println("매칭이 된 key 정보");
-        System.out.println(applePublicKey.toString());
         PublicKey publicKey = this.getPublicKey(applePublicKey);
 
         Claims userInfo =
@@ -101,9 +75,6 @@ public class MemberCommandService {
                         .build()
                         .parseClaimsJws(request.getIdentityToken())
                         .getBody();
-
-        System.out.println("파싱된 유저의 정보");
-        System.out.println(userInfo);
 
         String appleSocialId = userInfo.get("sub", String.class);
 
@@ -116,8 +87,6 @@ public class MemberCommandService {
     }
 
     private PublicKey getPublicKey(ApplePublicKey applePublicKeyDTO) {
-
-        logger.info("전자서명을 위한 공개키 재료 : {}", applePublicKeyDTO.toString());
 
         String nStr = applePublicKeyDTO.getN();
         String eStr = applePublicKeyDTO.getE();
@@ -136,12 +105,6 @@ public class MemberCommandService {
         } catch (Exception exception) {
             throw new AppleOAuthException(ErrorCode.FAIL_TO_MAKE_APPLE_PUBLIC_KEY);
         }
-    }
-
-    public Member parseRefreshToken(RefreshToken refreshToken) {
-        return memberRepository
-                .findById(refreshToken.getMemberId())
-                .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
     public void deleteMember(Long memberId) {

@@ -1,4 +1,4 @@
-package briefing.base;
+package briefing.common.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultSupertypeSerializer")
 public class QBaseDateTimeEntity extends EntityPathBase<BaseDateTimeEntity> {
 
-    private static final long serialVersionUID = 1261212710L;
+    private static final long serialVersionUID = -1472697380L;
 
     public static final QBaseDateTimeEntity baseDateTimeEntity = new QBaseDateTimeEntity("baseDateTimeEntity");
 
