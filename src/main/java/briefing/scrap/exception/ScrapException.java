@@ -1,7 +1,7 @@
 package briefing.scrap.exception;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.GeneralException;
+import briefing.common.exception.common.ErrorCode;
+import briefing.common.exception.common.GeneralException;
 
 public class ScrapException extends GeneralException {
     public ScrapException(ErrorCode errorCode) {

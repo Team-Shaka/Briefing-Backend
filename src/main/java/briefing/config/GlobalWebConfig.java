@@ -8,7 +8,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import briefing.converter.*;
+import briefing.common.presentation.converter.*;
 import briefing.security.handler.annotation.AuthUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 

@@ -20,7 +20,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
-    public final briefing.base.QBaseDateTimeEntity _super = new briefing.base.QBaseDateTimeEntity(this);
+    public final briefing.common.domain.QBaseDateTimeEntity _super = new briefing.common.domain.QBaseDateTimeEntity(this);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -31,15 +31,15 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath profileImgUrl = createString("profileImgUrl");
 
-    public final EnumPath<MemberRole> role = createEnum("role", MemberRole.class);
+    public final EnumPath<briefing.common.enums.MemberRole> role = createEnum("role", briefing.common.enums.MemberRole.class);
 
     public final ListPath<briefing.scrap.domain.Scrap, briefing.scrap.domain.QScrap> scrapList = this.<briefing.scrap.domain.Scrap, briefing.scrap.domain.QScrap>createList("scrapList", briefing.scrap.domain.Scrap.class, briefing.scrap.domain.QScrap.class, PathInits.DIRECT2);
 
     public final StringPath socialId = createString("socialId");
 
-    public final EnumPath<SocialType> socialType = createEnum("socialType", SocialType.class);
+    public final EnumPath<briefing.common.enums.SocialType> socialType = createEnum("socialType", briefing.common.enums.SocialType.class);
 
-    public final EnumPath<MemberStatus> status = createEnum("status", MemberStatus.class);
+    public final EnumPath<briefing.common.enums.MemberStatus> status = createEnum("status", briefing.common.enums.MemberStatus.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

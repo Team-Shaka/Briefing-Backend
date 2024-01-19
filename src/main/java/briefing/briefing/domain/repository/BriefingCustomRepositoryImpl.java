@@ -14,9 +14,9 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import briefing.briefing.domain.Briefing;
-import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.QBriefing;
-import briefing.briefing.domain.TimeOfDay;
+import briefing.common.enums.BriefingType;
+import briefing.common.enums.TimeOfDay;
 import briefing.scrap.domain.QScrap;
 import lombok.RequiredArgsConstructor;
 

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import briefing.briefing.domain.Briefing;
-import briefing.briefing.domain.BriefingType;
+import briefing.common.enums.BriefingType;
 
 @Repository
 public interface BriefingRepository
