@@ -71,6 +71,7 @@
 
 <b>Redis</b>
 - Refresh Token 관리를 위해 Redis를 사용했습니다.
+- API 응답 캐시로 사용했습니다.
 
 <b>AWS</b>
 - write
