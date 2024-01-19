@@ -1,7 +1,7 @@
 package briefing.member.exception;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.GeneralException;
+import briefing.common.exception.common.ErrorCode;
+import briefing.common.exception.common.GeneralException;
 
 public class MemberException extends GeneralException {
     public MemberException(ErrorCode errorCode) {

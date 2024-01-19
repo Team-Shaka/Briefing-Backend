@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import briefing.briefing.domain.Briefing;
-import briefing.briefing.domain.BriefingType;
-import briefing.briefing.domain.TimeOfDay;
+import briefing.common.enums.BriefingType;
+import briefing.common.enums.TimeOfDay;
 
 public interface BriefingCustomRepository {
     List<Briefing> findBriefingsWithScrapCount(

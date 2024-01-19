@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.common.ApiErrorResult;
+import briefing.common.exception.common.ApiErrorResult;
+import briefing.common.exception.common.ErrorCode;
 
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

@@ -21,8 +21,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.handler.JwtAuthenticationException;
+import briefing.common.exception.JwtAuthenticationException;
+import briefing.common.exception.common.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 

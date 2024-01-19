@@ -5,8 +5,8 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.handler.ChattingException;
+import briefing.common.exception.ChattingException;
+import briefing.common.exception.common.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

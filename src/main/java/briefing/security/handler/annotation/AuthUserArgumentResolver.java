@@ -10,8 +10,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import briefing.member.application.MemberQueryService;
 import briefing.member.domain.Member;
+import briefing.member.implement.MemberQueryService;
 import briefing.security.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 

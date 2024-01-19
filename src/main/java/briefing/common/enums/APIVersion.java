@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.handler.BriefingException;
+import briefing.briefing.exception.BriefingException;
+import briefing.common.exception.common.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

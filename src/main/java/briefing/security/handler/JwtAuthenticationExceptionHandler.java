@@ -11,9 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import briefing.exception.ErrorCode;
-import briefing.exception.common.ApiErrorResult;
-import briefing.exception.handler.JwtAuthenticationException;
+import briefing.common.exception.JwtAuthenticationException;
+import briefing.common.exception.common.ApiErrorResult;
+import briefing.common.exception.common.ErrorCode;
 
 // @Component
 public class JwtAuthenticationExceptionHandler extends OncePerRequestFilter {
