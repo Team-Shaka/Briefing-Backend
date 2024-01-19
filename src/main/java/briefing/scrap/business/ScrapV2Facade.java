@@ -21,14 +21,14 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ScrapFacade {
+public class ScrapV2Facade {
     private final ScrapQueryService scrapQueryService;
     private final ScrapCommandService scrapCommandService;
     private final MemberQueryService memberQueryService;
     private final BriefingQueryService briefingQueryService;
 
     @Transactional
-    public ScrapResponse.CreateDTO create(final ScrapRequest.CreateDTO request) {
+    public ScrapResponse.CreateDTOV2 create(final ScrapRequest.CreateDTO request) {
         if (Boolean.TRUE.equals(
                 scrapQueryService.existsByMemberIdAndBriefingId(
                         request.getMemberId(), request.getBriefingId())))
@@ -36,23 +36,27 @@ public class ScrapFacade {
 
         Member member = memberQueryService.findById(request.getMemberId());
         Briefing briefing =
-                briefingQueryService.findBriefing(request.getBriefingId(), APIVersion.V1);
+                briefingQueryService.findBriefing(request.getBriefingId(), APIVersion.V2);
 
         Scrap scrap = ScrapConverter.toScrap(member, briefing);
         Scrap createdScrap = scrapCommandService.create(scrap);
-        return ScrapConverter.toCreateDTO(createdScrap);
+
+        Integer scrapCount = scrapQueryService.countByBriefingId(request.getBriefingId());
+
+        return ScrapConverter.toCreateDTOV2(createdScrap, scrapCount);
     }
 
     @Transactional
-    public ScrapResponse.DeleteDTO delete(final Long briefingId, final Long memberId) {
+    public ScrapResponse.DeleteDTOV2 delete(final Long briefingId, final Long memberId) {
         Scrap scrap = scrapQueryService.getScrapByBriefingIdAndMemberId(briefingId, memberId);
         Scrap deletedScrap = scrapCommandService.delete(scrap);
-        return ScrapConverter.toDeleteDTO(deletedScrap);
+        Integer scrapCount = scrapQueryService.countByBriefingId(briefingId);
+        return ScrapConverter.toDeleteDTOV2(deletedScrap, scrapCount);
     }
 
     @Transactional(readOnly = true)
-    public List<ScrapResponse.ReadDTO> getScrapsByMemberId(final Long memberId) {
+    public List<ScrapResponse.ReadDTOV2> getScrapsByMemberId(final Long memberId) {
         List<Scrap> scraps = scrapQueryService.getScrapsByMemberId(memberId);
-        return scraps.stream().map(ScrapConverter::toReadDTO).toList();
+        return scraps.stream().map(ScrapConverter::toReadDTOV2).toList();
     }
 }
