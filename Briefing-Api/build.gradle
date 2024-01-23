@@ -1,0 +1,60 @@
+
+tasks.named('bootJar') { //빌드할 때 bootjar 파일로 하겠다는 의미
+    enabled = true
+}
+
+tasks.named('jar') { //빌드할 때 jar 파일로 하겠다는 의미
+    enabled = false
+}
+
+dependencies {
+
+    implementation project(':core:Briefing-Common')
+    implementation project(':core:Briefing-Infra')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // querydsl
+    // == 스프링 부트 3.0 이상 ==
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'mysql:mysql-connector-java' // 추가 작성
+
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'org.postgresql:postgresql'
+//    runtimeOnly 'com.mysql:mysql-connector-j'
+    
+    // jwt 의존성
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+    // fcm 의존성
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
+
+    //spring batch 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
