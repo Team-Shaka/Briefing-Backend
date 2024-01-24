@@ -1,0 +1,17 @@
+//tasks.named('bootJar') { //빌드할 때 bootjar 파일로 하겠다는 의미
+//    enabled = false
+//}
+//
+//tasks.named('jar') { //빌드할 때 jar 파일로 하겠다는 의미
+//    enabled = true
+//}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

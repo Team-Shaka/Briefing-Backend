@@ -4,6 +4,9 @@ spring:
     name: briefing-dev
   profiles:
     active: dev
+  batch:
+    jdbc:
+      initialize-schema: always
 springdoc:
   swagger-ui:
     tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
@@ -17,6 +20,9 @@ swagger:
     password : ${SWAGGER_PASS}
 fcm:
   key: ${FCM_KEY}
+  permit-flag : 1
+  topic:
+    daily-push : dailyPush
 ---
 spring:
   config:
