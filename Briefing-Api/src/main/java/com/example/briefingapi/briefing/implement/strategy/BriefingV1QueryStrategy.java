@@ -31,8 +31,7 @@ public class BriefingV1QueryStrategy implements BriefingQueryStrategy {
                 briefingRepository.findAllByTypeAndCreatedAtBetweenOrderByRanks(
                         params.getType(), startDateTime, endDateTime);
         if (briefingList.isEmpty()) {
-            briefingList = null;
-                    briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
+            briefingList = briefingRepository.findTop10ByTypeOrderByCreatedAtDesc(BriefingType.SOCIAL);
         }
         return briefingList;
     }

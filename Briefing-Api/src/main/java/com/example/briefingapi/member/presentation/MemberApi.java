@@ -37,7 +37,7 @@ public class MemberApi {
     private final MemberFacade memberFacade;
 
 
-    @Operation(summary = "Member\uD83D\uDC64 테스트를 위한 토큰 발급 API", description = "테스트 용")
+    @Operation(summary = "02-05 Member\uD83D\uDC64 [테스트] 테스트를 위한 토큰 발급 API", description = "테스트 용")
     @GetMapping("/members/auth/test")
     public CommonResponse<MemberResponse.TestTokenDTO> testGenerateToken() {
         return CommonResponse.onSuccess(memberFacade.getTestToken());

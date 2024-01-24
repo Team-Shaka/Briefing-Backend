@@ -39,6 +39,9 @@ public class MemberFacade {
     @Value("${fcm.topic.daily-push}")
     private String dailyPushTopic;
 
+    @Value(("${fcm.permit-flag}"))
+    private Integer permitFlag;
+
     private Member loginWithGoogle(String identityToken) {
         GoogleUserInfo googleUserInfo = googleOauth2Client.verifyToken(identityToken);
         Member member =
@@ -103,7 +106,7 @@ public class MemberFacade {
 
     public void subScribeDailyPush(MemberRequest.ToggleDailyPushAlarmDTO request, Member member){
 
-        if(request.getPermit().equals(1)){
+        if(request.getPermit().equals(permitFlag)){
             memberCommandService.storeFcmToken(request.getFcmToken(),member);
             fcmCommandService.subScribe(dailyPushTopic, request.getFcmToken());
         }
