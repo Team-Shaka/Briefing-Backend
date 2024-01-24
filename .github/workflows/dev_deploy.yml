@@ -27,7 +27,6 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash # (6).권한 부여
 
-# clean build -x test
       - name: Build with Gradle
         run: ./gradlew Briefing-Api:bootJar
         shell: bash # (7).build 시작
@@ -63,4 +62,3 @@ jobs:
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
           wait_for_deployment: false
-
