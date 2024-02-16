@@ -47,7 +47,7 @@ public class RedisServiceImpl implements RedisService {
 
         LocalDateTime currentTime = LocalDateTime.now();
 
-        LocalDateTime expireTime = currentTime.plus(90, ChronoUnit.SECONDS);
+        LocalDateTime expireTime = currentTime.plus(62, ChronoUnit.SECONDS);
 
         return refreshTokenRepository.save(
                 RefreshToken.builder()
