@@ -82,7 +82,7 @@ public class SecurityConfig {
                                 "/schedule",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
-                                "/docs/**","/fcms/**",
+                                "/docs/**","/fcms/**","/members/auth/**",
                                 "/briefings/temp");
     }
 
@@ -138,6 +138,7 @@ public class SecurityConfig {
                                     .authenticated();
                             authorize.requestMatchers("/v2/scraps/**").authenticated();
                             authorize.requestMatchers("/scraps/**").authenticated();
+                            authorize.requestMatchers("/members/auth/token").permitAll();
                             authorize.anyRequest().authenticated();
                         })
                 .exceptionHandling(
