@@ -47,7 +47,7 @@ public class RedisServiceImpl implements RedisService {
 
         LocalDateTime currentTime = LocalDateTime.now();
 
-        LocalDateTime expireTime = currentTime.plus(1000, ChronoUnit.MINUTES);
+        LocalDateTime expireTime = currentTime.plus(90, ChronoUnit.SECONDS);
 
         return refreshTokenRepository.save(
                 RefreshToken.builder()
@@ -68,8 +68,6 @@ public class RedisServiceImpl implements RedisService {
                                 () -> new RefreshTokenException(ErrorCode.INVALID_REFRESH_TOKEN));
         LocalDateTime expireTime = findRefreshToken.getExpireTime();
         LocalDateTime current = LocalDateTime.now();
-        // 테스트용, 실제로는 현재 시간 + accessToken 만료 시간
-        LocalDateTime expireDeadLine = current.plusSeconds(20);
 
         Member member =
                 memberRepository
@@ -80,13 +78,8 @@ public class RedisServiceImpl implements RedisService {
             logger.error("이미 만료된 리프레시 토큰 발견");
             throw new RefreshTokenException(ErrorCode.RELOGIN_EXCEPTION);
         }
-
-        // 새로 발급할 accessToken보다 refreshToken이 먼저 만료 될 경우인가?
-        if (expireTime.isAfter(expireDeadLine)) {
-            logger.info("기존 리프레시 토큰 발급");
-            return findRefreshToken;
-        } else {
-            logger.info("accessToken보다 먼저 만료될 예정인 리프레시 토큰 발견");
+        else{
+            logger.info("리프레시 토큰과 access 토큰 재발급");
             deleteRefreshToken(request.getRefreshToken());
             return generateRefreshToken(member.getSocialId(), member.getSocialType());
         }
