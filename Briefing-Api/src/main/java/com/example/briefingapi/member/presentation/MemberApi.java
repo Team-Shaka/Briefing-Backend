@@ -45,6 +45,13 @@ public class MemberApi {
 
     @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 V1", description = "구글, 애플 소셜로그인 API입니다.")
     @PostMapping("/members/auth/{socialType}")
+    @ApiResponses({
+            @ApiResponse(responseCode = "1000", description = "OK, 성공"),
+            @ApiResponse(
+                    responseCode = "COMMON001",
+                    description = "request body에 담길 값이 이상함, result를 확인해주세요!",
+                    content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+    })
     public CommonResponse<MemberResponse.LoginDTO> login(
             @Parameter(description = "소셜로그인 종류", example = "google") @PathVariable
                     final SocialType socialType,
