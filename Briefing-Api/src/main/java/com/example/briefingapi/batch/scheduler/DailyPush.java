@@ -23,7 +23,7 @@ public class DailyPush {
     private final Job job;
 
     // 초 분 시 일 월 요일
-    @Scheduled(cron = "0 0 8,17 * * *")
+    @Scheduled(cron = "0 0 8,11,14,17,20,21 * * *")
     public void requestDailyTopicFcmJob(){
         log.info("daily alarm launched");
         try {
