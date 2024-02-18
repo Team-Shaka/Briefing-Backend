@@ -66,7 +66,7 @@ jwt:
   # dev server
   secret: ${JWT_SECRET}
   authorities-key: authoritiesKey
-  access-token-validity-in-seconds: 30000
+  access-token-validity-in-seconds: 1200000
   refresh-token-validity-in-seconds: 1210000000 # 14 d
 
 openai:

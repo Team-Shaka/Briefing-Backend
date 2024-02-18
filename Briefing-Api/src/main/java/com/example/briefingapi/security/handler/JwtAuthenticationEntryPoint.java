@@ -31,8 +31,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         ApiErrorResult apiErrorResult =
                 ApiErrorResult.builder()
                         .isSuccess(false)
-                        .code(ErrorCode._UNAUTHORIZED.getCode())
-                        .message(ErrorCode._UNAUTHORIZED.getMessage())
+                        .code(ErrorCode.UNAUTHORIZED_EXCEPTION.getCode())
+                        .message(ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage())
                         .result(null)
                         .build();
         try {
