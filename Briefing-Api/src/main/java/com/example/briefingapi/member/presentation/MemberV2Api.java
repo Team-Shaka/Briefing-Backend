@@ -47,6 +47,35 @@ public class MemberV2Api {
         return CommonResponse.onSuccess(memberFacade.login(socialType, request));
     }
 
+    @Operation(summary = "02-04 Member\uD83D\uDC64 푸쉬 알람 허용/거부 설정 V2 ", description = "푸쉬 알람 허용/거부 설정입니다.")
+    @PostMapping("/members/alarms")
+    @ApiResponses({
+            @ApiResponse(responseCode = "1000", description = "OK, 성공"),
+            @ApiResponse(
+                    responseCode = "AUTH003",
+                    description = "access 토큰을 주세요!",
+                    content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(
+                    responseCode = "AUTH004",
+                    description = "acess 토큰 만료",
+                    content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(
+                    responseCode = "AUTH006",
+                    description = "acess 토큰 모양이 이상함",
+                    content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(
+                    responseCode = "MEMBER_001",
+                    description = "사용자가 존재하지 않습니다.",
+                    content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+    })
+    public CommonResponse<Void> subscribeDailyPush(
+            @Valid @RequestBody MemberRequest.ToggleDailyPushAlarmDTO request,
+            @Parameter(hidden = true) @AuthMember Member member
+    ){
+        memberFacade.subScribeDailyPush(request,member);
+        return CommonResponse.onSuccess();
+    }
+
     @Operation(
             summary = "02-01 Member\uD83D\uDC64 accessToken 재발급 받기 V2",
             description = "accessToken 만료 시 refreshToken으로 재발급을 받는 API 입니다.")
