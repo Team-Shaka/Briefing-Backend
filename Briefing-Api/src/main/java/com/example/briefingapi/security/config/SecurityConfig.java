@@ -82,7 +82,7 @@ public class SecurityConfig {
                                 "/schedule",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
-                                "/docs/**","/fcms/**","/members/auth/**",
+                                "/docs/**","/fcms/**","/members/auth/**","/v2/members/auth/**",
                                 "/briefings/temp");
     }
 
