@@ -24,6 +24,9 @@ fcm:
   topic:
     daily-push : dailyPush
 ---
+logging:
+  level:
+    org.springframework.security.web.FilterChainProxy: DEBUG
 spring:
   config:
     activate:
@@ -66,7 +69,7 @@ jwt:
   # dev server
   secret: ${JWT_SECRET}
   authorities-key: authoritiesKey
-  access-token-validity-in-seconds: 1200000
+  access-token-validity-in-seconds: 3000
   refresh-token-validity-in-seconds: 1210000000 # 14 d
 
 openai:

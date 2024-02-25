@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
@@ -62,6 +62,12 @@ public class SecurityConfig {
     @Value("${swagger.login.password}")
     private String swaggerPass;
 
+    private static final String[] JWT_WHITE_LIST ={
+            "/pushs","/members/auth","/v2/members/auth",
+            "briefings", "/v2/briefings","/chattings",
+            "/briefings/temp"
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -77,13 +83,11 @@ public class SecurityConfig {
         return (web) ->
                 web.ignoring()
                         .requestMatchers(
-                                "",
-                                "/",
+                                "","/",
                                 "/schedule",
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
-                                "/docs/**","/fcms/**","/members/auth/**","/v2/members/auth/**",
-                                "/briefings/temp");
+                                "/docs/**");
     }
 
     @Bean
@@ -147,7 +151,7 @@ public class SecurityConfig {
                                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                                         .accessDeniedHandler(jwtAccessDeniedHandler))
                 .addFilterBefore(
-                        new JwtRequestFilter(tokenProvider),
+                        new JwtRequestFilter(tokenProvider,JWT_WHITE_LIST),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationExceptionHandler, JwtRequestFilter.class)
                 .build();
