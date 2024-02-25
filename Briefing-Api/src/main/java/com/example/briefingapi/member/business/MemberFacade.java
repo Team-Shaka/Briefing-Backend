@@ -82,8 +82,8 @@ public class MemberFacade {
                         member.getSocialType().toString(),
                         member.getSocialId(),
                         List.of(new SimpleGrantedAuthority(MemberRole.ROLE_USER.name()))))
+                .refeshToken(redisService.generateTestRefreshToken())
                 .build();
-
     }
 
     public MemberResponse.ReIssueTokenDTO reIssueToken(final MemberRequest.ReissueDTO request) {
