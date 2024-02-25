@@ -70,7 +70,7 @@ jwt:
   secret: ${JWT_SECRET}
   authorities-key: authoritiesKey
   #1800000
-  access-token-validity-in-seconds:  1800
+  access-token-validity-in-seconds:  3000
   refresh-token-validity-in-seconds:  1209600000 # 14 d
 
 openai:
