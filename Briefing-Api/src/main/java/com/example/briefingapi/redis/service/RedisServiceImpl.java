@@ -57,6 +57,22 @@ public class RedisServiceImpl implements RedisService {
                         .build());
     }
 
+    public String generateTestRefreshToken(){
+        String token = UUID.randomUUID().toString();
+
+
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        LocalDateTime expireTime = currentTime.plus(70, ChronoUnit.SECONDS);
+
+        return refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .memberId(63L)
+                        .token(token)
+                        .expireTime(expireTime)
+                        .build()).getToken();
+    }
+
     @Override
     public RefreshToken reGenerateRefreshToken(MemberRequest.ReissueDTO request) {
         if (request.getRefreshToken() == null)

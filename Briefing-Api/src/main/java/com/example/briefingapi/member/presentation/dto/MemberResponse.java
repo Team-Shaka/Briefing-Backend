@@ -26,6 +26,7 @@ public class MemberResponse {
     @AllArgsConstructor
     public static class TestTokenDTO{
         String token;
+        String refeshToken;
     }
 
     @Builder
