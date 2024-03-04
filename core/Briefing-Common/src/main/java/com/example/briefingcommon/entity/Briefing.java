@@ -41,7 +41,7 @@ public class Briefing extends BaseDateTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "briefing", fetch = FetchType.LAZY)
-    private List<BriefingArticle> briefingArticles = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
 
     @Builder.Default @Transient private Integer scrapCount = 0;
 
@@ -67,6 +67,10 @@ public class Briefing extends BaseDateTimeEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     public void updateBriefing(String title, String subtitle, String content) {

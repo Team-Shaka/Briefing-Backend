@@ -54,7 +54,7 @@ public class QBriefingArticle extends EntityPathBase<BriefingArticle> {
 
     public QBriefingArticle(Class<? extends BriefingArticle> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.article = inits.isInitialized("article") ? new QArticle(forProperty("article")) : null;
+        this.article = inits.isInitialized("article") ? new QArticle(forProperty("article"), inits.get("article")) : null;
         this.briefing = inits.isInitialized("briefing") ? new QBriefing(forProperty("briefing")) : null;
     }
 
