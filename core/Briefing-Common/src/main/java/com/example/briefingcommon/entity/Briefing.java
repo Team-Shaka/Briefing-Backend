@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -52,6 +53,10 @@ public class Briefing extends BaseDateTimeEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private GptModel gptModel = GptModel.GPT_3_5_TURBO;
+
+    @ColumnDefault("0")
+    @Builder.Default
+    private int viewCount = 0;
 
     public void setScrapCount(Integer scrapCount) {
         this.scrapCount = scrapCount;

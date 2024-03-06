@@ -46,6 +46,8 @@ public class QBriefing extends EntityPathBase<Briefing> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
+    public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
+
     public QBriefing(String variable) {
         super(Briefing.class, forVariable(variable));
     }
