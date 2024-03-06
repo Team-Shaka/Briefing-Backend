@@ -3,6 +3,7 @@ package com.example.briefingapi.briefing.business;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.briefingapi.briefing.implement.service.BriefingCommandService;
 import com.example.briefingapi.briefing.implement.service.BriefingQueryService;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestParam;
 import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class BriefingV2Facade {
 
     private final BriefingQueryService briefingQueryService;
+    private final BriefingCommandService briefingCommandService;
     private final ScrapQueryService scrapQueryService;
     private static final APIVersion version = APIVersion.V2;
 
@@ -30,8 +32,9 @@ public class BriefingV2Facade {
         return BriefingConverter.toBriefingPreviewListDTOV2(params.getDate(), briefingList);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public BriefingResponseDTO.BriefingDetailDTOV2 findBriefing(final Long id, Member member) {
+        briefingCommandService.increaseViewCountById(id);
         Boolean isScrap =
                 Optional.ofNullable(member)
                         .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
