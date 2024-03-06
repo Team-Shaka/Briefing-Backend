@@ -170,3 +170,40 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        ddl-hbm2ddl:
+          auto: create
+        #        show_sql: true
+        #        format_sql: true
+        #        use_sql_comments: true
+        default_batch_fetch_size: 1000
+  data:
+    redis:
+      host: ${REDIS_URL}
+      port: 6379
+jwt:
+  header: Authorization
+  # dev server
+  secret: ${JWT_SECRET}
+  #  secret : ${JWT_SECRET}
+  authorities-key: authoritiesKey
+  access-token-validity-in-seconds: 30000 # 30 m
+  refresh-token-validity-in-seconds: 1210000000 # 14 d
+
+openai:
+  token: ${OPEN_API_TOKEN}
+  url:
+    chat: https://api.openai.com/v1/chat/completions
