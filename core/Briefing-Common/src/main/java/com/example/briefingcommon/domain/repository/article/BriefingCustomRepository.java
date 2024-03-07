@@ -1,12 +1,11 @@
 package com.example.briefingcommon.domain.repository.article;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.enums.BriefingType;
 import com.example.briefingcommon.entity.enums.TimeOfDay;
-import org.springframework.stereotype.Repository;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 
 public interface BriefingCustomRepository {
