@@ -21,4 +21,8 @@ public class BriefingCommandService {
         briefing.updateBriefing(title, subTitle, content);
         return briefing;
     }
+
+    public void increaseViewCountById(final Long id) {
+        briefingRepository.updateViewCountById(id);
+    }
 }

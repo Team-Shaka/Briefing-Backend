@@ -39,8 +39,9 @@ public class BriefingFacade {
         return BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public BriefingResponseDTO.BriefingDetailDTO findBriefing(final Long id, Member member) {
+        briefingCommandService.increaseViewCountById(id);
         Boolean isScrap =
                 Optional.ofNullable(member)
                         .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
