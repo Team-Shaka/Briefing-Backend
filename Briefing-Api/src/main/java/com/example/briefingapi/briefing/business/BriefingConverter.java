@@ -79,8 +79,8 @@ public class BriefingConverter {
             Briefing briefing, Boolean isScrap, Boolean isBriefingOpen, Boolean isWarning) {
 
         List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList =
-                briefing.getBriefingArticles().stream()
-                        .map(article -> toArticleResponseDTO(article.getArticle()))
+                briefing.getArticles().stream()
+                        .map(BriefingConverter::toArticleResponseDTO)
                         .toList();
 
         return BriefingResponseDTO.BriefingDetailDTO.builder()
@@ -101,8 +101,8 @@ public class BriefingConverter {
             Briefing briefing, Boolean isScrap, Boolean isBriefingOpen, Boolean isWarning) {
 
         List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList =
-                briefing.getBriefingArticles().stream()
-                        .map(article -> toArticleResponseDTO(article.getArticle()))
+                briefing.getArticles().stream()
+                        .map(BriefingConverter::toArticleResponseDTO)
                         .toList();
 
         return BriefingResponseDTO.BriefingDetailDTOV2.builder()

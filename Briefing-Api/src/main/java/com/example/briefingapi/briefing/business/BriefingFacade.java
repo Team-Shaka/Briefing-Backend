@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.briefingapi.briefing.implement.service.ArticleCommandService;
-import com.example.briefingapi.briefing.implement.service.BriefingArticleCommandService;
 import com.example.briefingapi.briefing.implement.service.BriefingCommandService;
 import com.example.briefingapi.briefing.implement.service.BriefingQueryService;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestDTO;
@@ -13,7 +12,6 @@ import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
 import com.example.briefingapi.scrap.implement.ScrapQueryService;
 import com.example.briefingcommon.entity.Article;
 import com.example.briefingcommon.entity.Briefing;
-import com.example.briefingcommon.entity.BriefingArticle;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.enums.APIVersion;
 import org.springframework.stereotype.Component;
@@ -29,7 +27,6 @@ public class BriefingFacade {
     private final BriefingQueryService briefingQueryService;
     private final BriefingCommandService briefingCommandService;
     private final ArticleCommandService articleCommandService;
-    private final BriefingArticleCommandService briefingArticleCommandService;
     private static final APIVersion version = APIVersion.V1;
 
     @Transactional(readOnly = true)
@@ -56,19 +53,19 @@ public class BriefingFacade {
 
     @Transactional
     public void createBriefing(final BriefingRequestDTO.BriefingCreate request) {
-        final List<Article> articles =
-                request.getArticles().stream().map(BriefingConverter::toArticle).toList();
-
         Briefing createdBriefing =
                 briefingCommandService.create(BriefingConverter.toBriefing(request));
+
+        final List<Article> articles =
+                request.getArticles().stream()
+                        .map(articleCreateDto -> {
+                            Article article = BriefingConverter.toArticle(articleCreateDto);
+                            article.setBriefing(createdBriefing);
+                            return article;
+                        }).toList();
+
         List<Article> createdArticles = articleCommandService.createAll(articles);
-
-        final List<BriefingArticle> briefingArticles =
-                createdArticles.stream()
-                        .map(article -> new BriefingArticle(createdBriefing, article))
-                        .toList();
-
-        briefingArticleCommandService.createAll(briefingArticles);
+        createdBriefing.setArticles(createdArticles);
     }
 
     @Transactional

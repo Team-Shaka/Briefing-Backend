@@ -1,11 +1,9 @@
 package com.example.briefingcommon.domain.repository.article;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
 import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.enums.BriefingType;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
