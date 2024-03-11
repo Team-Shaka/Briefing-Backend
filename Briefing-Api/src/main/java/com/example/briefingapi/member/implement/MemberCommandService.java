@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.briefingapi.member.business.MemberConverter;
-import com.example.briefingcommon.common.constant.BriefingStatic;
 import com.example.briefingcommon.domain.repository.FcmTokenRepository;
 import com.example.briefingcommon.domain.repository.member.MemberRepository;
 import com.example.briefingapi.member.presentation.dto.MemberRequest;
@@ -18,7 +17,7 @@ import com.example.briefingcommon.common.exception.common.ErrorCode;
 import com.example.briefingcommon.entity.FcmToken;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.enums.SocialType;
-import com.example.briefinginfra.feign.nickname.hwanmoo.client.NickNameClient;
+import com.example.briefinginfra.feign.nickname.hwanmoo.adapter.NickNameGenerator;
 import com.example.briefinginfra.feign.oauth.apple.client.AppleOauth2Client;
 import com.example.briefinginfra.feign.oauth.apple.dto.ApplePublicKey;
 import com.example.briefinginfra.feign.oauth.apple.dto.ApplePublicKeyList;
@@ -34,15 +33,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 
-import static com.example.briefingcommon.common.constant.BriefingStatic.*;
-
 @Service
 @RequiredArgsConstructor
 public class MemberCommandService {
 
     private final MemberRepository memberRepository;
     private final AppleOauth2Client appleOauth2Client;
-    private final NickNameClient nickNameClient;
+    private final NickNameGenerator nickNameGenerator;
 
     private final FcmTokenRepository fcmTokenRepository;
 
@@ -92,9 +89,7 @@ public class MemberCommandService {
         Optional<Member> foundMember =
                 memberRepository.findBySocialIdAndSocialType(appleSocialId, SocialType.APPLE);
 
-        String nickName = "";
-        List<String> nickNameWords = nickNameClient.getNickName(NICK_NAME_FORMAT, NICK_NAME_COUNT, NICK_NAME_MAX_LENGTH).getWords();
-        if(!nickNameWords.isEmpty()) nickName = nickNameWords.get(0);
+        String nickName = nickNameGenerator.getOneRandomNickName();
 
         return foundMember.isEmpty()
                 ? memberRepository.save(MemberConverter.toMember(appleSocialId, nickName))
