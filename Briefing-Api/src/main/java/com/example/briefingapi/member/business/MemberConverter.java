@@ -37,12 +37,13 @@ public class MemberConverter {
                 .build();
     }
 
-    public static Member toMember(String appleSocialId) {
+    public static Member toMember(String appleSocialId, String nickName) {
         return Member.builder()
                 //                .profileImgUrl(googleUserInfo.getPicture())
                 //                .nickName(googleUserInfo.getName())
                 .socialId(appleSocialId)
                 .socialType(SocialType.APPLE)
+                .nickName(nickName)
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .build();
