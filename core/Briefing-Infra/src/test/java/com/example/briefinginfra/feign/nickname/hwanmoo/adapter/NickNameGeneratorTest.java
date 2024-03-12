@@ -1,5 +1,6 @@
 package com.example.briefinginfra.feign.nickname.hwanmoo.adapter;
 
+import com.example.briefingcommon.common.constant.BriefingStatic;
 import com.example.briefinginfra.config.TestConfig;
 import com.example.briefinginfra.feign.nickname.hwanmoo.client.NickNameClient;
 import com.example.briefinginfra.feign.nickname.hwanmoo.dto.NickNameRes;
@@ -13,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,4 +44,20 @@ class NickNameGeneratorTest {
         assertThat(nickName).isNotNull();
         assertThat(nickName).isEqualTo("하품하는 프로도");
     }
+
+    @Test
+    @DisplayName("[NickNameGenerator] 랜덤 닉네임 생성 - 빈 리스트 (기본 닉네임)")
+    void 랜덤_닉네임_생성_기본_닉네임() throws Exception {
+        // given
+        NickNameRes mockResponse = new NickNameRes();
+        when(nickNameClient.getNickName("json", 1, 8)).thenReturn(mockResponse);
+
+        // when
+        String nickName = nickNameGenerator.getOneRandomNickName();
+
+        // then
+        assertThat(nickName).isNotNull();
+        assertThat(nickName).isEqualTo(BriefingStatic.DEFAULT_NICK_NAME);
+    }
+
 }

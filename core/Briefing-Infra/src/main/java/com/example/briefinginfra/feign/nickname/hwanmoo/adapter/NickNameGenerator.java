@@ -45,7 +45,7 @@ public class NickNameGenerator {
     private String getOneRandomNickNameWithDetails(int maxLength) {
         List<String> nickNameWords = nickNameClient.getNickName(NICK_NAME_FORMAT, NICK_NAME_COUNT, maxLength).getWords();
         if (!nickNameWords.isEmpty()) return nickNameWords.get(0);
-        return "";
+        return DEFAULT_NICK_NAME;
     }
 }
 
