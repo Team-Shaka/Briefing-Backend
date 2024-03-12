@@ -5,6 +5,7 @@ import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.briefingapi.member.business.MemberConverter;
@@ -16,17 +17,17 @@ import com.example.briefingcommon.common.exception.common.ErrorCode;
 import com.example.briefingcommon.entity.FcmToken;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.enums.SocialType;
+import com.example.briefinginfra.feign.nickname.hwanmoo.adapter.NickNameGenerator;
 import com.example.briefinginfra.feign.oauth.apple.client.AppleOauth2Client;
 import com.example.briefinginfra.feign.oauth.apple.dto.ApplePublicKey;
 import com.example.briefinginfra.feign.oauth.apple.dto.ApplePublicKeyList;
-import com.example.briefinginfra.feign.oauth.google.client.GoogleOauth2Client;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -38,6 +39,7 @@ public class MemberCommandService {
 
     private final MemberRepository memberRepository;
     private final AppleOauth2Client appleOauth2Client;
+    private final NickNameGenerator nickNameGenerator;
 
     private final FcmTokenRepository fcmTokenRepository;
 
@@ -87,8 +89,10 @@ public class MemberCommandService {
         Optional<Member> foundMember =
                 memberRepository.findBySocialIdAndSocialType(appleSocialId, SocialType.APPLE);
 
+        String nickName = nickNameGenerator.getOneRandomNickName();
+
         return foundMember.isEmpty()
-                ? memberRepository.save(MemberConverter.toMember(appleSocialId))
+                ? memberRepository.save(MemberConverter.toMember(appleSocialId, nickName))
                 : foundMember.get();
     }
 
