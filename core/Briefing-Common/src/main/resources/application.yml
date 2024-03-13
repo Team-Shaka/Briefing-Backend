@@ -1,0 +1,9 @@
+spring:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+
+  jpa:
+    hibernate:
+      ddl-auto: update
