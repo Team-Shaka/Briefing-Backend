@@ -1,14 +1,11 @@
 package com.example.briefingapi.security.handler.annotation;
 
-import com.example.briefingapi.member.implement.MemberQueryService;
+import com.example.briefingapi.member.implement.MemberQueryAdapter;
 import com.example.briefingapi.security.provider.TokenProvider;
 import com.example.briefingcommon.entity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -22,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final MemberQueryService memberQueryService;
+    private final MemberQueryAdapter memberQueryAdapter;
     private final TokenProvider tokenProvider;
 
     @Override
@@ -56,7 +53,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
                 && tokenProvider.validateToken(jwt, TokenProvider.TokenType.ACCESS)) {
             // 토큰에서 사용자 ID (subject) 추출
             String userId = tokenProvider.getAuthentication(jwt).getName();
-            return memberQueryService.findById(Long.valueOf(userId));
+            return memberQueryAdapter.findById(Long.valueOf(userId));
         }
         return null; // 토큰이 없거나 유효하지 않은 경우
     }

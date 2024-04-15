@@ -5,10 +5,9 @@ import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
-import java.util.List;
 import java.util.Optional;
 
-import com.example.briefingapi.member.business.MemberConverter;
+import com.example.briefingapi.member.business.MemberMapper;
 import com.example.briefingcommon.domain.repository.FcmTokenRepository;
 import com.example.briefingcommon.domain.repository.member.MemberRepository;
 import com.example.briefingapi.member.presentation.dto.MemberRequest;
@@ -35,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberCommandService {
+public class MemberCommandAdapter {
 
     private final MemberRepository memberRepository;
     private final AppleOauth2Client appleOauth2Client;
@@ -43,7 +42,7 @@ public class MemberCommandService {
 
     private final FcmTokenRepository fcmTokenRepository;
 
-    Logger logger = LoggerFactory.getLogger(MemberCommandService.class);
+    Logger logger = LoggerFactory.getLogger(MemberCommandAdapter.class);
 
     public Member login(MemberRequest.LoginDTO request) {
         return loginWithApple(request);
@@ -92,7 +91,7 @@ public class MemberCommandService {
         String nickName = nickNameGenerator.getOneRandomNickName();
 
         return foundMember.isEmpty()
-                ? memberRepository.save(MemberConverter.toMember(appleSocialId, nickName))
+                ? memberRepository.save(MemberMapper.toMember(appleSocialId, nickName))
                 : foundMember.get();
     }
 

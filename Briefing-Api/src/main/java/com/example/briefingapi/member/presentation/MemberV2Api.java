@@ -1,6 +1,6 @@
 package com.example.briefingapi.member.presentation;
 
-import com.example.briefingapi.member.business.MemberFacade;
+import com.example.briefingapi.member.business.MemberService;
 import com.example.briefingapi.member.presentation.dto.MemberRequest;
 import com.example.briefingapi.member.presentation.dto.MemberResponse;
 import com.example.briefingapi.security.handler.annotation.AuthMember;
@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 })
 @RequestMapping("/v2")
 public class MemberV2Api {
-    private final MemberFacade memberFacade;
+    private final MemberService memberService;
 
     @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 V2", description = "구글, 애플 소셜로그인 API입니다.")
     @PostMapping("/members/auth/{socialType}")
@@ -44,7 +44,7 @@ public class MemberV2Api {
             @Parameter(description = "소셜로그인 종류", example = "google") @PathVariable
                     final SocialType socialType,
             @RequestBody final MemberRequest.LoginDTO request) {
-        return CommonResponse.onSuccess(memberFacade.login(socialType, request));
+        return CommonResponse.onSuccess(memberService.login(socialType, request));
     }
 
     @Operation(summary = "02-04 Member\uD83D\uDC64 푸쉬 알람 허용/거부 설정 V2 ", description = "푸쉬 알람 허용/거부 설정입니다.")
@@ -72,7 +72,7 @@ public class MemberV2Api {
             @Valid @RequestBody MemberRequest.ToggleDailyPushAlarmDTO request,
             @Parameter(hidden = true) @AuthMember Member member
     ){
-        memberFacade.subScribeDailyPush(request,member);
+        memberService.subScribeDailyPush(request,member);
         return CommonResponse.onSuccess();
     }
 
@@ -97,7 +97,7 @@ public class MemberV2Api {
     @PostMapping("/members/auth/token")
     public CommonResponse<MemberResponse.ReIssueTokenDTO> reissueTokenV2(
             @Valid @RequestBody MemberRequest.ReissueDTO request) {
-        return CommonResponse.onSuccess(memberFacade.reIssueToken(request));
+        return CommonResponse.onSuccess(memberService.reIssueToken(request));
     }
 
     @Operation(summary = "02-01 Member\uD83D\uDC64 회원 탈퇴 V2", description = "회원 탈퇴 API 입니다.")
@@ -131,6 +131,6 @@ public class MemberV2Api {
     })
     public CommonResponse<MemberResponse.QuitDTO> quitMemberV2(
             @AuthMember Member member, @CheckSameMember @PathVariable Long memberId) {
-        return CommonResponse.onSuccess(memberFacade.quit(memberId));
+        return CommonResponse.onSuccess(memberService.quit(memberId));
     }
 }

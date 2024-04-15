@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
-public class MemberConverter {
+public class MemberMapper {
 
     public static MemberResponse.LoginDTO toLoginDTO(
             Member member, String accessToken, String refreshToken) {

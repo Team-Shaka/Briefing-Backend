@@ -3,8 +3,8 @@ package com.example.briefingapi.member.business;
 import java.util.List;
 
 import com.example.briefingapi.fcm.implementation.FcmCommandService;
-import com.example.briefingapi.member.implement.MemberCommandService;
-import com.example.briefingapi.member.implement.MemberQueryService;
+import com.example.briefingapi.member.implement.MemberCommandAdapter;
+import com.example.briefingapi.member.implement.MemberQueryAdapter;
 import com.example.briefingapi.member.presentation.dto.MemberRequest;
 import com.example.briefingapi.member.presentation.dto.MemberResponse;
 import com.example.briefingapi.security.provider.TokenProvider;
@@ -27,9 +27,9 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class MemberFacade {
-    private final MemberQueryService memberQueryService;
-    private final MemberCommandService memberCommandService;
+public class MemberService {
+    private final MemberQueryAdapter memberQueryAdapter;
+    private final MemberCommandAdapter memberCommandAdapter;
     private final TokenProvider tokenProvider;
     private final FcmCommandService fcmCommandService;
     private final RedisService redisService;
@@ -45,10 +45,10 @@ public class MemberFacade {
     private Member loginWithGoogle(String identityToken) {
         GoogleUserInfo googleUserInfo = googleOauth2Client.verifyToken(identityToken);
         Member member =
-                memberQueryService
+                memberQueryAdapter
                         .findBySocialIdAndSocialType(googleUserInfo.getSub(), SocialType.GOOGLE)
-                        .orElseGet(() -> MemberConverter.toMember(googleUserInfo));
-        return memberCommandService.save(member);
+                        .orElseGet(() -> MemberMapper.toMember(googleUserInfo));
+        return memberCommandAdapter.save(member);
     }
 
     @Transactional
@@ -58,7 +58,7 @@ public class MemberFacade {
         Member member =
                 socialType == SocialType.GOOGLE
                         ? loginWithGoogle(request.getIdentityToken())
-                        : memberCommandService.login(request);
+                        : memberCommandAdapter.login(request);
         String accessToken =
                 tokenProvider.createAccessToken(
                         member.getId(),
@@ -69,11 +69,11 @@ public class MemberFacade {
                 redisService
                         .generateRefreshToken(member.getSocialId(), member.getSocialType())
                         .getToken();
-        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
+        return MemberMapper.toLoginDTO(member, accessToken, refreshToken);
     }
 
     public MemberResponse.TestTokenDTO getTestToken(){
-        Member member = memberQueryService.findById(63L);
+        Member member = memberQueryAdapter.findById(63L);
 
         return MemberResponse.TestTokenDTO.builder()
                 .token(
@@ -88,30 +88,30 @@ public class MemberFacade {
 
     public MemberResponse.ReIssueTokenDTO reIssueToken(final MemberRequest.ReissueDTO request) {
         RefreshToken refreshToken = redisService.reGenerateRefreshToken(request);
-        Member parsedMember = memberQueryService.parseRefreshToken(refreshToken);
+        Member parsedMember = memberQueryAdapter.parseRefreshToken(refreshToken);
         String accessToken =
                 tokenProvider.createAccessToken(
                         parsedMember.getId(),
                         parsedMember.getSocialType().toString(),
                         parsedMember.getSocialId(),
                         List.of(new SimpleGrantedAuthority(parsedMember.getRole().toString())));
-        return MemberConverter.toReIssueTokenDTO(
+        return MemberMapper.toReIssueTokenDTO(
                 parsedMember.getId(), accessToken, refreshToken.getToken());
     }
 
     public MemberResponse.QuitDTO quit(final Long memberId) {
-        memberCommandService.deleteMember(memberId);
-        return MemberConverter.toQuitDTO();
+        memberCommandAdapter.deleteMember(memberId);
+        return MemberMapper.toQuitDTO();
     }
 
     public void subScribeDailyPush(MemberRequest.ToggleDailyPushAlarmDTO request, Member member){
 
         if(request.getPermit().equals(permitFlag)){
-            memberCommandService.storeFcmToken(request.getFcmToken(),member);
+            memberCommandAdapter.storeFcmToken(request.getFcmToken(),member);
             fcmCommandService.subScribe(dailyPushTopic, request.getFcmToken());
         }
         else {
-            memberCommandService.abortFcmToken(request.getFcmToken(), member);
+            memberCommandAdapter.abortFcmToken(request.getFcmToken(), member);
             fcmCommandService.unSubScribe(dailyPushTopic,request.getFcmToken());
         }
     }

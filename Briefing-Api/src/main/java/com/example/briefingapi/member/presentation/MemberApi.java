@@ -1,6 +1,6 @@
 package com.example.briefingapi.member.presentation;
 
-import com.example.briefingapi.member.business.MemberFacade;
+import com.example.briefingapi.member.business.MemberService;
 import com.example.briefingapi.member.presentation.dto.MemberRequest;
 import com.example.briefingapi.member.presentation.dto.MemberResponse;
 import com.example.briefingapi.security.handler.annotation.AuthMember;
@@ -34,13 +34,13 @@ import lombok.RequiredArgsConstructor;
             content = @Content(schema = @Schema(implementation = CommonResponse.class))),
 })
 public class MemberApi {
-    private final MemberFacade memberFacade;
+    private final MemberService memberService;
 
 
     @Operation(summary = "02-05 Member\uD83D\uDC64 [테스트] 테스트를 위한 토큰 발급 API", description = "테스트 용")
     @GetMapping("/members/auth/test")
     public CommonResponse<MemberResponse.TestTokenDTO> testGenerateToken() {
-        return CommonResponse.onSuccess(memberFacade.getTestToken());
+        return CommonResponse.onSuccess(memberService.getTestToken());
     }
 
     @Operation(summary = "02-01 Member\uD83D\uDC64 소셜 로그인 V1", description = "구글, 애플 소셜로그인 API입니다.")
@@ -56,7 +56,7 @@ public class MemberApi {
             @Parameter(description = "소셜로그인 종류", example = "google") @PathVariable
                     final SocialType socialType,
             @RequestBody final MemberRequest.LoginDTO request) {
-        return CommonResponse.onSuccess(memberFacade.login(socialType, request));
+        return CommonResponse.onSuccess(memberService.login(socialType, request));
     }
 
     @Operation(
@@ -80,7 +80,7 @@ public class MemberApi {
     @PostMapping("/members/auth/token")
     public CommonResponse<MemberResponse.ReIssueTokenDTO> reissueToken(
             @Valid @RequestBody MemberRequest.ReissueDTO request) {
-        return CommonResponse.onSuccess(memberFacade.reIssueToken(request));
+        return CommonResponse.onSuccess(memberService.reIssueToken(request));
     }
 
     @Operation(summary = "02-03 Member\uD83D\uDC64 회원 탈퇴 V1", description = "회원 탈퇴 API 입니다.")
@@ -114,7 +114,7 @@ public class MemberApi {
     })
     public CommonResponse<MemberResponse.QuitDTO> quitMember(
             @AuthMember Member member, @CheckSameMember @PathVariable Long memberId) {
-        return CommonResponse.onSuccess(memberFacade.quit(memberId));
+        return CommonResponse.onSuccess(memberService.quit(memberId));
     }
 
     @Operation(summary = "02-04 Member\uD83D\uDC64 푸쉬 알람 허용/거부 설정 ", description = "푸쉬 알람 허용/거부 설정입니다.")
@@ -143,7 +143,7 @@ public class MemberApi {
         @Parameter(hidden = true) @AuthMember Member member
     ){
 
-        memberFacade.subScribeDailyPush(request,member);
+        memberService.subScribeDailyPush(request,member);
         return CommonResponse.onSuccess();
     }
 }

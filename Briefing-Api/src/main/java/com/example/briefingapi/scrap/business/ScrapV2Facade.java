@@ -3,7 +3,7 @@ package com.example.briefingapi.scrap.business;
 import java.util.List;
 
 import com.example.briefingapi.briefing.implement.service.BriefingQueryAdapter;
-import com.example.briefingapi.member.implement.MemberQueryService;
+import com.example.briefingapi.member.implement.MemberQueryAdapter;
 import com.example.briefingapi.scrap.implement.ScrapCommandService;
 import com.example.briefingapi.scrap.implement.ScrapQueryService;
 import com.example.briefingapi.scrap.presentation.dto.ScrapRequest;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ScrapV2Facade {
     private final ScrapQueryService scrapQueryService;
     private final ScrapCommandService scrapCommandService;
-    private final MemberQueryService memberQueryService;
+    private final MemberQueryAdapter memberQueryAdapter;
     private final BriefingQueryAdapter briefingQueryAdapter;
 
     @Transactional
@@ -34,7 +34,7 @@ public class ScrapV2Facade {
                         request.getMemberId(), request.getBriefingId())))
             throw new ScrapException(ErrorCode.SCRAP_ALREADY_EXISTS);
 
-        Member member = memberQueryService.findById(request.getMemberId());
+        Member member = memberQueryAdapter.findById(request.getMemberId());
         Briefing briefing =
                 briefingQueryAdapter.findBriefing(request.getBriefingId(), APIVersion.V2);
 
