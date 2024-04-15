@@ -7,7 +7,7 @@ import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.Scrap;
 
-public class ScrapConverter {
+public class ScrapMapper {
     public static ScrapResponse.CreateDTO toCreateDTO(Scrap createdScrap) {
         return ScrapResponse.CreateDTO.builder()
                 .scrapId(createdScrap.getId())

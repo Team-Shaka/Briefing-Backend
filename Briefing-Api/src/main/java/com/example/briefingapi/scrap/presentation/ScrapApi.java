@@ -1,7 +1,7 @@
 package com.example.briefingapi.scrap.presentation;
 import java.util.List;
 
-import com.example.briefingapi.scrap.business.ScrapFacade;
+import com.example.briefingapi.scrap.business.ScrapService;
 import com.example.briefingapi.scrap.presentation.dto.ScrapRequest;
 import com.example.briefingapi.scrap.presentation.dto.ScrapResponse;
 import com.example.briefingcommon.common.presentation.response.CommonResponse;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class ScrapApi {
-    private final ScrapFacade scrapFacade;
+    private final ScrapService scrapService;
 
     @Operation(summary = "05-01 Scrap📁 스크랩하기 V1", description = "브리핑을 스크랩하는 API입니다.")
     @PostMapping("/scraps/briefings")
@@ -44,7 +44,7 @@ public class ScrapApi {
     })
     public CommonResponse<ScrapResponse.CreateDTO> create(
             @RequestBody final ScrapRequest.CreateDTO request) {
-        return CommonResponse.onSuccess(scrapFacade.create(request));
+        return CommonResponse.onSuccess(scrapService.create(request));
     }
 
     @Operation(summary = "05-02 Scrap📁 스크랩 취소 V1", description = "스크랩을 취소하는 API입니다.")
@@ -70,7 +70,7 @@ public class ScrapApi {
     })
     public CommonResponse<ScrapResponse.DeleteDTO> delete(
             @PathVariable final Long briefingId, @PathVariable final Long memberId) {
-        return CommonResponse.onSuccess(scrapFacade.delete(briefingId, memberId));
+        return CommonResponse.onSuccess(scrapService.delete(briefingId, memberId));
     }
 
     @Operation(summary = "05-03 Scrap📁 내 스크랩 조회 V1", description = "내 스크랩을 조회하는 API입니다.")
@@ -96,6 +96,6 @@ public class ScrapApi {
     })
     public CommonResponse<List<ScrapResponse.ReadDTO>> getScrapsByMember(
             @PathVariable final Long memberId) {
-        return CommonResponse.onSuccess(scrapFacade.getScrapsByMemberId(memberId));
+        return CommonResponse.onSuccess(scrapService.getScrapsByMemberId(memberId));
     }
 }

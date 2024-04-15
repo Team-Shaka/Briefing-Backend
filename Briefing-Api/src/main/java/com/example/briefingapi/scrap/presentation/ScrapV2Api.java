@@ -1,7 +1,7 @@
 package com.example.briefingapi.scrap.presentation;
 import java.util.List;
 
-import com.example.briefingapi.scrap.business.ScrapV2Facade;
+import com.example.briefingapi.scrap.business.ScrapV2Service;
 import com.example.briefingapi.scrap.presentation.dto.ScrapRequest;
 import com.example.briefingapi.scrap.presentation.dto.ScrapResponse;
 import com.example.briefingcommon.common.presentation.response.CommonResponse;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/v2")
 public class ScrapV2Api {
-    private final ScrapV2Facade scrapFacade;
+    private final ScrapV2Service scrapV2Service;
 
     @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#request.getBriefingId()")
     @Operation(summary = "05-01 Scrap📁 스크랩하기 V2", description = "브리핑을 스크랩하는 API입니다.")
@@ -47,7 +47,7 @@ public class ScrapV2Api {
     })
     public CommonResponse<ScrapResponse.CreateDTOV2> createV2(
             @RequestBody final ScrapRequest.CreateDTO request) {
-        return CommonResponse.onSuccess(scrapFacade.create(request));
+        return CommonResponse.onSuccess(scrapV2Service.create(request));
     }
 
     @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#briefingId")
@@ -74,7 +74,7 @@ public class ScrapV2Api {
     })
     public CommonResponse<ScrapResponse.DeleteDTOV2> deleteV2(
             @PathVariable final Long briefingId, @PathVariable final Long memberId) {
-        return CommonResponse.onSuccess(scrapFacade.delete(briefingId, memberId));
+        return CommonResponse.onSuccess(scrapV2Service.delete(briefingId, memberId));
     }
 
     @Operation(summary = "05-03 Scrap📁 내 스크랩 조회 V2", description = "내 스크랩을 조회하는 API입니다.")
@@ -100,6 +100,6 @@ public class ScrapV2Api {
     })
     public CommonResponse<List<ScrapResponse.ReadDTOV2>> getScrapsByMemberV2(
             @PathVariable final Long memberId) {
-        return CommonResponse.onSuccess(scrapFacade.getScrapsByMemberId(memberId));
+        return CommonResponse.onSuccess(scrapV2Service.getScrapsByMemberId(memberId));
     }
 }

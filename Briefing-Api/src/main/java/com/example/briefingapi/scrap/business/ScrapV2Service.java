@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.example.briefingapi.briefing.implement.service.BriefingQueryAdapter;
 import com.example.briefingapi.member.implement.MemberQueryAdapter;
-import com.example.briefingapi.scrap.implement.ScrapCommandService;
-import com.example.briefingapi.scrap.implement.ScrapQueryService;
+import com.example.briefingapi.scrap.implement.ScrapCommandAdapter;
+import com.example.briefingapi.scrap.implement.ScrapQueryAdapter;
 import com.example.briefingapi.scrap.presentation.dto.ScrapRequest;
 import com.example.briefingapi.scrap.presentation.dto.ScrapResponse;
 import com.example.briefingcommon.common.exception.common.ErrorCode;
@@ -21,16 +21,16 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ScrapV2Facade {
-    private final ScrapQueryService scrapQueryService;
-    private final ScrapCommandService scrapCommandService;
+public class ScrapV2Service {
+    private final ScrapQueryAdapter scrapQueryAdapter;
+    private final ScrapCommandAdapter scrapCommandAdapter;
     private final MemberQueryAdapter memberQueryAdapter;
     private final BriefingQueryAdapter briefingQueryAdapter;
 
     @Transactional
     public ScrapResponse.CreateDTOV2 create(final ScrapRequest.CreateDTO request) {
         if (Boolean.TRUE.equals(
-                scrapQueryService.existsByMemberIdAndBriefingId(
+                scrapQueryAdapter.existsByMemberIdAndBriefingId(
                         request.getMemberId(), request.getBriefingId())))
             throw new ScrapException(ErrorCode.SCRAP_ALREADY_EXISTS);
 
@@ -38,25 +38,25 @@ public class ScrapV2Facade {
         Briefing briefing =
                 briefingQueryAdapter.findBriefing(request.getBriefingId(), APIVersion.V2);
 
-        Scrap scrap = ScrapConverter.toScrap(member, briefing);
-        Scrap createdScrap = scrapCommandService.create(scrap);
+        Scrap scrap = ScrapMapper.toScrap(member, briefing);
+        Scrap createdScrap = scrapCommandAdapter.create(scrap);
 
-        Integer scrapCount = scrapQueryService.countByBriefingId(request.getBriefingId());
+        Integer scrapCount = scrapQueryAdapter.countByBriefingId(request.getBriefingId());
 
-        return ScrapConverter.toCreateDTOV2(createdScrap, scrapCount);
+        return ScrapMapper.toCreateDTOV2(createdScrap, scrapCount);
     }
 
     @Transactional
     public ScrapResponse.DeleteDTOV2 delete(final Long briefingId, final Long memberId) {
-        Scrap scrap = scrapQueryService.getScrapByBriefingIdAndMemberId(briefingId, memberId);
-        Scrap deletedScrap = scrapCommandService.delete(scrap);
-        Integer scrapCount = scrapQueryService.countByBriefingId(briefingId);
-        return ScrapConverter.toDeleteDTOV2(deletedScrap, scrapCount);
+        Scrap scrap = scrapQueryAdapter.getScrapByBriefingIdAndMemberId(briefingId, memberId);
+        Scrap deletedScrap = scrapCommandAdapter.delete(scrap);
+        Integer scrapCount = scrapQueryAdapter.countByBriefingId(briefingId);
+        return ScrapMapper.toDeleteDTOV2(deletedScrap, scrapCount);
     }
 
     @Transactional(readOnly = true)
     public List<ScrapResponse.ReadDTOV2> getScrapsByMemberId(final Long memberId) {
-        List<Scrap> scraps = scrapQueryService.getScrapsByMemberId(memberId);
-        return scraps.stream().map(ScrapConverter::toReadDTOV2).toList();
+        List<Scrap> scraps = scrapQueryAdapter.getScrapsByMemberId(memberId);
+        return scraps.stream().map(ScrapMapper::toReadDTOV2).toList();
     }
 }

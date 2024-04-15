@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ScrapQueryService {
+public class ScrapQueryAdapter {
 
     private final ScrapRepository scrapRepository;
 

@@ -9,7 +9,7 @@ import com.example.briefingapi.briefing.implement.service.BriefingQueryAdapter;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestDTO;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestParam;
 import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
-import com.example.briefingapi.scrap.implement.ScrapQueryService;
+import com.example.briefingapi.scrap.implement.ScrapQueryAdapter;
 import com.example.briefingcommon.entity.Article;
 import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.Member;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class BriefingService {
-    private final ScrapQueryService scrapQueryService;
+    private final ScrapQueryAdapter scrapQueryAdapter;
     private final BriefingQueryAdapter briefingQueryAdapter;
     private final BriefingCommandAdapter briefingCommandAdapter;
     private final ArticleCommandAdapter articleCommandAdapter;
@@ -41,7 +41,7 @@ public class BriefingService {
         briefingCommandAdapter.increaseViewCountById(id);
         Boolean isScrap =
                 Optional.ofNullable(member)
-                        .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
+                        .map(m -> scrapQueryAdapter.existsByMemberIdAndBriefingId(m.getId(), id))
                         .orElseGet(() -> Boolean.FALSE);
 
         Boolean isBriefingOpen = false;

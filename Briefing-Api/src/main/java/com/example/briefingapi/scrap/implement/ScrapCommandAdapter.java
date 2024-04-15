@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ScrapCommandService {
+public class ScrapCommandAdapter {
 
     private final ScrapRepository scrapRepository;
 
