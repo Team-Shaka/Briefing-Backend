@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BriefingCommandService {
+public class BriefingCommandAdapter {
 
     private final BriefingRepository briefingRepository;
 

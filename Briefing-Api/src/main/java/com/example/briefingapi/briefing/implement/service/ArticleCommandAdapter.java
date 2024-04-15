@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleCommandService {
+public class ArticleCommandAdapter {
     private final ArticleRepository articleRepository;
 
     public List<Article> createAll(final List<Article> articles) {

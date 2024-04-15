@@ -1,6 +1,6 @@
 package com.example.briefingapi.briefing.presentation;
 
-import com.example.briefingapi.briefing.business.BriefingV2Facade;
+import com.example.briefingapi.briefing.business.BriefingV2Service;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestParam;
 import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
 import com.example.briefingapi.security.handler.annotation.AuthMember;
@@ -20,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/v2")
 public class BriefingV2Api {
-    private final BriefingV2Facade briefingFacade;
+    private final BriefingV2Service briefingV2Service;
 
     @GetMapping("/briefings")
     @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V2", description = "")
     @Cacheable(value = "findBriefingsV2", key = "#params.getType()")
     public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTOV2> findBriefingsV2(
             @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params) {
-        return CommonResponse.onSuccess(briefingFacade.findBriefings(params));
+        return CommonResponse.onSuccess(briefingV2Service.findBriefings(params));
     }
 
     @GetMapping("/briefings/{id}")
@@ -35,6 +35,6 @@ public class BriefingV2Api {
     @Parameter(name = "member", hidden = true)
     public CommonResponse<BriefingResponseDTO.BriefingDetailDTOV2> findBriefingV2(
             @PathVariable final Long id, @AuthMember Member member) {
-        return CommonResponse.onSuccess(briefingFacade.findBriefing(id, member));
+        return CommonResponse.onSuccess(briefingV2Service.findBriefing(id, member));
     }
 }

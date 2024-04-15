@@ -3,9 +3,9 @@ package com.example.briefingapi.briefing.business;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.briefingapi.briefing.implement.service.ArticleCommandService;
-import com.example.briefingapi.briefing.implement.service.BriefingCommandService;
-import com.example.briefingapi.briefing.implement.service.BriefingQueryService;
+import com.example.briefingapi.briefing.implement.service.ArticleCommandAdapter;
+import com.example.briefingapi.briefing.implement.service.BriefingCommandAdapter;
+import com.example.briefingapi.briefing.implement.service.BriefingQueryAdapter;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestDTO;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestParam;
 import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
@@ -22,23 +22,23 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class BriefingFacade {
+public class BriefingService {
     private final ScrapQueryService scrapQueryService;
-    private final BriefingQueryService briefingQueryService;
-    private final BriefingCommandService briefingCommandService;
-    private final ArticleCommandService articleCommandService;
+    private final BriefingQueryAdapter briefingQueryAdapter;
+    private final BriefingCommandAdapter briefingCommandAdapter;
+    private final ArticleCommandAdapter articleCommandAdapter;
     private static final APIVersion version = APIVersion.V1;
 
     @Transactional(readOnly = true)
     public BriefingResponseDTO.BriefingPreviewListDTO findBriefings(
             BriefingRequestParam.BriefingPreviewListParam params) {
-        List<Briefing> briefingList = briefingQueryService.findBriefings(params, version);
-        return BriefingConverter.toBriefingPreviewListDTO(params.getDate(), briefingList);
+        List<Briefing> briefingList = briefingQueryAdapter.findBriefings(params, version);
+        return BriefingMapper.toBriefingPreviewListDTO(params.getDate(), briefingList);
     }
 
     @Transactional
     public BriefingResponseDTO.BriefingDetailDTO findBriefing(final Long id, Member member) {
-        briefingCommandService.increaseViewCountById(id);
+        briefingCommandAdapter.increaseViewCountById(id);
         Boolean isScrap =
                 Optional.ofNullable(member)
                         .map(m -> scrapQueryService.existsByMemberIdAndBriefingId(m.getId(), id))
@@ -47,34 +47,34 @@ public class BriefingFacade {
         Boolean isBriefingOpen = false;
         Boolean isWarning = false;
 
-        return BriefingConverter.toBriefingDetailDTO(
-                briefingQueryService.findBriefing(id, version), isScrap, isBriefingOpen, isWarning);
+        return BriefingMapper.toBriefingDetailDTO(
+                briefingQueryAdapter.findBriefing(id, version), isScrap, isBriefingOpen, isWarning);
     }
 
     @Transactional
     public void createBriefing(final BriefingRequestDTO.BriefingCreate request) {
         Briefing createdBriefing =
-                briefingCommandService.create(BriefingConverter.toBriefing(request));
+                briefingCommandAdapter.create(BriefingMapper.toBriefing(request));
 
         final List<Article> articles =
                 request.getArticles().stream()
                         .map(articleCreateDto -> {
-                            Article article = BriefingConverter.toArticle(articleCreateDto);
+                            Article article = BriefingMapper.toArticle(articleCreateDto);
                             article.setBriefing(createdBriefing);
                             return article;
                         }).toList();
 
-        List<Article> createdArticles = articleCommandService.createAll(articles);
+        List<Article> createdArticles = articleCommandAdapter.createAll(articles);
         createdBriefing.setArticles(createdArticles);
     }
 
     @Transactional
     public BriefingResponseDTO.BriefingUpdateDTO updateBriefing(
             Long id, final BriefingRequestDTO.BriefingUpdateDTO request) {
-        Briefing briefing = briefingQueryService.findBriefing(id, APIVersion.V1);
+        Briefing briefing = briefingQueryAdapter.findBriefing(id, APIVersion.V1);
         Briefing updatedBriefing =
-                briefingCommandService.update(
+                briefingCommandAdapter.update(
                         briefing, request.getTitle(), request.getSubTitle(), request.getContent());
-        return BriefingConverter.toBriefingUpdateDTO(updatedBriefing);
+        return BriefingMapper.toBriefingUpdateDTO(updatedBriefing);
     }
 }

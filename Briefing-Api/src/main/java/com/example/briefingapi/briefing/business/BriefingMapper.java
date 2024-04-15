@@ -10,7 +10,7 @@ import com.example.briefingcommon.entity.Article;
 import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.enums.BriefingType;
 
-public class BriefingConverter {
+public class BriefingMapper {
 
     public static BriefingResponseDTO.BriefingPreviewDTOV2 toBriefingPreviewDTOV2(
             Briefing briefing) {
@@ -46,7 +46,7 @@ public class BriefingConverter {
     public static BriefingResponseDTO.BriefingPreviewListDTOV2 toBriefingPreviewListDTOV2(
             final LocalDate date, List<Briefing> briefingList) {
         final List<BriefingResponseDTO.BriefingPreviewDTOV2> briefingPreviewDTOList =
-                briefingList.stream().map(BriefingConverter::toBriefingPreviewDTOV2).toList();
+                briefingList.stream().map(BriefingMapper::toBriefingPreviewDTOV2).toList();
 
         return BriefingResponseDTO.BriefingPreviewListDTOV2.builder()
                 .createdAt(getPreviewListDTOCreatedAt(date, briefingList))
@@ -57,7 +57,7 @@ public class BriefingConverter {
     public static BriefingResponseDTO.BriefingPreviewListDTO toBriefingPreviewListDTO(
             final LocalDate date, List<Briefing> briefingList) {
         final List<BriefingResponseDTO.BriefingPreviewDTO> briefingPreviewDTOList =
-                briefingList.stream().map(BriefingConverter::toBriefingPreviewDTO).toList();
+                briefingList.stream().map(BriefingMapper::toBriefingPreviewDTO).toList();
 
         return BriefingResponseDTO.BriefingPreviewListDTO.builder()
                 .createdAt(getPreviewListDTOCreatedAt(date, briefingList))
@@ -80,7 +80,7 @@ public class BriefingConverter {
 
         List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList =
                 briefing.getArticles().stream()
-                        .map(BriefingConverter::toArticleResponseDTO)
+                        .map(BriefingMapper::toArticleResponseDTO)
                         .toList();
 
         return BriefingResponseDTO.BriefingDetailDTO.builder()
@@ -102,7 +102,7 @@ public class BriefingConverter {
 
         List<BriefingResponseDTO.ArticleResponseDTO> articleResponseDTOList =
                 briefing.getArticles().stream()
-                        .map(BriefingConverter::toArticleResponseDTO)
+                        .map(BriefingMapper::toArticleResponseDTO)
                         .toList();
 
         return BriefingResponseDTO.BriefingDetailDTOV2.builder()
@@ -188,7 +188,7 @@ public class BriefingConverter {
     public static BriefingResponseDTO.BriefingV2PreviewListDTO toBriefingPreviewV2TempListDTO(
             final LocalDate date, List<Long> temp, BriefingType briefingType) {
         List<BriefingResponseDTO.BriefingPreviewV2TempDTO> tempDTOList =
-                temp.stream().map(BriefingConverter::toBriefingPreviewV2TempDTO).toList();
+                temp.stream().map(BriefingMapper::toBriefingPreviewV2TempDTO).toList();
 
         return BriefingResponseDTO.BriefingV2PreviewListDTO.builder()
                 .createdAt(date.atTime(3, 0))

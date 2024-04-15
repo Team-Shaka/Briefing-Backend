@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BriefingQueryService {
+public class BriefingQueryAdapter {
 
     private final BriefingQueryContextFactory briefingQueryContextFactory;
 

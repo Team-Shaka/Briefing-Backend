@@ -1,6 +1,6 @@
 package com.example.briefingapi.briefing.presentation;
 
-import com.example.briefingapi.briefing.business.BriefingFacade;
+import com.example.briefingapi.briefing.business.BriefingService;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestDTO;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestParam;
 import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
@@ -26,14 +26,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BriefingApi {
 
-    private final BriefingFacade briefingFacade;
+    private final BriefingService briefingService;
 
     @GetMapping("/briefings")
     @Parameter(name = "timeOfDay", hidden = true)
     @Operation(summary = "03-01Briefing \uD83D\uDCF0  브리핑 목록 조회 V1", description = "")
     public CommonResponse<BriefingResponseDTO.BriefingPreviewListDTO> findBriefings(
             @ParameterObject @ModelAttribute BriefingRequestParam.BriefingPreviewListParam params) {
-        return CommonResponse.onSuccess(briefingFacade.findBriefings(params));
+        return CommonResponse.onSuccess(briefingService.findBriefings(params));
     }
 
     @GetMapping("/briefings/{id}")
@@ -41,7 +41,7 @@ public class BriefingApi {
     @Operation(summary = "03-02Briefing \uD83D\uDCF0  브리핑 단건 조회 V1", description = "")
     public CommonResponse<BriefingResponseDTO.BriefingDetailDTO> findBriefing(
             @PathVariable final Long id, @AuthMember Member member) {
-        return CommonResponse.onSuccess(briefingFacade.findBriefing(id, member));
+        return CommonResponse.onSuccess(briefingService.findBriefing(id, member));
     }
 
     @CacheEvict(value = "findBriefingsV2", key = "#request.getBriefingType()")
@@ -49,7 +49,7 @@ public class BriefingApi {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "03-03Briefing \uD83D\uDCF0  브리핑 등록", description = "")
     public void createBriefing(@RequestBody final BriefingRequestDTO.BriefingCreate request) {
-        briefingFacade.createBriefing(request);
+        briefingService.createBriefing(request);
     }
 
     /*
@@ -69,6 +69,6 @@ public class BriefingApi {
     public CommonResponse<BriefingResponseDTO.BriefingUpdateDTO> patchBriefingContent(
             @PathVariable(name = "id") Long id,
             @RequestBody @Valid BriefingRequestDTO.BriefingUpdateDTO request) {
-        return CommonResponse.onSuccess(briefingFacade.updateBriefing(id, request));
+        return CommonResponse.onSuccess(briefingService.updateBriefing(id, request));
     }
 }

@@ -2,7 +2,7 @@ package com.example.briefingapi.scrap.business;
 
 import java.util.List;
 
-import com.example.briefingapi.briefing.implement.service.BriefingQueryService;
+import com.example.briefingapi.briefing.implement.service.BriefingQueryAdapter;
 import com.example.briefingapi.member.implement.MemberQueryService;
 import com.example.briefingapi.scrap.implement.ScrapCommandService;
 import com.example.briefingapi.scrap.implement.ScrapQueryService;
@@ -25,7 +25,7 @@ public class ScrapV2Facade {
     private final ScrapQueryService scrapQueryService;
     private final ScrapCommandService scrapCommandService;
     private final MemberQueryService memberQueryService;
-    private final BriefingQueryService briefingQueryService;
+    private final BriefingQueryAdapter briefingQueryAdapter;
 
     @Transactional
     public ScrapResponse.CreateDTOV2 create(final ScrapRequest.CreateDTO request) {
@@ -36,7 +36,7 @@ public class ScrapV2Facade {
 
         Member member = memberQueryService.findById(request.getMemberId());
         Briefing briefing =
-                briefingQueryService.findBriefing(request.getBriefingId(), APIVersion.V2);
+                briefingQueryAdapter.findBriefing(request.getBriefingId(), APIVersion.V2);
 
         Scrap scrap = ScrapConverter.toScrap(member, briefing);
         Scrap createdScrap = scrapCommandService.create(scrap);
