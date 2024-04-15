@@ -14,12 +14,13 @@ import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.Scrap;
 import com.example.briefingcommon.entity.enums.APIVersion;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.briefingcommon.common.exception.ScrapException;
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class ScrapV2Service {
     private final ScrapQueryAdapter scrapQueryAdapter;

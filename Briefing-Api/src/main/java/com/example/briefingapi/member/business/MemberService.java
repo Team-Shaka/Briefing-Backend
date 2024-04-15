@@ -18,6 +18,7 @@ import com.example.briefinginfra.feign.oauth.google.dto.GoogleUserInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -25,7 +26,7 @@ import com.example.briefingapi.redis.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberQueryAdapter memberQueryAdapter;

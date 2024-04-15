@@ -12,11 +12,12 @@ import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.enums.APIVersion;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class BriefingV2Service {
 
