@@ -1,8 +1,8 @@
-package com.example.briefingapi.aop.aspect;
+package com.example.briefingapi.aop;
 
 import java.util.Optional;
 
-import com.example.briefingapi.aop.annotation.CacheEvictByBriefingId;
+import com.example.briefingapi.annotation.CacheEvictByBriefingId;
 import com.example.briefingcommon.domain.repository.article.BriefingRepository;
 import com.example.briefingcommon.entity.Briefing;
 import org.aspectj.lang.JoinPoint;

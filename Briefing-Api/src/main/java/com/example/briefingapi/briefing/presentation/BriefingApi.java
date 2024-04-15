@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
-import com.example.briefingapi.aop.annotation.CacheEvictByBriefingId;
+import com.example.briefingapi.annotation.CacheEvictByBriefingId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

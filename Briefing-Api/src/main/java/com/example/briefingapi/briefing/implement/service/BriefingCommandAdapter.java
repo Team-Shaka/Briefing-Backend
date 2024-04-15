@@ -1,12 +1,13 @@
 package com.example.briefingapi.briefing.implement.service;
 
+import com.example.briefingapi.annotation.Adapter;
 import com.example.briefingcommon.domain.repository.article.BriefingRepository;
 import com.example.briefingcommon.entity.Briefing;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
 public class BriefingCommandAdapter {
 

@@ -1,5 +1,6 @@
 package com.example.briefingapi.scrap.implement;
 
+import com.example.briefingapi.annotation.Adapter;
 import com.example.briefingcommon.domain.repository.scrap.ScrapRepository;
 import com.example.briefingcommon.common.exception.common.ErrorCode;
 import com.example.briefingcommon.entity.Scrap;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.briefingcommon.common.exception.ScrapException;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
 public class ScrapCommandAdapter {
 

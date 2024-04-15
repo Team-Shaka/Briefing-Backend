@@ -7,6 +7,7 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 import java.util.Optional;
 
+import com.example.briefingapi.annotation.Adapter;
 import com.example.briefingapi.member.business.MemberMapper;
 import com.example.briefingcommon.domain.repository.FcmTokenRepository;
 import com.example.briefingcommon.domain.repository.member.MemberRepository;
@@ -32,7 +33,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
 public class MemberCommandAdapter {
 

@@ -1,4 +1,4 @@
-package com.example.briefingapi.aop.annotation;
+package com.example.briefingapi.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

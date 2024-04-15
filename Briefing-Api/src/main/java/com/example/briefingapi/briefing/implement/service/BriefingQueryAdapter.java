@@ -2,6 +2,7 @@ package com.example.briefingapi.briefing.implement.service;
 
 import java.util.List;
 
+import com.example.briefingapi.annotation.Adapter;
 import com.example.briefingapi.briefing.implement.context.BriefingQueryContext;
 import com.example.briefingapi.briefing.implement.context.BriefingQueryContextFactory;
 import com.example.briefingapi.briefing.presentation.dto.BriefingRequestParam;
@@ -12,7 +13,7 @@ import com.example.briefingcommon.entity.enums.APIVersion;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
 public class BriefingQueryAdapter {
 
