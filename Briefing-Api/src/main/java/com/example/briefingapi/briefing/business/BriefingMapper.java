@@ -9,7 +9,10 @@ import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
 import com.example.briefingcommon.entity.Article;
 import com.example.briefingcommon.entity.Briefing;
 import com.example.briefingcommon.entity.enums.BriefingType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BriefingMapper {
 
     public static BriefingResponseDTO.BriefingPreviewDTOV2 toBriefingPreviewDTOV2(
