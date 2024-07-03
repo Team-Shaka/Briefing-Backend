@@ -5,5 +5,9 @@ spring:
     baseline-version: 0
 
   jpa:
-    hibernate:
-      ddl-auto: update
+    properties:
+      hibernate:
+        ddl-auto: update
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
