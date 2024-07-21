@@ -1,20 +1,24 @@
 package com.example.briefingapi.scrap.presentation;
-import java.util.List;
 
 import com.example.briefingapi.scrap.business.ScrapV2Service;
 import com.example.briefingapi.scrap.presentation.dto.ScrapRequest;
 import com.example.briefingapi.scrap.presentation.dto.ScrapResponse;
 import com.example.briefingcommon.common.presentation.response.CommonResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.briefingapi.annotation.CacheEvictByBriefingId;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "05-Scrap V2 📁", description = "스크랩 관련 API V2")
 @RestController
@@ -23,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class ScrapV2Api {
     private final ScrapV2Service scrapV2Service;
 
-    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#request.getBriefingId()")
+//    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#request.getBriefingId()")
     @Operation(summary = "05-01 Scrap📁 스크랩하기 V2", description = "브리핑을 스크랩하는 API입니다.")
     @PostMapping("/scraps/briefings")
     @ApiResponses({
@@ -50,7 +54,7 @@ public class ScrapV2Api {
         return CommonResponse.onSuccess(scrapV2Service.create(request));
     }
 
-    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#briefingId")
+//    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#briefingId")
     @Operation(summary = "05-02 Scrap📁 스크랩 취소 V2", description = "스크랩을 취소하는 API입니다.")
     @DeleteMapping("/scraps/briefings/{briefingId}/members/{memberId}")
     @ApiResponses({
