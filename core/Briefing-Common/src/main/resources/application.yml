@@ -1,7 +1,7 @@
 spring:
   flyway:
     enabled: true
-    baseline-on-migrate: true
+    baselineOnMigrate: true
     baseline-version: 0
 
   jpa:
