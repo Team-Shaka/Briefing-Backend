@@ -1,7 +1,7 @@
 package briefing.briefing.application;
 
-import static briefing.briefing.domain.BriefingType.GLOBAL;
-import static briefing.briefing.domain.BriefingType.KOREA;
+import static briefing.common.enums.BriefingType.GLOBAL;
+import static briefing.common.enums.BriefingType.KOREA;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
@@ -22,10 +22,11 @@ import briefing.briefing.application.service.BriefingQueryService;
 import briefing.briefing.domain.Article;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingArticle;
-import briefing.briefing.domain.BriefingType;
 import briefing.briefing.domain.repository.ArticleRepository;
 import briefing.briefing.domain.repository.BriefingArticleRepository;
 import briefing.briefing.domain.repository.BriefingRepository;
+import briefing.briefing.implement.service.BriefingQueryService;
+import briefing.common.enums.BriefingType;
 
 @SpringBootTest
 @Sql(value = "/init.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)

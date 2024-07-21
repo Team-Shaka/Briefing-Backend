@@ -5,11 +5,15 @@ plugins {
     id 'com.diffplug.spotless' version '6.23.3' // Spotless 플러그인
 }
 
-group = 'briefing.info'
-version = '0.0.1-SNAPSHOT'
-
-java {
+allprojects {
+    group = 'com.chooz'
+    version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '17'
+
+    repositories {
+        mavenCentral()
+    }
+
 }
 
 configurations {
@@ -18,44 +22,31 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects { // 각 모듈에 적용할 공통 설정
+    apply plugin: 'java'
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // build.gradle에서 api() 를 사용하려면 java-library 사용
+    apply plugin: 'java-library'
 
-    // eureka client 설정
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-    // querydsl
-    // == 스프링 부트 3.0 이상 ==
-    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    dependencies { // 롬복은 공통적으로 사용하는 의존성이니 여기서 끌어다 사용
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
 
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    implementation 'mysql:mysql-connector-java' // 추가 작성
+    tasks.named('bootJar') { //빌드할 때 bootjar 파일로 하겠다는 의미
+        enabled = false
+    }
 
-    implementation platform("org.springframework.cloud:spring-cloud-dependencies:2022.0.3")
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-//    runtimeOnly 'org.postgresql:postgresql'
-//    runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    tasks.named('jar') { //빌드할 때 jar 파일로 하겠다는 의미
+        enabled = true
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }
 
 def querydslSrcDir = 'src/main/generated'
@@ -66,10 +57,6 @@ clean {
 
 tasks.withType(JavaCompile) {
     options.generatedSourceOutputDirectory = file(querydslSrcDir)
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }
 
 

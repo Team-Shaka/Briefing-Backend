@@ -71,6 +71,7 @@
 
 <b>Redis</b>
 - Refresh Token 관리를 위해 Redis를 사용했습니다.
+- API 응답 캐시로 사용했습니다.
 
 <b>AWS</b>
 - write
@@ -78,11 +79,11 @@
 <br/>
 
 ## 📚 개발 과정
-- [[Briefing] API 버전 관리 & 전략 패턴](https://poisson-it.tistory.com/75)
 - [[Briefing] Spotless로 코드 포맷 유지하기](https://poisson-it.tistory.com/77)
 - [[Briefing] Spring Security - Swagger 로그인 적용하기](https://ddol-dev-blog.tistory.com/3)
 - [[Briefing] API 응답 캐싱을 통한 조회 속도 개선](https://poisson-it.tistory.com/78)
 - [[Briefing] Facade로 계층 구조 개선하기](https://poisson-it.tistory.com/79)
+- [[Briefing] nGrinder로 성능 테스트 해보기](https://poisson-it.tistory.com/85)
 
 <br/>
 

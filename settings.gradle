@@ -1,1 +1,11 @@
 rootProject.name = 'briefing'
+
+include 'Briefing-Api'
+include 'core:Briefing-Common'
+include 'core:Briefing-Infra'
+
+/* ToDo
+    모놀리딕으로 진행 후 두개를 묶어서 분리할 것
+ */
+//include 'core:Briefing-Batch'
+//include 'core:Briefing-FCM'
