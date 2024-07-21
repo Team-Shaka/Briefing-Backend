@@ -7,19 +7,21 @@ import com.example.briefingapi.briefing.presentation.dto.BriefingResponseDTO;
 import com.example.briefingapi.security.handler.annotation.AuthMember;
 import com.example.briefingcommon.common.presentation.response.CommonResponse;
 import com.example.briefingcommon.entity.Member;
-import jakarta.validation.Valid;
-
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-
-import com.example.briefingapi.annotation.CacheEvictByBriefingId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "03-Briefing \uD83D\uDCF0", description = "브리핑 관련 API")
 @RestController
@@ -44,7 +46,7 @@ public class BriefingApi {
         return CommonResponse.onSuccess(briefingService.findBriefing(id, member));
     }
 
-    @CacheEvict(value = "findBriefingsV2", key = "#request.getBriefingType()")
+//    @CacheEvict(value = "findBriefingsV2", key = "#request.getBriefingType()")
     @PostMapping("/briefings")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "03-03Briefing \uD83D\uDCF0  브리핑 등록", description = "")
@@ -62,7 +64,7 @@ public class BriefingApi {
      * @param id, BriefingResponseDTO.BriefingUpdateDTO
      * @return 수정된 값, 요청으로 온 값과 동일
      */
-    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#id")
+//    @CacheEvictByBriefingId(value = "findBriefingsV2", briefingId = "#id")
     @Operation(summary = "03-04Briefing \uD83D\uDCF0  브리핑 내용 수정", description = "")
     @Parameter(name = "id", description = "브리핑 아이디", example = "1")
     @PatchMapping("/briefings/{id}")
