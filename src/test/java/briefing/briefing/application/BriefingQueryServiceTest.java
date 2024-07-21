@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
+import briefing.briefing.application.service.BriefingQueryService;
 import briefing.briefing.domain.Article;
 import briefing.briefing.domain.Briefing;
 import briefing.briefing.domain.BriefingArticle;
