@@ -11,9 +11,11 @@ import com.example.briefingcommon.entity.QScrap;
 import com.example.briefingcommon.entity.enums.BriefingType;
 import com.example.briefingcommon.entity.enums.TimeOfDay;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.DateTemplate;
 import com.querydsl.core.types.dsl.DateTimePath;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -64,20 +66,19 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
         QBriefing briefing = QBriefing.briefing;
         QScrap scrap = QScrap.scrap;
 
-        DateTimePath<LocalDateTime> dateTime = briefing.createdAt;
-        DateTemplate<LocalDate> date =
-                Expressions.dateTemplate(
-                        LocalDate.class, "DATE_FORMAT({0}, {1})", dateTime, "%Y-%m-%d %H");
+        Expression<Long> scrapCount = ExpressionUtils.as(
+                JPAExpressions.select(scrap.id.count())
+                        .from(scrap)
+                        .where(scrap.briefing.eq(briefing)),
+                "scrapCount");
 
         List<Tuple> results =
                 queryFactory
-                        .select(briefing, scrap.count())
+                        .select(briefing,
+                                scrapCount)
                         .from(briefing)
-                        .leftJoin(scrap)
-                        .on(scrap.briefing.eq(briefing))
                         .where(briefing.type.eq(type))
-                        .groupBy(briefing)
-                        .orderBy(date.desc(), briefing.ranks.asc())
+                        .orderBy(briefing.createdAt.desc())
                         .limit(20)
                         .fetch();
 
@@ -86,7 +87,8 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
                         .map(
                                 tuple -> {
                                     Briefing b = tuple.get(briefing);
-                                    b.setScrapCount(Math.toIntExact(tuple.get(scrap.count())));
+                                    Long scrapCountValue = tuple.get(scrapCount);
+                                    b.setScrapCount(Math.toIntExact(scrapCountValue));
                                     return b;
                                 })
                         .collect(Collectors.toCollection(ArrayList::new));
@@ -94,7 +96,10 @@ public class BriefingCustomRepositoryImpl implements BriefingCustomRepository {
         Map<Integer, Briefing> briefingMap = new HashMap<>();
         briefingList.forEach(candidate -> briefingMap.putIfAbsent(candidate.getRanks(), candidate));
 
-        return briefingMap.values().stream().toList();
+        return briefingMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 
     @Override
