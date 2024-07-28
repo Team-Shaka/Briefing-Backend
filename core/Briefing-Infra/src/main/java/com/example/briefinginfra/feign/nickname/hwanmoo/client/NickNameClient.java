@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 )
 @Component
 public interface NickNameClient {
+
     @GetMapping(value = "/")
-    NickNameRes getNickName(@RequestParam(defaultValue = "json") String format, @RequestParam(defaultValue = "1") int count, @RequestParam(defaultValue = "8") int max_length);
+    NickNameRes getNickName(
+            @RequestParam(value = "format", defaultValue = "json") String format,
+            @RequestParam(value = "count", defaultValue = "1") int count,
+            @RequestParam(value = "max_length", defaultValue = "8") int maxLength
+    );
+
 }
