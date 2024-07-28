@@ -25,8 +25,11 @@ public class Subscription extends BaseDateTimeEntity {
     @Enumerated(EnumType.STRING)
     private SubscriptionType type;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus status;
 
+    @Setter
     private LocalDateTime expiryDate;
+
 }
