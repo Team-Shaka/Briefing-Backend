@@ -12,7 +12,7 @@ public class SubscriptionRequest {
     public static class ReceiptDTO {
         private Long memberId;
         private String packageName;
-        private String subscriptionId;
+        private String productId;
         private String token;
         private SubscriptionType subscriptionType;
     }

@@ -78,6 +78,11 @@ openai:
   url:
     chat: https://api.openai.com/v1/chat/completions
 
+subscription:
+  google:
+    package-name: test
+    product-id: test
+
 ---
 spring:
   application:

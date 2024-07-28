@@ -12,6 +12,7 @@ import com.example.briefingcommon.entity.Subscription;
 import com.example.briefinginfra.feign.subscription.client.GooglePlayFeignClient;
 import com.example.briefinginfra.feign.subscription.dto.SubscriptionPurchaseResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,17 +31,23 @@ public class SubscriptionService {
     private final SubscriptionQueryAdapter subscriptionQueryAdapter;
     private final GooglePlayFeignClient googlePlayFeignClient;
 
+    @Value("${subscription.google.package-name}")
+    private String GOOGLE_PACKAGE_NAME;
+
+    @Value("${subscription.google.product-id}")
+    private String GOOGLE_PRODUCT_ID;
+
     @Transactional
     public void createSubscription(final SubscriptionRequest.ReceiptDTO request) {
-//        if (subscriptionQueryAdapter.existsByMemberIdAndSubscriptionType(
-//                request.getMemberId(), request.getSubscriptionType())) {
-//            throw new SubscriptionException(ErrorCode.SUBSCRIPTION_ALREADY_EXISTS);
-//        }
-
         SubscriptionPurchaseResponse purchase = googlePlayFeignClient.verifyReceipt(
                 request.getPackageName(),
-                request.getSubscriptionId(),
+                request.getProductId(),
                 request.getToken());
+
+        if (!GOOGLE_PACKAGE_NAME.equals(request.getPackageName()) || !GOOGLE_PRODUCT_ID.equals(request.getProductId())) {
+            throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
+        }
+
         Member member = memberQueryAdapter.findById(request.getMemberId());
         Subscription subscription = SubscriptionMapper.toSubscription(member, request);
         subscription.setExpiryDate(LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC));

@@ -68,7 +68,8 @@ public enum ErrorCode {
     NOT_FOUND_MODEL(HttpStatus.BAD_REQUEST, "CHATTING_006", "해당하는 mode을 찾을 수 없습니다."),
 
     // subscription 에러
-    SUBSCRIPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "SUBSCRIPTION_001", "구독 정보가 존재하지 않습니다.");
+    SUBSCRIPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "SUBSCRIPTION_001", "구독 정보가 존재하지 않습니다."),
+    INVALID_SUBSCRIPTION(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_002", "유효하지 않은 구독 정보입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
