@@ -34,28 +34,36 @@ public class SubscriptionService {
     @Value("${subscription.google.package-name}")
     private String GOOGLE_PACKAGE_NAME;
 
-    @Value("${subscription.google.product-id}")
-    private String GOOGLE_PRODUCT_ID;
-
     @Transactional
     public void createSubscription(final SubscriptionRequest.ReceiptDTO request) {
         SubscriptionPurchaseResponse purchase = verifyReceipt(request);
         validateReceipt(request);
 
         Member member = memberQueryAdapter.findById(request.getMemberId());
-        Subscription subscription = SubscriptionMapper.toSubscription(member, request);
+
+        // 활성된 구독 존재 여부 확인
+        boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
+                .anyMatch(subscription -> subscription.getStatus() == ACTIVE);
+
+        if (activeSubscriptionExists) {
+            throw new SubscriptionException(ErrorCode.ACTIVE_SUBSCRIPTION_EXISTS);
+        }
 
         LocalDateTime expiryDate = LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC);
-        subscription.setExpiryDate(expiryDate);
-        subscription.setStatus(LocalDateTime.now().isBefore(expiryDate) ? ACTIVE : EXPIRED);
+        Subscription subscription = SubscriptionMapper.toSubscription(member, request, expiryDate);
 
         subscriptionCommandAdapter.create(subscription);
     }
 
-    @Transactional(readOnly = true)
-    public SubscriptionResponse.SubscriptionDTO getSubscriptionByMemberId(final Long memberId) {
-        Subscription subscription = subscriptionQueryAdapter.findByMemberId(memberId)
+    @Transactional
+    public SubscriptionResponse.SubscriptionDTO getActiveSubscriptionByMemberId(final Long memberId) {
+        Subscription subscription = subscriptionQueryAdapter.findAllByMemberId(memberId).stream()
+                .filter(sub -> sub.getStatus() == ACTIVE)
+                .findFirst()
                 .orElseThrow(() -> new SubscriptionException(ErrorCode.SUBSCRIPTION_NOT_FOUND));
+
+        updateSubscriptionStatus(subscription);
+
         return SubscriptionMapper.toSubscriptionDTO(subscription);
     }
 
@@ -69,8 +77,16 @@ public class SubscriptionService {
 
     private void validateReceipt(SubscriptionRequest.ReceiptDTO request) {
         // TODO platform 구분해서 검증 진행 (GOOGLE, APPLE)
-        if (!GOOGLE_PACKAGE_NAME.equals(request.getPackageName()) || !GOOGLE_PRODUCT_ID.equals(request.getProductId())) {
+        if (!GOOGLE_PACKAGE_NAME.equals(request.getPackageName())) {
             throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
         }
     }
+
+    private void updateSubscriptionStatus(Subscription subscription) {
+        if (LocalDateTime.now().isAfter(subscription.getExpiryDate())) {
+            subscriptionCommandAdapter.updateSubscriptionStatus(subscription, EXPIRED);
+        }
+    }
+
+
 }

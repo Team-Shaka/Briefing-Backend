@@ -8,14 +8,17 @@ import com.example.briefingcommon.entity.enums.SubscriptionStatus;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SubscriptionMapper {
 
-    public static Subscription toSubscription(Member member, SubscriptionRequest.ReceiptDTO request) {
+    public static Subscription toSubscription(Member member, SubscriptionRequest.ReceiptDTO request, LocalDateTime expiryDate) {
         return Subscription.builder()
                 .member(member)
                 .type(request.getSubscriptionType())
-                .status(SubscriptionStatus.ACTIVE)
+                .status(LocalDateTime.now().isBefore(expiryDate) ? SubscriptionStatus.ACTIVE : SubscriptionStatus.EXPIRED)
+                .expiryDate(expiryDate)
                 .build();
     }
 

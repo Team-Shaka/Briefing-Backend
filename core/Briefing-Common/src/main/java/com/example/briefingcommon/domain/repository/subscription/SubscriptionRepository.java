@@ -4,6 +4,7 @@ import com.example.briefingcommon.entity.Subscription;
 import com.example.briefingcommon.entity.enums.SubscriptionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
@@ -14,4 +15,5 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     Subscription findByMemberIdAndType(Long memberId, SubscriptionType type);
 
+    List<Subscription> findAllByMemberId(Long memberId);
 }

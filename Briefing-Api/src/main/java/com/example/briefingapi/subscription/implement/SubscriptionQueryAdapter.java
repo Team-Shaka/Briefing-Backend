@@ -3,9 +3,9 @@ package com.example.briefingapi.subscription.implement;
 import com.example.briefingapi.annotation.Adapter;
 import com.example.briefingcommon.domain.repository.subscription.SubscriptionRepository;
 import com.example.briefingcommon.entity.Subscription;
-import com.example.briefingcommon.entity.enums.SubscriptionType;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @Adapter
@@ -18,12 +18,7 @@ public class SubscriptionQueryAdapter {
         return subscriptionRepository.findFirstByMemberIdOrderByExpiryDateDesc(memberId);
     }
 
-    public boolean existsByMemberIdAndSubscriptionType(Long memberId, SubscriptionType subscriptionType) {
-        return subscriptionRepository.existsByMemberIdAndType(memberId, subscriptionType);
+    public List<Subscription> findAllByMemberId(Long memberId) {
+        return subscriptionRepository.findAllByMemberId(memberId);
     }
-
-    public Subscription findByMemberIdAndSubscriptionType(Long memberId, SubscriptionType subscriptionType) {
-        return subscriptionRepository.findByMemberIdAndType(memberId, subscriptionType);
-    }
-
 }

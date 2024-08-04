@@ -32,4 +32,7 @@ public class Subscription extends BaseDateTimeEntity {
     @Setter
     private LocalDateTime expiryDate;
 
+    public void updateSubscriptionStatus(SubscriptionStatus status) {
+        this.status = status;
+    }
 }

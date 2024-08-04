@@ -24,7 +24,7 @@ public class SubscriptionApi {
 
     @GetMapping("/subscriptions/members/{memberId}")
     public CommonResponse<SubscriptionResponse.SubscriptionDTO> getSubscriptionByMemberId(@PathVariable Long memberId) {
-        return CommonResponse.onSuccess(subscriptionService.getSubscriptionByMemberId(memberId));
+        return CommonResponse.onSuccess(subscriptionService.getActiveSubscriptionByMemberId(memberId));
     }
 
 }
