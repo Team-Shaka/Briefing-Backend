@@ -39,19 +39,15 @@ public class SubscriptionService {
 
     @Transactional
     public void createSubscription(final SubscriptionRequest.ReceiptDTO request) {
-        SubscriptionPurchaseResponse purchase = googlePlayFeignClient.verifyReceipt(
-                request.getPackageName(),
-                request.getProductId(),
-                request.getToken());
-
-        if (!GOOGLE_PACKAGE_NAME.equals(request.getPackageName()) || !GOOGLE_PRODUCT_ID.equals(request.getProductId())) {
-            throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
-        }
+        SubscriptionPurchaseResponse purchase = verifyReceipt(request);
+        validateReceipt(request);
 
         Member member = memberQueryAdapter.findById(request.getMemberId());
         Subscription subscription = SubscriptionMapper.toSubscription(member, request);
-        subscription.setExpiryDate(LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC));
-        subscription.setStatus(purchase.getPaymentState() == 1 ? ACTIVE : EXPIRED);
+
+        LocalDateTime expiryDate = LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC);
+        subscription.setExpiryDate(expiryDate);
+        subscription.setStatus(LocalDateTime.now().isBefore(expiryDate) ? ACTIVE : EXPIRED);
 
         subscriptionCommandAdapter.create(subscription);
     }
@@ -63,4 +59,18 @@ public class SubscriptionService {
         return SubscriptionMapper.toSubscriptionDTO(subscription);
     }
 
+    private SubscriptionPurchaseResponse verifyReceipt(SubscriptionRequest.ReceiptDTO request) {
+        // TODO platform 구분해서 검증 진행 (GOOGLE, APPLE)
+        return googlePlayFeignClient.verifyReceipt(
+                request.getPackageName(),
+                request.getProductId(),
+                request.getToken());
+    }
+
+    private void validateReceipt(SubscriptionRequest.ReceiptDTO request) {
+        // TODO platform 구분해서 검증 진행 (GOOGLE, APPLE)
+        if (!GOOGLE_PACKAGE_NAME.equals(request.getPackageName()) || !GOOGLE_PRODUCT_ID.equals(request.getProductId())) {
+            throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
+        }
+    }
 }
