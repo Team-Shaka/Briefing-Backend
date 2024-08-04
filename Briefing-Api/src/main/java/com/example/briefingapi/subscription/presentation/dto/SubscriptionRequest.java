@@ -13,7 +13,7 @@ public class SubscriptionRequest {
         private Long memberId;
         private String packageName;
         private String productId;
-        private String token;
+        private String purchaseToken;
         private SubscriptionType subscriptionType;
     }
 

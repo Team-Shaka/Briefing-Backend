@@ -80,8 +80,11 @@ openai:
 
 subscription:
   google:
-    package-name: test
-    product-id: test
+    package-name: com.dev.briefing
+    keyfile:
+      content: test
+    application:
+      name: test
 
 ---
 spring:

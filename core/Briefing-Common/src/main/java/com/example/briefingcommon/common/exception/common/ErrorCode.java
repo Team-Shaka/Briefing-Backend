@@ -69,7 +69,7 @@ public enum ErrorCode {
 
     // subscription 에러
     SUBSCRIPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "SUBSCRIPTION_001", "구독 정보가 존재하지 않습니다."),
-    INVALID_SUBSCRIPTION(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_002", "유효하지 않은 구독 정보입니다. packageName과 productId를 확인해 주세요."),
+    INVALID_SUBSCRIPTION(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_002", "유효하지 않은 구독 정보입니다. packageName, productId, purchaseToken을 확인해 주세요."),
     INVALID_SUBSCRIPTION_TYPE(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_003", "유효하지 않은 구독 유형입니다."),
     ACTIVE_SUBSCRIPTION_EXISTS(HttpStatus.CONFLICT, "SUBSCRIPTION_004", "활성된 구독이 이미 존재합니다.");
 

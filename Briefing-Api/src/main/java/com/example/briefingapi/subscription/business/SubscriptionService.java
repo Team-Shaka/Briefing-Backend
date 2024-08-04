@@ -1,5 +1,6 @@
 package com.example.briefingapi.subscription.business;
 
+import com.example.briefingapi.config.GoogleCredentialsConfig;
 import com.example.briefingapi.member.implement.MemberQueryAdapter;
 import com.example.briefingapi.subscription.implement.SubscriptionCommandAdapter;
 import com.example.briefingapi.subscription.implement.SubscriptionQueryAdapter;
@@ -9,14 +10,16 @@ import com.example.briefingcommon.common.exception.SubscriptionException;
 import com.example.briefingcommon.common.exception.common.ErrorCode;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.Subscription;
-import com.example.briefinginfra.feign.subscription.client.GooglePlayFeignClient;
-import com.example.briefinginfra.feign.subscription.dto.SubscriptionPurchaseResponse;
+import com.google.api.services.androidpublisher.AndroidPublisher;
+import com.google.api.services.androidpublisher.model.SubscriptionPurchase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -31,30 +34,34 @@ public class SubscriptionService {
     private final MemberQueryAdapter memberQueryAdapter;
     private final SubscriptionCommandAdapter subscriptionCommandAdapter;
     private final SubscriptionQueryAdapter subscriptionQueryAdapter;
-    private final GooglePlayFeignClient googlePlayFeignClient;
+    private final GoogleCredentialsConfig googleCredentialsConfig;
 
     @Value("${subscription.google.package-name}")
     private String GOOGLE_PACKAGE_NAME;
 
     @Transactional
     public void createSubscription(final SubscriptionRequest.ReceiptDTO request) {
-        SubscriptionPurchaseResponse purchase = verifyReceipt(request);
-        validateReceipt(request);
+        try {
+            SubscriptionPurchase purchase = googleInAppPurchaseVerify(request.getPackageName(), request.getProductId(), request.getPurchaseToken());
+            validateReceipt(request);
 
-        Member member = memberQueryAdapter.findById(request.getMemberId());
+            Member member = memberQueryAdapter.findById(request.getMemberId());
 
-        // 활성된 구독 존재 여부 확인
-        boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
-                .anyMatch(subscription -> subscription.getStatus() == ACTIVE);
+            // 활성된 구독 존재 여부 확인
+            boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
+                    .anyMatch(subscription -> subscription.getStatus() == ACTIVE);
 
-        if (activeSubscriptionExists) {
-            throw new SubscriptionException(ErrorCode.ACTIVE_SUBSCRIPTION_EXISTS);
+            if (activeSubscriptionExists) {
+                throw new SubscriptionException(ErrorCode.ACTIVE_SUBSCRIPTION_EXISTS);
+            }
+
+            LocalDateTime expiryDate = LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC);
+            Subscription subscription = SubscriptionMapper.toSubscription(member, request, expiryDate);
+
+            subscriptionCommandAdapter.create(subscription);
+        } catch (GeneralSecurityException | IOException e) {
+            throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
         }
-
-        LocalDateTime expiryDate = LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC);
-        Subscription subscription = SubscriptionMapper.toSubscription(member, request, expiryDate);
-
-        subscriptionCommandAdapter.create(subscription);
     }
 
     @Transactional
@@ -82,12 +89,17 @@ public class SubscriptionService {
         }
     }
 
-    private SubscriptionPurchaseResponse verifyReceipt(SubscriptionRequest.ReceiptDTO request) {
-        // TODO platform 구분해서 검증 진행 (GOOGLE, APPLE)
-        return googlePlayFeignClient.verifyReceipt(
-                request.getPackageName(),
-                request.getProductId(),
-                request.getToken());
+    private SubscriptionPurchase googleInAppPurchaseVerify(String packageName, String productId, String purchaseToken) throws GeneralSecurityException, IOException {
+        AndroidPublisher publisher = googleCredentialsConfig.androidPublisher();
+        AndroidPublisher.Purchases.Subscriptions.Get request = publisher.purchases().subscriptions()
+                .get(packageName, productId, purchaseToken);
+        SubscriptionPurchase purchase = request.execute();
+
+        // 검증하는데 결제가 되지 않은 경우
+        if (purchase.getPaymentState() != 1) {
+            throw new IllegalArgumentException("purchase_not_completed");
+        }
+        return purchase;
     }
 
     private void validateReceipt(SubscriptionRequest.ReceiptDTO request) {
