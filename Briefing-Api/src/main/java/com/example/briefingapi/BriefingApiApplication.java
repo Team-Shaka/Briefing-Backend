@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @OpenAPIDefinition(
@@ -20,6 +21,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
         })
 @SpringBootApplication(scanBasePackages = {"com.example.briefingapi","com.example.briefingcommon","com.example.briefinginfra"})
 @RequiredArgsConstructor
+@EnableScheduling
 @EnableCaching
 @EnableFeignClients(basePackages = "com.example.briefinginfra")
 @EnableRedisRepositories

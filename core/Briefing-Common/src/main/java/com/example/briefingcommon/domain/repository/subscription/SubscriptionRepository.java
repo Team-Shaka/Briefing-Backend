@@ -1,7 +1,7 @@
 package com.example.briefingcommon.domain.repository.subscription;
 
 import com.example.briefingcommon.entity.Subscription;
-import com.example.briefingcommon.entity.enums.SubscriptionType;
+import com.example.briefingcommon.entity.enums.SubscriptionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,9 +11,8 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     Optional<Subscription> findFirstByMemberIdOrderByExpiryDateDesc(Long memberId);
 
-    boolean existsByMemberIdAndType(Long memberId, SubscriptionType type);
-
-    Subscription findByMemberIdAndType(Long memberId, SubscriptionType type);
-
     List<Subscription> findAllByMemberId(Long memberId);
+
+    List<Subscription> findAllByStatus(SubscriptionStatus subscriptionStatus);
+
 }

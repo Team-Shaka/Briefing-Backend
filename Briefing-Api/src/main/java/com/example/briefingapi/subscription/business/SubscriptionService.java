@@ -13,11 +13,13 @@ import com.example.briefinginfra.feign.subscription.client.GooglePlayFeignClient
 import com.example.briefinginfra.feign.subscription.dto.SubscriptionPurchaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 import static com.example.briefingcommon.entity.enums.SubscriptionStatus.ACTIVE;
 import static com.example.briefingcommon.entity.enums.SubscriptionStatus.EXPIRED;
@@ -65,6 +67,19 @@ public class SubscriptionService {
         updateSubscriptionStatus(subscription);
 
         return SubscriptionMapper.toSubscriptionDTO(subscription);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional
+    public void updateExpiredSubscriptions() {
+        List<Subscription> activeSubscriptions = subscriptionQueryAdapter.findAllActiveSubscriptions();
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Subscription subscription : activeSubscriptions) {
+            if (now.isAfter(subscription.getExpiryDate())) {
+                updateSubscriptionStatus(subscription);
+            }
+        }
     }
 
     private SubscriptionPurchaseResponse verifyReceipt(SubscriptionRequest.ReceiptDTO request) {
