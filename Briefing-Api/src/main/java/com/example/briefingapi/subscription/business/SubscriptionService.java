@@ -13,7 +13,6 @@ import com.example.briefingcommon.entity.Subscription;
 import com.google.api.services.androidpublisher.AndroidPublisher;
 import com.google.api.services.androidpublisher.model.SubscriptionPurchase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,14 +35,10 @@ public class SubscriptionService {
     private final SubscriptionQueryAdapter subscriptionQueryAdapter;
     private final GoogleCredentialsConfig googleCredentialsConfig;
 
-    @Value("${subscription.google.package-name}")
-    private String GOOGLE_PACKAGE_NAME;
-
     @Transactional
     public void createSubscription(final SubscriptionRequest.ReceiptDTO request) {
         try {
             SubscriptionPurchase purchase = googleInAppPurchaseVerify(request.getPackageName(), request.getProductId(), request.getPurchaseToken());
-            validateReceipt(request);
 
             Member member = memberQueryAdapter.findById(request.getMemberId());
 
@@ -95,18 +90,12 @@ public class SubscriptionService {
                 .get(packageName, productId, purchaseToken);
         SubscriptionPurchase purchase = request.execute();
 
-        // 검증하는데 결제가 되지 않은 경우
-        if (purchase.getPaymentState() != 1) {
-            throw new IllegalArgumentException("purchase_not_completed");
+        // 결제가 완료되지 않은 경우 예외 발생
+        if (purchase.getPaymentState() != null && purchase.getPaymentState() != 1) {
+            throw new SubscriptionException(ErrorCode.PAYMENT_NOT_COMPLETED);
         }
-        return purchase;
-    }
 
-    private void validateReceipt(SubscriptionRequest.ReceiptDTO request) {
-        // TODO platform 구분해서 검증 진행 (GOOGLE, APPLE)
-        if (!GOOGLE_PACKAGE_NAME.equals(request.getPackageName())) {
-            throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
-        }
+        return purchase;
     }
 
     private void updateSubscriptionStatus(Subscription subscription) {
@@ -114,6 +103,5 @@ public class SubscriptionService {
             subscriptionCommandAdapter.updateSubscriptionStatus(subscription, EXPIRED);
         }
     }
-
 
 }

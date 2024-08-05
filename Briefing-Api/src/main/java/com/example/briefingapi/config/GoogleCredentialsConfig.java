@@ -21,9 +21,6 @@ public class GoogleCredentialsConfig {
     @Value("${subscription.google.keyfile.content}")
     private String googleAccountFileContent;
 
-    @Value("${subscription.google.application.name}")
-    private String googleApplicationName;
-
     public AndroidPublisher androidPublisher() throws IOException, GeneralSecurityException {
         InputStream inputStream = new ByteArrayInputStream(googleAccountFileContent.getBytes());
         GoogleCredentials credentials = GoogleCredentials.fromStream(inputStream)
@@ -35,7 +32,6 @@ public class GoogleCredentialsConfig {
                 GoogleNetHttpTransport.newTrustedTransport(),
                 jsonFactory,
                 new HttpCredentialsAdapter(credentials))
-                .setApplicationName(googleApplicationName)
                 .build();
     }
 }

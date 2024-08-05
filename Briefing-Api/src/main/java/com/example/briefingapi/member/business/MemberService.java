@@ -1,12 +1,11 @@
 package com.example.briefingapi.member.business;
 
-import java.util.List;
-
 import com.example.briefingapi.fcm.implementation.FcmCommandService;
 import com.example.briefingapi.member.implement.MemberCommandAdapter;
 import com.example.briefingapi.member.implement.MemberQueryAdapter;
 import com.example.briefingapi.member.presentation.dto.MemberRequest;
 import com.example.briefingapi.member.presentation.dto.MemberResponse;
+import com.example.briefingapi.redis.service.RedisService;
 import com.example.briefingapi.security.provider.TokenProvider;
 import com.example.briefingcommon.entity.Member;
 import com.example.briefingcommon.entity.enums.MemberRole;
@@ -15,16 +14,13 @@ import com.example.briefingcommon.entity.redis.RefreshToken;
 import com.example.briefinginfra.feign.oauth.apple.client.AppleOauth2Client;
 import com.example.briefinginfra.feign.oauth.google.client.GoogleOauth2Client;
 import com.example.briefinginfra.feign.oauth.google.dto.GoogleUserInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import com.example.briefingapi.redis.service.RedisService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -79,10 +75,10 @@ public class MemberService {
         return MemberResponse.TestTokenDTO.builder()
                 .token(
                         tokenProvider.createAccessToken(
-                        member.getId(),
-                        member.getSocialType().toString(),
-                        member.getSocialId(),
-                        List.of(new SimpleGrantedAuthority(MemberRole.ROLE_USER.name()))))
+                                member.getId(),
+                                member.getSocialType().toString(),
+                                member.getSocialId(),
+                                List.of(new SimpleGrantedAuthority(MemberRole.ROLE_USER.name()))))
                 .refeshToken(redisService.generateTestRefreshToken())
                 .build();
     }
