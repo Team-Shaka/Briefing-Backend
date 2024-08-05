@@ -10,7 +10,6 @@ public class SubscriptionRequest {
 
     @Getter
     public static class ReceiptDTO {
-        private Long memberId;
         private String packageName;
         private String productId;
         private String purchaseToken;

@@ -1,9 +1,11 @@
 package com.example.briefingapi.subscription.presentation;
 
+import com.example.briefingapi.security.handler.annotation.AuthMember;
 import com.example.briefingapi.subscription.business.SubscriptionService;
 import com.example.briefingapi.subscription.presentation.dto.SubscriptionRequest;
 import com.example.briefingapi.subscription.presentation.dto.SubscriptionResponse;
 import com.example.briefingcommon.common.presentation.response.CommonResponse;
+import com.example.briefingcommon.entity.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +21,15 @@ public class SubscriptionApi {
 
     @Operation(summary = "06-01 Subscription 💳 영수증 검증 및 구독하기 V2", description = "결제 영수증을 검증하고, 구독 정보를 갱신하는 API입니다.")
     @PostMapping("/subscriptions")
-    public CommonResponse<Void> createSubscription(@RequestBody SubscriptionRequest.ReceiptDTO request) {
-        subscriptionService.createSubscription(request);
+    public CommonResponse<Void> createSubscription(@AuthMember Member member, @RequestBody SubscriptionRequest.ReceiptDTO request) {
+        subscriptionService.createSubscription(member, request);
         return CommonResponse.onSuccess();
     }
 
     @Operation(summary = "06-02 Subscription 💳 구독 정보 조회하기 V2", description = "구독 정보를 조회하는 API입니다. 만료된 구독 정보는 제외합니다.")
     @GetMapping("/subscriptions/members/{memberId}")
-    public CommonResponse<SubscriptionResponse.SubscriptionDTO> getSubscriptionByMemberId(@PathVariable("memberId") Long memberId) {
-        return CommonResponse.onSuccess(subscriptionService.getActiveSubscriptionByMemberId(memberId));
+    public CommonResponse<SubscriptionResponse.SubscriptionDTO> getSubscriptionByMemberId(@AuthMember Member member, @PathVariable("memberId") Long memberId) {
+        return CommonResponse.onSuccess(subscriptionService.getActiveSubscriptionByMemberId(member, memberId));
     }
 
 }

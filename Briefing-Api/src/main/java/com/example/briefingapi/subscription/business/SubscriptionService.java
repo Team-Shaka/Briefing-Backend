@@ -36,11 +36,9 @@ public class SubscriptionService {
     private final GoogleCredentialsConfig googleCredentialsConfig;
 
     @Transactional
-    public void createSubscription(final SubscriptionRequest.ReceiptDTO request) {
+    public void createSubscription(final Member member, final SubscriptionRequest.ReceiptDTO request) {
         try {
             SubscriptionPurchase purchase = googleInAppPurchaseVerify(request.getPackageName(), request.getProductId(), request.getPurchaseToken());
-
-            Member member = memberQueryAdapter.findById(request.getMemberId());
 
             // 활성된 구독 존재 여부 확인
             boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
@@ -60,7 +58,9 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public SubscriptionResponse.SubscriptionDTO getActiveSubscriptionByMemberId(final Long memberId) {
+    public SubscriptionResponse.SubscriptionDTO getActiveSubscriptionByMemberId(Member member, final Long memberId) {
+        validateMember(member, memberId);
+
         Subscription subscription = subscriptionQueryAdapter.findAllByMemberId(memberId).stream()
                 .filter(sub -> sub.getStatus() == ACTIVE)
                 .findFirst()
@@ -101,6 +101,12 @@ public class SubscriptionService {
     private void updateSubscriptionStatus(Subscription subscription) {
         if (LocalDateTime.now().isAfter(subscription.getExpiryDate())) {
             subscriptionCommandAdapter.updateSubscriptionStatus(subscription, EXPIRED);
+        }
+    }
+
+    private void validateMember(Member member, Long memberId) {
+        if (!member.getId().equals(memberId)) {
+            throw new SubscriptionException(ErrorCode.MEMBER_NOT_SAME);
         }
     }
 
