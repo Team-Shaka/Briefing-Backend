@@ -53,8 +53,7 @@ public class SubscriptionService {
 
     @Transactional
     public void handleSubscriptionCreation(final Member member, final SubscriptionRequest.ReceiptDTO request, SubscriptionPurchase purchase) {
-        boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
-                .anyMatch(subscription -> subscription.getStatus() == ACTIVE);
+        boolean activeSubscriptionExists = subscriptionQueryAdapter.existsByMemberIdAndStatus(member.getId(), ACTIVE);
 
         if (activeSubscriptionExists) {
             throw new SubscriptionException(ErrorCode.ACTIVE_SUBSCRIPTION_EXISTS);

@@ -26,4 +26,8 @@ public class SubscriptionQueryAdapter {
     public List<Subscription> findAllActiveSubscriptions() {
         return subscriptionRepository.findAllByStatus(SubscriptionStatus.ACTIVE);
     }
+
+    public boolean existsByMemberIdAndStatus(Long memberId, SubscriptionStatus status) {
+        return subscriptionRepository.existsByMemberIdAndStatus(memberId, status);
+    }
 }
