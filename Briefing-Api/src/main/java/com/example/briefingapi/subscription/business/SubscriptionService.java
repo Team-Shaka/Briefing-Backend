@@ -1,7 +1,6 @@
 package com.example.briefingapi.subscription.business;
 
 import com.example.briefingapi.config.GoogleCredentialsConfig;
-import com.example.briefingapi.member.implement.MemberQueryAdapter;
 import com.example.briefingapi.subscription.implement.SubscriptionCommandAdapter;
 import com.example.briefingapi.subscription.implement.SubscriptionQueryAdapter;
 import com.example.briefingapi.subscription.presentation.dto.SubscriptionRequest;
@@ -30,31 +29,41 @@ import static com.example.briefingcommon.entity.enums.SubscriptionStatus.EXPIRED
 @RequiredArgsConstructor
 public class SubscriptionService {
 
-    private final MemberQueryAdapter memberQueryAdapter;
     private final SubscriptionCommandAdapter subscriptionCommandAdapter;
     private final SubscriptionQueryAdapter subscriptionQueryAdapter;
     private final GoogleCredentialsConfig googleCredentialsConfig;
 
-    @Transactional
-    public void createSubscription(final Member member, final SubscriptionRequest.ReceiptDTO request) {
+    public SubscriptionPurchase googleInAppPurchaseVerify(String packageName, String productId, String purchaseToken) {
         try {
-            SubscriptionPurchase purchase = googleInAppPurchaseVerify(request.getPackageName(), request.getProductId(), request.getPurchaseToken());
+            AndroidPublisher publisher = googleCredentialsConfig.androidPublisher();
+            AndroidPublisher.Purchases.Subscriptions.Get request = publisher.purchases().subscriptions()
+                    .get(packageName, productId, purchaseToken);
+            SubscriptionPurchase purchase = request.execute();
 
-            // 활성된 구독 존재 여부 확인
-            boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
-                    .anyMatch(subscription -> subscription.getStatus() == ACTIVE);
-
-            if (activeSubscriptionExists) {
-                throw new SubscriptionException(ErrorCode.ACTIVE_SUBSCRIPTION_EXISTS);
+            // 결제가 완료되지 않은 경우 예외 발생
+            if (purchase.getPaymentState() != null && purchase.getPaymentState() != 1) {
+                throw new SubscriptionException(ErrorCode.PAYMENT_NOT_COMPLETED);
             }
 
-            LocalDateTime expiryDate = LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC);
-            Subscription subscription = SubscriptionMapper.toSubscription(member, request, expiryDate);
-
-            subscriptionCommandAdapter.create(subscription);
+            return purchase;
         } catch (GeneralSecurityException | IOException e) {
             throw new SubscriptionException(ErrorCode.INVALID_SUBSCRIPTION);
         }
+    }
+
+    @Transactional
+    public void handleSubscriptionCreation(final Member member, final SubscriptionRequest.ReceiptDTO request, SubscriptionPurchase purchase) {
+        boolean activeSubscriptionExists = subscriptionQueryAdapter.findByMemberId(member.getId()).stream()
+                .anyMatch(subscription -> subscription.getStatus() == ACTIVE);
+
+        if (activeSubscriptionExists) {
+            throw new SubscriptionException(ErrorCode.ACTIVE_SUBSCRIPTION_EXISTS);
+        }
+
+        LocalDateTime expiryDate = LocalDateTime.ofEpochSecond(purchase.getExpiryTimeMillis() / 1000, 0, ZoneOffset.UTC);
+        Subscription subscription = SubscriptionMapper.toSubscription(member, request, expiryDate);
+
+        subscriptionCommandAdapter.create(subscription);
     }
 
     @Transactional
@@ -82,20 +91,6 @@ public class SubscriptionService {
                 updateSubscriptionStatus(subscription);
             }
         }
-    }
-
-    private SubscriptionPurchase googleInAppPurchaseVerify(String packageName, String productId, String purchaseToken) throws GeneralSecurityException, IOException {
-        AndroidPublisher publisher = googleCredentialsConfig.androidPublisher();
-        AndroidPublisher.Purchases.Subscriptions.Get request = publisher.purchases().subscriptions()
-                .get(packageName, productId, purchaseToken);
-        SubscriptionPurchase purchase = request.execute();
-
-        // 결제가 완료되지 않은 경우 예외 발생
-        if (purchase.getPaymentState() != null && purchase.getPaymentState() != 1) {
-            throw new SubscriptionException(ErrorCode.PAYMENT_NOT_COMPLETED);
-        }
-
-        return purchase;
     }
 
     private void updateSubscriptionStatus(Subscription subscription) {

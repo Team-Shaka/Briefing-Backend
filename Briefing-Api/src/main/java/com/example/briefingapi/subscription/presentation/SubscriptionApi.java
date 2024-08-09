@@ -6,6 +6,7 @@ import com.example.briefingapi.subscription.presentation.dto.SubscriptionRequest
 import com.example.briefingapi.subscription.presentation.dto.SubscriptionResponse;
 import com.example.briefingcommon.common.presentation.response.CommonResponse;
 import com.example.briefingcommon.entity.Member;
+import com.google.api.services.androidpublisher.model.SubscriptionPurchase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class SubscriptionApi {
     @Operation(summary = "06-01 Subscription 💳 영수증 검증 및 구독하기 V2", description = "결제 영수증을 검증하고, 구독 정보를 갱신하는 API입니다.")
     @PostMapping("/subscriptions")
     public CommonResponse<Void> createSubscription(@AuthMember Member member, @RequestBody SubscriptionRequest.ReceiptDTO request) {
-        subscriptionService.createSubscription(member, request);
+        SubscriptionPurchase purchase = subscriptionService.googleInAppPurchaseVerify(request.getPackageName(), request.getProductId(), request.getPurchaseToken());
+        subscriptionService.handleSubscriptionCreation(member, request, purchase);
         return CommonResponse.onSuccess();
     }
 
