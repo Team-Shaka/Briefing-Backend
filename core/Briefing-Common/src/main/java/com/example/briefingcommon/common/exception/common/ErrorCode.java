@@ -65,7 +65,7 @@ public enum ErrorCode {
     BAD_LAST_MESSAGE_ROLE(HttpStatus.BAD_REQUEST, "CHATTING_003", "마지막 메시지의 역할이 user가 아닙니다."),
     CAN_NOT_EMPTY_CONTENT(HttpStatus.BAD_REQUEST, "CHATTING_004", "content가 비어있습니다."),
     NOT_FOUND_ROLE(HttpStatus.BAD_REQUEST, "CHATTING_005", "해당하는 role을 찾을 수 없습니다."),
-    NOT_FOUND_MODEL(HttpStatus.BAD_REQUEST, "CHATTING_006", "해당하는 mode을 찾을 수 없습니다."),
+    NOT_FOUND_MODEL(HttpStatus.BAD_REQUEST, "CHATTING_006", "해당하는 model을 찾을 수 없습니다."),
 
     // subscription 에러
     SUBSCRIPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "SUBSCRIPTION_001", "구독 정보가 존재하지 않습니다."),
