@@ -69,9 +69,7 @@ public class SubscriptionService {
     public SubscriptionResponse.SubscriptionDTO getActiveSubscriptionByMemberId(Member member, final Long memberId) {
         validateMember(member, memberId);
 
-        Subscription subscription = subscriptionQueryAdapter.findAllByMemberId(memberId).stream()
-                .filter(sub -> sub.getStatus() == ACTIVE)
-                .findFirst()
+        Subscription subscription = subscriptionQueryAdapter.findFirstByMemberIdAndStatusOrderByExpiryDateDesc(memberId, ACTIVE)
                 .orElseThrow(() -> new SubscriptionException(ErrorCode.SUBSCRIPTION_NOT_FOUND));
 
         updateSubscriptionStatus(subscription);

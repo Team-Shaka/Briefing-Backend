@@ -30,4 +30,8 @@ public class SubscriptionQueryAdapter {
     public boolean existsByMemberIdAndStatus(Long memberId, SubscriptionStatus status) {
         return subscriptionRepository.existsByMemberIdAndStatus(memberId, status);
     }
+
+    public Optional<Subscription> findFirstByMemberIdAndStatusOrderByExpiryDateDesc(Long memberId, SubscriptionStatus status) {
+        return subscriptionRepository.findFirstByMemberIdAndStatusOrderByExpiryDateDesc(memberId, status);
+    }
 }
