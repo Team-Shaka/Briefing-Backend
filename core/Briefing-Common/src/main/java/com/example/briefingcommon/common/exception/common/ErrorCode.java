@@ -1,16 +1,13 @@
 package com.example.briefingcommon.common.exception.common;
 
 
-import static org.springframework.http.HttpStatus.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import org.springframework.http.HttpStatus;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
@@ -68,7 +65,14 @@ public enum ErrorCode {
     BAD_LAST_MESSAGE_ROLE(HttpStatus.BAD_REQUEST, "CHATTING_003", "마지막 메시지의 역할이 user가 아닙니다."),
     CAN_NOT_EMPTY_CONTENT(HttpStatus.BAD_REQUEST, "CHATTING_004", "content가 비어있습니다."),
     NOT_FOUND_ROLE(HttpStatus.BAD_REQUEST, "CHATTING_005", "해당하는 role을 찾을 수 없습니다."),
-    NOT_FOUND_MODEL(HttpStatus.BAD_REQUEST, "CHATTING_006", "해당하는 mode을 찾을 수 없습니다.");
+    NOT_FOUND_MODEL(HttpStatus.BAD_REQUEST, "CHATTING_006", "해당하는 model을 찾을 수 없습니다."),
+
+    // subscription 에러
+    SUBSCRIPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "SUBSCRIPTION_001", "구독 정보가 존재하지 않습니다."),
+    INVALID_SUBSCRIPTION(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_002", "유효하지 않은 구독 정보입니다. packageName, productId, purchaseToken을 확인해 주세요."),
+    INVALID_SUBSCRIPTION_TYPE(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_003", "유효하지 않은 구독 유형입니다."),
+    ACTIVE_SUBSCRIPTION_EXISTS(HttpStatus.CONFLICT, "SUBSCRIPTION_004", "활성된 구독이 이미 존재합니다."),
+    PAYMENT_NOT_COMPLETED(HttpStatus.BAD_REQUEST, "SUBSCRIPTION_005", "구매가 완료되지 않았습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

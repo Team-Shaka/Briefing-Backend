@@ -78,6 +78,15 @@ openai:
   url:
     chat: https://api.openai.com/v1/chat/completions
 
+subscription:
+  google:
+    package-name: com.dev.briefing
+    keyfile:
+      content: ${SUBSCRIPTION_GOOGLE_KEYFILE_CONTENT}
+
+    application:
+      name: briefing
+
 ---
 spring:
   application:
@@ -130,6 +139,12 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
+
+subscription:
+  google:
+    package-name: com.dev.briefing
+    keyfile:
+      content: ${SUBSCRIPTION_GOOGLE_KEYFILE_CONTENT}
 ---
 spring:
   config:
@@ -170,6 +185,12 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
+
+subscription:
+  google:
+    package-name: com.dev.briefing
+    keyfile:
+      content: ${SUBSCRIPTION_GOOGLE_KEYFILE_CONTENT}
 ---
 spring:
   config:
