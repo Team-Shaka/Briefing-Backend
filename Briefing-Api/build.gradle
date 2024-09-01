@@ -55,6 +55,9 @@ dependencies {
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.6.0'
     implementation 'com.google.apis:google-api-services-androidpublisher:v3-rev20220411-1.32.1'
     implementation 'com.google.http-client:google-http-client-jackson2:1.41.7'
+
+    // s3
+    implementation 'software.amazon.awssdk:s3:2.20.35'
 }
 
 tasks.named('test') {

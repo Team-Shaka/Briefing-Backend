@@ -82,7 +82,7 @@ subscription:
   google:
     package-name: com.dev.briefing
     keyfile:
-      content: ${SUBSCRIPTION_GOOGLE_KEYFILE_CONTENT}
+      s3path: s3://briefing-s3-bucket/google-keyfile.json
 
     application:
       name: briefing
@@ -144,7 +144,7 @@ subscription:
   google:
     package-name: com.dev.briefing
     keyfile:
-      content: ${SUBSCRIPTION_GOOGLE_KEYFILE_CONTENT}
+      s3path: s3://briefing-s3-bucket/google-keyfile.json
 ---
 spring:
   config:
@@ -190,7 +190,7 @@ subscription:
   google:
     package-name: com.dev.briefing
     keyfile:
-      content: ${SUBSCRIPTION_GOOGLE_KEYFILE_CONTENT}
+      s3path: s3://briefing-s3-bucket/google-keyfile.json
 ---
 spring:
   config:
@@ -228,3 +228,4 @@ openai:
   token: ${OPEN_API_TOKEN}
   url:
     chat: https://api.openai.com/v1/chat/completions
+    
